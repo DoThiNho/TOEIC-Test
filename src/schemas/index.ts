@@ -2,6 +2,8 @@ import * as yup from 'yup';
 
 //min 5 characters, 1 upper case letter, 1 lower case letter, 1 numeric digit
 const passwordRules = /^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{5,}$/;
+const phoneRegExp =
+  /^((\\+[1-9]{1,4}[ \\-]*)|(\\([0-9]{2,3}\\)[ \\-]*)|([0-9]{2,4})[ \\-]*)*?[0-9]{3,4}?[ \\-]*[0-9]{3,4}?$/;
 
 export const loginSchema = yup.object().shape({
   email: yup.string().email('Please enter a valid email').required('Email is required'),
@@ -13,12 +15,23 @@ export const loginSchema = yup.object().shape({
 });
 
 export const signUpSchema = yup.object().shape({
-  name: yup
+  fistName: yup
     .string()
-    .matches(/^[A-Za-z ]*$/, 'Please enter valid name')
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid first name')
     .max(40)
-    .required('Name is required'),
+    .required('First name is required'),
+  lastName: yup
+    .string()
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid last name')
+    .max(40)
+    .required('Last name is required'),
   email: yup.string().email('Please enter a valid email').required('Email is required'),
+  phoneNumber: yup
+    .string()
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .min(10, 'too short')
+    .max(10, 'too long')
+    .required('Please enter valid phone number'),
   password: yup
     .string()
     .min(5)

@@ -1,11 +1,20 @@
 import { Paper } from '@mantine/core';
+import CommonHeader from 'components/common/CommonHeader';
 import FormSignIn from 'components/form/FormSignIn';
 
 const SignIn = () => {
   return (
-    <Paper w={{ base: 350, sm: 500, lg: 500 }} shadow="sm" p="xl" mx="auto">
-      <FormSignIn />
-    </Paper>
+    <>
+      <CommonHeader />
+      <Paper
+        w={{ base: 350, sm: 500, lg: 500 }}
+        shadow="md"
+        p="xl"
+        mx="auto"
+        style={{ transform: 'translateY(80%)' }}>
+        <FormSignIn />
+      </Paper>
+    </>
   );
 };
 
