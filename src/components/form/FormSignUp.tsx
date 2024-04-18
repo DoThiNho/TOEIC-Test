@@ -5,7 +5,14 @@ import { Formik } from 'formik';
 const FormSignUp = () => {
   return (
     <Formik
-      initialValues={{ name: '', email: '', password: '', confirmPassword: '' }}
+      initialValues={{
+        firstName: '',
+        lastName: '',
+        email: '',
+        phoneNumber: '',
+        password: '',
+        confirmPassword: ''
+      }}
       validationSchema={signUpSchema}
       onSubmit={(values, { setSubmitting }) => {
         console.log({ values });
@@ -19,20 +26,42 @@ const FormSignUp = () => {
 
           <TextInput
             size="lg"
-            label="Name"
-            placeholder="Enter name..."
-            name="name"
-            value={values.name}
+            label="First Name"
+            placeholder="Enter first name"
+            name="firstName"
+            value={values.firstName}
             onChange={handleChange}
-            error={errors.name}
+            error={errors.firstName}
+          />
+
+          <TextInput
+            mt="lg"
+            size="lg"
+            label="Last Name"
+            placeholder="Enter last name"
+            name="lastName"
+            value={values.lastName}
+            onChange={handleChange}
+            error={errors.lastName}
           />
 
           <TextInput
             mt="lg"
             size="lg"
             label="Email"
-            placeholder="Enter email..."
+            placeholder="Enter email"
             name="email"
+            value={values.email}
+            onChange={handleChange}
+            error={errors.email}
+          />
+
+          <TextInput
+            mt="lg"
+            size="lg"
+            label="Phone number"
+            placeholder="Enter phone number"
+            name="phoneNumber"
             value={values.email}
             onChange={handleChange}
             error={errors.email}

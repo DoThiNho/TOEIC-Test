@@ -8,50 +8,39 @@ import {
   ScrollArea,
   rem,
   Title,
-  Paper
+  Paper,
+  Avatar,
+  Menu
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { NAV_LINKS } from 'constants/constant';
 import logo from 'assets/images/logo.png';
-
-// const StyledHeader = styled(Paper)<PaperProps>`
-//   position: fixed;
-//   top: 0;
-//   left: 0;
-//   right: 0;
-// `;
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 
 const CommonHeader = () => {
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
-  // const [active, setActive] = useState(0);
 
   const mainItems = NAV_LINKS.map((item, index) => (
-    <Anchor
-      key={index}
-      href={item.link}
-      // data-active={active === index || undefined}
-      // onClick={(event) => {
-      //   event.preventDefault();
-      //   setActive(index);
-      // }}
-      c="grey"
-      td="none">
+    <Anchor key={index} href={item.link} className="text-gray-500">
       {item.title}
     </Anchor>
   ));
 
   return (
-    <Paper p="md" shadow="md" mb={80} px="xl">
+    <Paper p="md" shadow="md" mb={80} px="xl" className="fixed top-0 w-full z-10">
       <header>
         <Group justify="space-between" h="100%">
           <Group>
-            <img src={logo} alt="image error" width={100} />
+            <Anchor href="/">
+              <img src={logo} alt="image error" width={100} />
+            </Anchor>
             <Title order={3}>TOIEC Test</Title>
           </Group>
 
           <Group visibleFrom="md">
             <Group display="flex">{mainItems}</Group>
-            <Button variant="default">
+            {/* <Button variant="default">
               <Anchor href="/login" underline="never" c="black">
                 Sign in
               </Anchor>
@@ -60,7 +49,22 @@ const CommonHeader = () => {
               <Anchor href="/register" underline="never" c="white">
                 Sign up
               </Anchor>
-            </Button>
+            </Button> */}
+
+            <Menu>
+              <Menu.Target>
+                <Avatar color="cyan" radius="xl" className="cursor-pointer">
+                  ND
+                </Avatar>
+              </Menu.Target>
+
+              <Menu.Dropdown>
+                <Menu.Item leftSection={<FontAwesomeIcon icon={faUser} />}>Profile</Menu.Item>
+                <Menu.Item leftSection={<FontAwesomeIcon icon={faRightFromBracket} />}>
+                  Log Out
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
           </Group>
 
           <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="md" />

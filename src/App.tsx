@@ -1,4 +1,3 @@
-import '@mantine/core/styles.css';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import routes from './routes';
 
