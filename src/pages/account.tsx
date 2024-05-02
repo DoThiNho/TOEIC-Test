@@ -1,5 +1,5 @@
-import CommonHeader from 'components/common/CommonHeader';
-import CommonProfile from 'components/common/CommonProfile';
+import CommonHeader from 'components/Common/CommonHeader';
+import CommonProfile from 'components/Common/CommonProfile';
 
 const Profile = () => {
   return (

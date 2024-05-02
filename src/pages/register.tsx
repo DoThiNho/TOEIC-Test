@@ -1,6 +1,6 @@
 import { Paper } from '@mantine/core';
-import CommonHeader from 'components/common/CommonHeader';
-import FormSignUp from 'components/form/FormSignUp';
+import CommonHeader from 'components/Common/CommonHeader';
+import FormSignUp from 'components/Form/FormSignUp';
 
 const Register = () => {
   return (

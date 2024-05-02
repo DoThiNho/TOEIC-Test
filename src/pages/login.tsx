@@ -1,6 +1,6 @@
 import { Paper } from '@mantine/core';
-import CommonHeader from 'components/common/CommonHeader';
-import FormSignIn from 'components/form/FormSignIn';
+import CommonHeader from 'components/Common/CommonHeader';
+import FormSignIn from 'components/Form/FormSignIn';
 
 const SignIn = () => {
   return (

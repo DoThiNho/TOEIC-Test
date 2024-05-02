@@ -1,7 +1,7 @@
-import CommonFooter from 'components/common/CommonFooter';
-import CommonHeader from 'components/common/CommonHeader';
-import CommonHero from 'components/common/CommonHero';
-import ExamHomePage from 'components/exam/ExamHomePage';
+import CommonFooter from 'components/Common/CommonFooter';
+import CommonHeader from 'components/Common/CommonHeader';
+import CommonHero from 'components/Common/CommonHero';
+import ExamHomePage from 'components/Exam/ExamHomePage';
 
 const Home = () => {
   return (

@@ -1,5 +1,9 @@
-import { Container, Tabs, Text, Title } from '@mantine/core';
-import CommonHeader from 'components/common/CommonHeader';
+import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { Anchor, Container, Group, List, Tabs, Text, Title } from '@mantine/core';
+import CommonHeader from 'components/Common/CommonHeader';
+import TableResult from 'components/Table/TableResult';
+import TabTypeTest from 'components/Tabs/TabTypeTest';
 import { useParams } from 'react-router-dom';
 
 const TestDetail = () => {
@@ -8,10 +12,10 @@ const TestDetail = () => {
   return (
     <>
       <CommonHeader />
-      <Container size="xl" pt={150}>
-        <Title order={3}>ETS 2022 TOIEC TEST 1</Title>
-        <Tabs color="teal" defaultValue="first">
-          <Tabs.List>
+      <Container size="md" pt={150} pb={32}>
+        <Title order={2}>ETS 2022 TOIEC TEST 1</Title>
+        <Tabs variant="pills" radius="lg" color="teal" defaultValue="first">
+          <Tabs.List className="border-b-0 font-semibold" my={16}>
             <Tabs.Tab value="first" color="blue">
               Test
             </Tabs.Tab>
@@ -21,12 +25,43 @@ const TestDetail = () => {
           </Tabs.List>
 
           <Tabs.Panel value="first" pt="xs">
-            <Text>Thời gian làm bài: 120 phút | 7 phần thi | 200 câu hỏi | 2504 bình luận</Text>
+            <Group>
+              <FontAwesomeIcon icon={faClock} />
+              <Text>Exam time: 120 minutes | 7 exam parts | 200 questions</Text>
+            </Group>
+            <Text className="text-orange-600 italic" my={32}>
+              Note: To be converted to scaled score (for example on a scale of 990 for TOEIC or 9.0
+              for IELTS), please select FULL TEST mode.
+            </Text>
+            <TableResult />
+            <TabTypeTest />
           </Tabs.Panel>
 
           <Tabs.Panel value="second" pt="xs">
-            <Text>See exam answers</Text>
-            <Text>Exam sections:</Text>
+            <Text mb="lg">Exam sections:</Text>
+            <List>
+              <List.Item>
+                Part 1 : <Anchor href="/">See answer</Anchor>
+              </List.Item>
+              <List.Item>
+                Part 2 : <Anchor href="/">See answer</Anchor>
+              </List.Item>
+              <List.Item>
+                Part 3 : <Anchor href="/">See answer</Anchor>
+              </List.Item>
+              <List.Item>
+                Part 4 : <Anchor href="/">See answer</Anchor>
+              </List.Item>
+              <List.Item>
+                Part 5 : <Anchor href="/">See answer</Anchor>
+              </List.Item>
+              <List.Item>
+                Part 6 : <Anchor href="/">See answer</Anchor>
+              </List.Item>
+              <List.Item>
+                Part 7 : <Anchor href="/">See answer</Anchor>
+              </List.Item>
+            </List>
           </Tabs.Panel>
         </Tabs>
       </Container>
