@@ -3,7 +3,7 @@ import home from 'assets/images/home.png';
 
 const CommonHero = () => {
   return (
-    <Box className="h-screen flex items-center" bg="blue.0" px={100}>
+    <Box className="h-screen flex items-center" bg="blue.0" px={100} mt={80}>
       <Box display={{ base: 'block', md: 'flex', lg: 'flex' }}>
         <Flex w={{ md: '50%', lg: '50%' }} align="center">
           <Box>

@@ -1,14 +1,38 @@
 import { Button, Group, PasswordInput, TextInput, Title } from '@mantine/core';
 import { loginSchema } from '../../schemas';
 import { Formik } from 'formik';
+import TextLink from 'components/Common/CommonTextLink';
+import { useLoginMutation } from 'store/services/authApi';
+import { useDispatch } from 'react-redux';
+import { useNavigate } from 'react-router-dom';
+import { AppDispatch } from 'store/index';
+import { setCredentials } from 'store/slices/authSlice';
+import { useEffect } from 'react';
+import { localStorageClient } from 'utils/localStorage.util';
 
 const FormSignIn = () => {
+  const dispatch = useDispatch<AppDispatch>();
+  const navigate = useNavigate();
+
+  const [login, { data }] = useLoginMutation();
+
+  useEffect(() => {
+    const token = data?.token;
+    if (token) {
+      localStorageClient.setItem('token', token);
+      navigate('/');
+    }
+  }, [data]);
+
   return (
     <Formik
       initialValues={{ email: '', password: '' }}
       validationSchema={loginSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        console.log({ values });
+      onSubmit={async (values, { setSubmitting }) => {
+        try {
+          const user = await login({ email: values.email, password: values.password }).unwrap();
+          dispatch(setCredentials({ ...user }));
+        } catch (err) {}
         setSubmitting(false);
       }}>
       {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
@@ -17,7 +41,7 @@ const FormSignIn = () => {
             SIGN IN
           </Title>
           <TextInput
-            size="lg"
+            size="md"
             label="Email"
             placeholder="Enter email..."
             name="email"
@@ -28,7 +52,7 @@ const FormSignIn = () => {
 
           <PasswordInput
             mt="lg"
-            size="lg"
+            size="md"
             label="Password"
             placeholder="Enter password"
             name="password"
@@ -37,10 +61,11 @@ const FormSignIn = () => {
             error={errors.password}
           />
 
-          <Group justify="flex-end" my="md">
+          <Group justify="center" my="md">
             <Button size="lg" fullWidth type="submit" disabled={isSubmitting}>
               Sign In
             </Button>
+            <TextLink labelText="Sign in with google" />
           </Group>
         </form>
       )}

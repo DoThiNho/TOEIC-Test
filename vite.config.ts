@@ -12,7 +12,8 @@ export default defineConfig({
       styles: '/src/styles',
       schemas: '/src/schemas',
       pages: '/src/pages',
-      constants: '/src/constants'
+      constants: '/src/constants',
+      store: '/src/store'
     }
   }
 });

@@ -7,11 +7,11 @@ const Register = () => {
     <>
       <CommonHeader />
       <Paper
-        w={{ base: 300, sm: 500, lg: 500 }}
+        w={{ md: 500, lg: 500, sm: 500, s: 300 }}
         shadow="md"
         p="xl"
         mx="auto"
-        style={{ transform: 'translateY(20%)' }}>
+        style={{ transform: 'translateY(17%)' }}>
         <FormSignUp />
       </Paper>
     </>

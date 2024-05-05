@@ -7,11 +7,11 @@ const SignIn = () => {
     <>
       <CommonHeader />
       <Paper
-        w={{ base: 350, sm: 500, lg: 500 }}
+        w={{ md: 500, lg: 500, sm: 500, s: 300 }}
         shadow="md"
         p="xl"
         mx="auto"
-        style={{ transform: 'translateY(80%)' }}>
+        style={{ transform: 'translateY(50%)' }}>
         <FormSignIn />
       </Paper>
     </>

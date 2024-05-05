@@ -13,13 +13,22 @@ import {
   Menu
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { useNavigate } from 'react-router-dom';
 import { NAV_LINKS } from 'constants/constant';
+import { localStorageClient } from 'utils/localStorage.util';
 import logo from 'assets/images/logo.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
+import { useEffect } from 'react';
+import { useGetUserQuery } from 'store/services/userApi';
 
 const CommonHeader = () => {
+  const navigate = useNavigate();
+
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
+  const token = localStorageClient.getItem('token');
+  const { data, isLoading } = useGetUserQuery(token);
+  console.log(data, isLoading);
 
   const mainItems = NAV_LINKS.map((item, index) => (
     <Anchor key={index} href={item.link} className="text-gray-500">
@@ -27,8 +36,15 @@ const CommonHeader = () => {
     </Anchor>
   ));
 
+  useEffect(() => {
+    if (!token) {
+      navigate('/login');
+    } else {
+    }
+  }, []);
+
   return (
-    <Paper p="md" shadow="md" mb={80} px="xl" className="fixed top-0 w-full z-10">
+    <Paper p="md" shadow="md" px="xl" className="fixed top-0 w-full z-10">
       <header>
         <Group justify="space-between" h="100%">
           <Group>
@@ -39,32 +55,38 @@ const CommonHeader = () => {
           </Group>
 
           <Group visibleFrom="md">
-            <Group display="flex">{mainItems}</Group>
-            {/* <Button variant="default">
-              <Anchor href="/login" underline="never" c="black">
-                Sign in
-              </Anchor>
-            </Button>
-            <Button>
-              <Anchor href="/register" underline="never" c="white">
-                Sign up
-              </Anchor>
-            </Button> */}
+            {token ? (
+              <>
+                <Group display="flex">{mainItems}</Group>
+                <Menu>
+                  <Menu.Target>
+                    <Avatar color="cyan" radius="xl" className="cursor-pointer">
+                      ND
+                    </Avatar>
+                  </Menu.Target>
 
-            <Menu>
-              <Menu.Target>
-                <Avatar color="cyan" radius="xl" className="cursor-pointer">
-                  ND
-                </Avatar>
-              </Menu.Target>
-
-              <Menu.Dropdown>
-                <Menu.Item leftSection={<FontAwesomeIcon icon={faUser} />}>Profile</Menu.Item>
-                <Menu.Item leftSection={<FontAwesomeIcon icon={faRightFromBracket} />}>
-                  Log Out
-                </Menu.Item>
-              </Menu.Dropdown>
-            </Menu>
+                  <Menu.Dropdown>
+                    <Menu.Item leftSection={<FontAwesomeIcon icon={faUser} />}>Profile</Menu.Item>
+                    <Menu.Item leftSection={<FontAwesomeIcon icon={faRightFromBracket} />}>
+                      Log Out
+                    </Menu.Item>
+                  </Menu.Dropdown>
+                </Menu>
+              </>
+            ) : (
+              <>
+                <Button variant="default">
+                  <Anchor href="/login" underline="never" c="black">
+                    Sign in
+                  </Anchor>
+                </Button>
+                <Button>
+                  <Anchor href="/register" underline="never" c="white">
+                    Sign up
+                  </Anchor>
+                </Button>
+              </>
+            )}
           </Group>
 
           <Burger opened={drawerOpened} onClick={toggleDrawer} hiddenFrom="md" />

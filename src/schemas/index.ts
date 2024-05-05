@@ -15,7 +15,7 @@ export const loginSchema = yup.object().shape({
 });
 
 export const signUpSchema = yup.object().shape({
-  fistName: yup
+  firstName: yup
     .string()
     .matches(/^[A-Za-z ]*$/, 'Please enter valid first name')
     .max(40)
