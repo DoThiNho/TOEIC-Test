@@ -9,26 +9,37 @@ import {
   rem,
   Title,
   Paper,
-  Avatar,
   Menu
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
 import { NAV_LINKS } from 'constants/constant';
 import { localStorageClient } from 'utils/localStorage.util';
-import logo from 'assets/images/logo.png';
+import Logo from 'assets/images/logo.png';
+import UserIcon from 'assets/images/user_icon.png';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
 import { useEffect } from 'react';
 import { useGetUserQuery } from 'store/services/userApi';
+import { AppDispatch, RootState, useAppSelector } from 'store/index';
+import { setUserDetail } from 'store/slices/userSlice';
+import _ from 'lodash';
+import { useDispatch } from 'react-redux';
 
 const CommonHeader = () => {
   const navigate = useNavigate();
+  const dispatch = useDispatch<AppDispatch>();
 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const token = localStorageClient.getItem('token');
-  const { data, isLoading } = useGetUserQuery(token);
-  console.log(data, isLoading);
+  const { data } = useGetUserQuery(token);
+  const { userDetail } = useAppSelector((state: RootState) => state.user);
+
+  useEffect(() => {
+    if (data && _.isEmpty(userDetail)) {
+      dispatch(setUserDetail(data.user));
+    }
+  }, [data]);
 
   const mainItems = NAV_LINKS.map((item, index) => (
     <Anchor key={index} href={item.link} className="text-gray-500">
@@ -39,7 +50,6 @@ const CommonHeader = () => {
   useEffect(() => {
     if (!token) {
       navigate('/login');
-    } else {
     }
   }, []);
 
@@ -49,7 +59,7 @@ const CommonHeader = () => {
         <Group justify="space-between" h="100%">
           <Group>
             <Anchor href="/">
-              <img src={logo} alt="image error" width={100} />
+              <img src={Logo} alt="image error" width={100} />
             </Anchor>
             <Title order={3}>TOIEC Test</Title>
           </Group>
@@ -60,13 +70,17 @@ const CommonHeader = () => {
                 <Group display="flex">{mainItems}</Group>
                 <Menu>
                   <Menu.Target>
-                    <Avatar color="cyan" radius="xl" className="cursor-pointer">
-                      ND
-                    </Avatar>
+                    <img
+                      src={data?.user.image ? data.user.image : UserIcon}
+                      width={40}
+                      className="cursor-pointer"
+                    />
                   </Menu.Target>
 
                   <Menu.Dropdown>
-                    <Menu.Item leftSection={<FontAwesomeIcon icon={faUser} />}>Profile</Menu.Item>
+                    <Menu.Item leftSection={<FontAwesomeIcon icon={faUser} />}>
+                      <Anchor href="/account">Profile</Anchor>
+                    </Menu.Item>
                     <Menu.Item leftSection={<FontAwesomeIcon icon={faRightFromBracket} />}>
                       Log Out
                     </Menu.Item>

@@ -3,6 +3,7 @@ import { faUserPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge, Button, Card, CardProps, Group, Text, Title } from '@mantine/core';
 import styled from '@emotion/styled';
+import { ExamCardProps } from 'types';
 
 const StyledCard = styled(Card)<CardProps>`
   cursor: pointer;
@@ -14,10 +15,11 @@ const StyledCard = styled(Card)<CardProps>`
   }
 `;
 
-const ExamItem = () => {
+const ExamItem = (props: ExamCardProps) => {
+  const { exam } = props;
   return (
     <StyledCard shadow="md" bg="gray.0">
-      <Title order={3}>ETS 2020</Title>
+      <Title order={3}>{exam.title}</Title>
       <Group display="block" c="grey">
         <Group>
           <FontAwesomeIcon icon={faClock} />

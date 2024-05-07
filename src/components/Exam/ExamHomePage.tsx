@@ -2,8 +2,19 @@ import { Anchor, Box, Button, Container, Title } from '@mantine/core';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ExamList from 'components/Exam/ExamList';
+import { useEffect, useState } from 'react';
+import { useGetBooksQuery } from 'store/services/bookApi';
 
 const ExamHome = () => {
+  const [books, setBooks] = useState([]);
+  const { data } = useGetBooksQuery({ limit: 6 });
+
+  useEffect(() => {
+    if (data) {
+      setBooks(data.books);
+    }
+  }, [data]);
+
   return (
     <Container size="xl" mt={64}>
       <Box>
@@ -18,7 +29,7 @@ const ExamHome = () => {
             View All
           </Button>
         </Anchor>
-        <ExamList />
+        <ExamList exams={books} />
       </Box>
     </Container>
   );

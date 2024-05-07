@@ -1,11 +1,9 @@
-import { lazy } from 'react';
-
-const Home = lazy(() => import('pages/home'));
-const SignIn = lazy(() => import('pages/login'));
-const SignUp = lazy(() => import('pages/register'));
-const Account = lazy(() => import('pages/account'));
-const Tests = lazy(() => import('pages/tests'));
-const TestDetail = lazy(() => import('pages/tests/detail'));
+import Home from 'pages/home';
+import SignIn from 'pages/login';
+import SignUp from 'pages/register';
+import Account from 'pages/account';
+import Tests from 'pages/tests';
+import TestDetail from 'pages/tests/detail';
 
 const routes = [
   {

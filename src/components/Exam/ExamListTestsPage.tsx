@@ -1,10 +1,9 @@
 import {
   Box,
-  Button,
+  ComboboxData,
+  ComboboxItem,
   Container,
-  Flex,
   Group,
-  Pagination,
   Select,
   Text,
   TextInput,
@@ -13,8 +12,47 @@ import {
 import ExamList from './ExamList';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { useEffect, useState } from 'react';
+import { useGetBooksQuery } from 'store/services/bookApi';
+import { Exam } from 'types';
+import _ from 'lodash';
 
 const ExamListTestsPage = () => {
+  const [books, setBooks] = useState([]);
+  const [allBooks, setAllBooks] = useState([]);
+  const [queryOptions, setQueryOptions] = useState({});
+  const { data } = useGetBooksQuery(queryOptions);
+  const [selectedBook, setSelectedBook] = useState<string | null>('');
+  const [valueSearch, setValueSearch] = useState<string>('');
+
+  useEffect(() => {
+    if (data) {
+      setBooks(data.books);
+      if (selectedBook === '') {
+        setAllBooks(data.books);
+      }
+    }
+  }, [data]);
+
+  const setQueryOptionsValue = (value: string | undefined) => {
+    if (_.isEmpty(value)) {
+      setQueryOptions({});
+    } else {
+      setQueryOptions({ search: value });
+      setSelectedBook(null);
+    }
+  };
+
+  const handleChangeSelect = (option: ComboboxItem) => {
+    setQueryOptionsValue(option?.value);
+    setSelectedBook(option?.value);
+  };
+
+  const handleSearch = (value: string) => {
+    setQueryOptionsValue(value);
+    setValueSearch(value);
+  };
+
   return (
     <Container size="xl">
       <Box>
@@ -26,24 +64,24 @@ const ExamListTestsPage = () => {
             <Text>Ets: </Text>
             <Select
               placeholder="Pick version"
-              data={['2024', '2023', '2022', '2021', '2020', '2019', '2018']}
-              defaultValue="React"
+              data={allBooks.map((book: Exam) => book.title) as ComboboxData}
+              value={selectedBook}
+              onChange={(_value, option) => handleChangeSelect(option)}
               clearable
             />
           </Group>
-          <Group>
-            <TextInput
-              rightSectionPointerEvents="none"
-              rightSection={<FontAwesomeIcon icon={faSearch} />}
-              placeholder="Enter test"
-            />
-            <Button variant="filled">Search</Button>
-          </Group>
+          <TextInput
+            rightSectionPointerEvents="none"
+            rightSection={<FontAwesomeIcon icon={faSearch} />}
+            placeholder="Enter book"
+            value={valueSearch}
+            onChange={(event) => handleSearch(event.currentTarget.value)}
+          />
         </Group>
-        <ExamList />
-        <Flex justify="center">
+        <ExamList exams={books} />
+        {/* <Flex justify="center">
           <Pagination total={2} mt={32} />
-        </Flex>
+        </Flex> */}
       </Box>
     </Container>
   );

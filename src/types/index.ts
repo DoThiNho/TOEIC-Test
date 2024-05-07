@@ -9,16 +9,25 @@ export interface TableData {
   time: string;
 }
 
-export interface User {
+export interface Exam {
   id?: string;
-  roleId?: string;
+  title?: string;
+}
+
+export interface ExamCardProps {
+  exam: Exam;
+}
+
+export interface ExamListCardProps {
+  exams: Exam[];
+}
+
+export interface User {
   firstName?: string;
   lastName?: string;
   email?: string;
   phoneNumber?: string;
-  token?: string;
   image?: string;
-  registerAt?: string;
 }
 
 export interface IAuthState {
@@ -26,5 +35,5 @@ export interface IAuthState {
 }
 
 export interface IUserState {
-  user?: User;
+  userDetail?: User;
 }

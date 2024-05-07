@@ -20,7 +20,7 @@ const ResultItem = () => {
       </Group>
       <Text>Date: 13/04/2024</Text>
       <Text my={4}>Completion time: 1:22:51</Text>
-      <Text>Kết quả: 63/100</Text>
+      <Text>Result: 63/100</Text>
       <Button variant="outline" mt={16}>
         Show detail
       </Button>

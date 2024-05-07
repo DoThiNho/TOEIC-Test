@@ -1,11 +1,19 @@
 import { Button, Group, TextInput } from '@mantine/core';
 import { signUpSchema } from '../../schemas';
 import { Formik } from 'formik';
+import { IUserState } from 'types';
 
-const FormProfile = () => {
+const FormProfile = (props: IUserState) => {
+  const { userDetail } = props;
   return (
     <Formik
-      initialValues={{ firstName: '', lastName: '', email: '', phoneNumber: '' }}
+      initialValues={{
+        firstName: userDetail?.firstName,
+        lastName: userDetail?.lastName,
+        email: userDetail?.email,
+        phoneNumber: userDetail?.phoneNumber
+      }}
+      enableReinitialize={true}
       validationSchema={signUpSchema}
       onSubmit={(values, { setSubmitting }) => {
         console.log({ values });

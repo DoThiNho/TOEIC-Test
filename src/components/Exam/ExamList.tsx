@@ -1,27 +1,16 @@
 import { Grid } from '@mantine/core';
 import ExamItem from './ExamItem';
+import { ExamListCardProps } from 'types';
 
-const ExamList = () => {
+const ExamList = (props: ExamListCardProps) => {
+  const { exams } = props;
   return (
     <Grid gutter="xl">
-      <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-        <ExamItem />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-        <ExamItem />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-        <ExamItem />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-        <ExamItem />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-        <ExamItem />
-      </Grid.Col>
-      <Grid.Col span={{ base: 12, md: 6, lg: 4 }}>
-        <ExamItem />
-      </Grid.Col>
+      {exams.map((exam) => (
+        <Grid.Col key={exam.id} span={{ base: 12, md: 6, lg: 4 }}>
+          <ExamItem exam={exam} />
+        </Grid.Col>
+      ))}
     </Grid>
   );
 };

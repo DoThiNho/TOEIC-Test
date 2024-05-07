@@ -1,11 +1,19 @@
 import { Paper } from '@mantine/core';
-import CommonHeader from 'components/Common/CommonHeader';
 import FormSignUp from 'components/Form/FormSignUp';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { localStorageClient } from 'utils/localStorage.util';
 
 const Register = () => {
+  const navigate = useNavigate();
+  useEffect(() => {
+    const token = localStorageClient.getItem('token');
+    if (token) {
+      navigate('/');
+    }
+  }, []);
   return (
     <>
-      <CommonHeader />
       <Paper
         w={{ md: 500, lg: 500, sm: 500, s: 300 }}
         shadow="md"
