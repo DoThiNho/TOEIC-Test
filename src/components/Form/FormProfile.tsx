@@ -1,10 +1,25 @@
 import { Button, Group, TextInput } from '@mantine/core';
-import { signUpSchema } from '../../schemas';
+import { profileSchema } from '../../schemas';
 import { Formik } from 'formik';
 import { IUserState } from 'types';
+import { useUpdateUserMutation } from 'store/services/userApi';
+import { showMessage } from 'utils/parse.util';
+import { useEffect } from 'react';
 
 const FormProfile = (props: IUserState) => {
   const { userDetail } = props;
+  const [updateUser, { data }] = useUpdateUserMutation();
+
+  useEffect(() => {
+    if (data?.status) {
+      if (data.status === 200) {
+        showMessage(data.message, true);
+      } else {
+        showMessage(data.error, false);
+      }
+    }
+  }, [data]);
+
   return (
     <Formik
       initialValues={{
@@ -14,9 +29,17 @@ const FormProfile = (props: IUserState) => {
         phoneNumber: userDetail?.phoneNumber
       }}
       enableReinitialize={true}
-      validationSchema={signUpSchema}
-      onSubmit={(values, { setSubmitting }) => {
-        console.log({ values });
+      validationSchema={profileSchema}
+      onSubmit={async (values, { setSubmitting }) => {
+        try {
+          await updateUser({
+            id: userDetail?.id,
+            firstName: values.firstName,
+            lastName: values.lastName,
+            email: values.email,
+            phoneNumber: values.phoneNumber
+          }).unwrap();
+        } catch (err) {}
         setSubmitting(false);
       }}>
       {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (

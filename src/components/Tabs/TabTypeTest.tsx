@@ -2,9 +2,18 @@ import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Button, Checkbox, Flex, Select, Tabs, Text } from '@mantine/core';
+import { useState } from 'react';
+import { PartProps } from 'types';
 
-const TabTypeTest = () => {
+const TabTypeTest = (props: PartProps) => {
+  const { items } = props;
   const timeIntervals = Array.from({ length: 26 }, (_, index) => `${(index + 1) * 5} minutes`);
+
+  const [selectedParts, setSelectedParts] = useState<string[]>([]);
+
+  const handlePractice = () => {
+    console.log({ selectedParts });
+  };
 
   return (
     <Tabs radius="lg" color="teal" defaultValue="practice" mt="xl">
@@ -33,13 +42,23 @@ const TabTypeTest = () => {
           flex="column"
           my={16}>
           <Flex direction="column" mt="xs" gap={16}>
-            <Checkbox radius="sm" size="md" value="1" label="Part 1 (6 questions)" />
-            <Checkbox radius="sm" size="md" value="2" label="Part 2 (25 questions)" />
-            <Checkbox radius="sm" size="md" value="3" label="Part 3 (39 questions)" />
-            <Checkbox radius="sm" size="md" value="4" label="Part 4 (30 questions)" />
-            <Checkbox radius="sm" size="md" value="5" label="Part 5 (30 questions)" />
-            <Checkbox radius="sm" size="md" value="6" label="Part 6 (16 questions)" />
-            <Checkbox radius="sm" size="md" value="7" label="Part 7 (54 questions)" />
+            {items.map((item) => (
+              <Checkbox
+                key={item.id}
+                radius="sm"
+                size="md"
+                value={item.id}
+                label={`Part ${item.part_num} (${item.description})`}
+                onChange={(event) => {
+                  const { checked, value } = event.currentTarget;
+                  setSelectedParts((prevSelectedItems) =>
+                    checked
+                      ? [...prevSelectedItems, value]
+                      : prevSelectedItems.filter((item) => item !== value)
+                  );
+                }}
+              />
+            ))}
           </Flex>
         </Checkbox.Group>
         <Select
@@ -50,7 +69,9 @@ const TabTypeTest = () => {
           mb="xs"
           data={timeIntervals}
         />
-        <Button variant="filled">Practice</Button>
+        <Button variant="filled" onClick={handlePractice}>
+          Practice
+        </Button>
       </Tabs.Panel>
 
       <Tabs.Panel value="fulltest" pt="xs">

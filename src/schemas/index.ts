@@ -42,3 +42,23 @@ export const signUpSchema = yup.object().shape({
     .required('Please enter confirm password')
     .oneOf([yup.ref('password')], 'Your passwords do not match.')
 });
+
+export const profileSchema = yup.object().shape({
+  firstName: yup
+    .string()
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid first name')
+    .max(40)
+    .required('First name is required'),
+  lastName: yup
+    .string()
+    .matches(/^[A-Za-z ]*$/, 'Please enter valid last name')
+    .max(40)
+    .required('Last name is required'),
+  email: yup.string().email('Please enter a valid email').required('Email is required'),
+  phoneNumber: yup
+    .string()
+    .matches(phoneRegExp, 'Phone number is not valid')
+    .min(10, 'too short')
+    .max(10, 'too long')
+    .required('Please enter valid phone number')
+});

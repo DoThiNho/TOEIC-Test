@@ -1,29 +1,30 @@
+import moment from 'moment';
 import { Anchor, Badge, Box, Group, Table, Title } from '@mantine/core';
-import { RESULTS } from 'constants/constant';
+import { TableResultProps } from 'types';
 
-const TableResult = () => {
-  const rows = RESULTS.map((result) => (
+const TableResult = (props: TableResultProps) => {
+  const { data } = props;
+  const rows = data.map((result) => (
     <Table.Tr key={result.id}>
       <Table.Td>
-        {result.date}
+        {moment(result.date).format('DD-MM-YYYY')}
         <Group gap={8} my={4} justify="center">
           <Badge size="sm" color={result.type === 'Practice' ? 'yellow' : 'blue'}>
             {result.type}
           </Badge>
-          {result.type === 'Practice' && (
+          {result.parts !== '' && (
             <>
-              <Badge size="sm" color="yellow">
-                Part 5
-              </Badge>
-              <Badge size="sm" color="yellow">
-                Part 6
-              </Badge>
+              {result.parts?.split(',').map((item, index) => (
+                <Badge key={index} size="sm" color="yellow">
+                  Part {item}
+                </Badge>
+              ))}
             </>
           )}
         </Group>
       </Table.Td>
-      <Table.Td>{`${result.totalCorrect} / ${result.totalQuestion}`}</Table.Td>
-      <Table.Td>{result.time}</Table.Td>
+      <Table.Td>{`${result.total_correct} / ${result.total_questions}`}</Table.Td>
+      <Table.Td>{result.complete_time}</Table.Td>
       <Table.Td>
         <Anchor href={`/tests/${result.id}`} target="_blank">
           Show detail

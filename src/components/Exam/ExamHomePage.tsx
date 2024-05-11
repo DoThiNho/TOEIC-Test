@@ -3,15 +3,15 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import ExamList from 'components/Exam/ExamList';
 import { useEffect, useState } from 'react';
-import { useGetBooksQuery } from 'store/services/bookApi';
+import { useGetTestsQuery } from 'store/services/testApi';
 
 const ExamHome = () => {
-  const [books, setBooks] = useState([]);
-  const { data } = useGetBooksQuery({ limit: 6 });
+  const [tests, setTests] = useState([]);
+  const { data } = useGetTestsQuery({ limit: 6 });
 
   useEffect(() => {
     if (data) {
-      setBooks(data.books);
+      setTests(data.tests);
     }
   }, [data]);
 
@@ -29,7 +29,7 @@ const ExamHome = () => {
             View All
           </Button>
         </Anchor>
-        <ExamList exams={books} />
+        <ExamList exams={tests} />
       </Box>
     </Container>
   );

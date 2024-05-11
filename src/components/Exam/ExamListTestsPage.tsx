@@ -16,23 +16,29 @@ import { useEffect, useState } from 'react';
 import { useGetBooksQuery } from 'store/services/bookApi';
 import { Exam } from 'types';
 import _ from 'lodash';
+import { useGetTestsQuery } from 'store/services/testApi';
 
 const ExamListTestsPage = () => {
-  const [books, setBooks] = useState([]);
+  const [tests, setTests] = useState([]);
   const [allBooks, setAllBooks] = useState([]);
   const [queryOptions, setQueryOptions] = useState({});
-  const { data } = useGetBooksQuery(queryOptions);
+  const { data: testsData } = useGetTestsQuery(queryOptions);
+  const { data: booksData } = useGetBooksQuery(queryOptions);
+
   const [selectedBook, setSelectedBook] = useState<string | null>('');
   const [valueSearch, setValueSearch] = useState<string>('');
 
   useEffect(() => {
-    if (data) {
-      setBooks(data.books);
-      if (selectedBook === '') {
-        setAllBooks(data.books);
-      }
+    if (testsData) {
+      setTests(testsData.tests);
     }
-  }, [data]);
+  }, [testsData]);
+
+  useEffect(() => {
+    if (booksData) {
+      setAllBooks(booksData.books);
+    }
+  }, [booksData]);
 
   const setQueryOptionsValue = (value: string | undefined) => {
     if (_.isEmpty(value)) {
@@ -73,12 +79,12 @@ const ExamListTestsPage = () => {
           <TextInput
             rightSectionPointerEvents="none"
             rightSection={<FontAwesomeIcon icon={faSearch} />}
-            placeholder="Enter book"
+            placeholder="Enter test"
             value={valueSearch}
             onChange={(event) => handleSearch(event.currentTarget.value)}
           />
         </Group>
-        <ExamList exams={books} />
+        <ExamList exams={tests} />
         {/* <Flex justify="center">
           <Pagination total={2} mt={32} />
         </Flex> */}

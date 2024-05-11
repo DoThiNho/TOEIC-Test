@@ -14,11 +14,28 @@ export const userApi = createApi({
       return headers;
     }
   }),
+  tagTypes: ['User'],
   endpoints: (build) => ({
     getUser: build.query({
-      query: () => 'api/users/me'
+      query: () => 'api/users/me',
+      providesTags: ['User']
+    }),
+    updateUser: build.mutation({
+      query: (userData) => ({
+        url: 'api/users/me',
+        method: 'POST',
+        body: userData
+      })
+    }),
+    setAvatar: build.mutation({
+      query: (formData) => ({
+        url: 'api/users/me/set-avatar',
+        method: 'POST',
+        body: formData
+      }),
+      invalidatesTags: ['User']
     })
   })
 });
 
-export const { useGetUserQuery } = userApi;
+export const { useGetUserQuery, useSetAvatarMutation, useUpdateUserMutation } = userApi;

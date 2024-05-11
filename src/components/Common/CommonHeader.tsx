@@ -9,7 +9,8 @@ import {
   rem,
   Title,
   Paper,
-  Menu
+  Menu,
+  Avatar
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useNavigate } from 'react-router-dom';
@@ -70,9 +71,11 @@ const CommonHeader = () => {
                 <Group display="flex">{mainItems}</Group>
                 <Menu>
                   <Menu.Target>
-                    <img
-                      src={data?.user.image ? data.user.image : UserIcon}
-                      width={40}
+                    <Avatar
+                      src={data?.user.image ? data?.user.image : UserIcon}
+                      size={40}
+                      alt="it's me"
+                      mx="auto"
                       className="cursor-pointer"
                     />
                   </Menu.Target>
@@ -81,7 +84,9 @@ const CommonHeader = () => {
                     <Menu.Item leftSection={<FontAwesomeIcon icon={faUser} />}>
                       <Anchor href="/account">Profile</Anchor>
                     </Menu.Item>
-                    <Menu.Item leftSection={<FontAwesomeIcon icon={faRightFromBracket} />}>
+                    <Menu.Item
+                      onClick={() => localStorageClient.removeItem('token')}
+                      leftSection={<FontAwesomeIcon icon={faRightFromBracket} />}>
                       Log Out
                     </Menu.Item>
                   </Menu.Dropdown>
