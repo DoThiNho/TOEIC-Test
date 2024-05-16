@@ -1,22 +1,39 @@
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Checkbox, Flex, Select, Tabs, Text } from '@mantine/core';
+import { Button, Checkbox, ComboboxItem, Flex, Select, Tabs, Text } from '@mantine/core';
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { PartProps } from 'types';
 
 const TabTypeTest = (props: PartProps) => {
-  const { items } = props;
-  const timeIntervals = Array.from({ length: 26 }, (_, index) => `${(index + 1) * 5} minutes`);
+  const { items, testId } = props;
+
+  const navigate = useNavigate();
+
+  const timeIntervals = Array.from({ length: 26 }, (_, index) => `${(index + 1) * 5}`);
 
   const [selectedParts, setSelectedParts] = useState<string[]>([]);
+  const [activeTab, setActiveTab] = useState<string | null>('practice');
+  const [time, setTime] = useState<string | null>(null);
 
   const handlePractice = () => {
-    console.log({ selectedParts });
+    console.log({ time, selectedParts });
+    if (time) {
+      navigate(
+        `/tests/${testId}/${activeTab}?part=${selectedParts.join('&part=')}&time_limit=${time}`
+      );
+    } else {
+      navigate(`/tests/${testId}/${activeTab}?part=${selectedParts.join('&part=')}`);
+    }
+  };
+
+  const handleFullTest = () => {
+    navigate(`/tests/${testId}/${activeTab}`);
   };
 
   return (
-    <Tabs radius="lg" color="teal" defaultValue="practice" mt="xl">
+    <Tabs value={activeTab} onChange={setActiveTab} radius="lg" color="teal" mt="xl">
       <Tabs.List className="border-b-0 font-semibold" my={16}>
         <Tabs.Tab value="practice" color="blue">
           Practice
@@ -68,6 +85,8 @@ const TabTypeTest = (props: PartProps) => {
           clearable
           mb="xs"
           data={timeIntervals}
+          value={time}
+          onChange={setTime}
         />
         <Button variant="filled" onClick={handlePractice}>
           Practice
@@ -81,7 +100,7 @@ const TabTypeTest = (props: PartProps) => {
             Ready to start the full test? For best results, allocate 120 minutes for this test.
           </Text>
         </Flex>
-        <Button size="md" variant="filled">
+        <Button size="md" variant="filled" onClick={handleFullTest}>
           Start
         </Button>
       </Tabs.Panel>

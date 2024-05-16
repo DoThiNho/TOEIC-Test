@@ -1,7 +1,10 @@
 import { Box, Button, Flex, Text, Title } from '@mantine/core';
 import home from 'assets/images/home.png';
+import { useNavigate } from 'react-router-dom';
 
 const CommonHero = () => {
+  const navigate = useNavigate();
+
   return (
     <Box className="h-screen flex items-center" bg="blue.0" px={100} mt={80}>
       <Box display={{ base: 'block', md: 'flex', lg: 'flex' }}>
@@ -15,7 +18,7 @@ const CommonHero = () => {
               Access practice tests and vocabulary exercises to enhance your skills and confidence.
               Start preparing for your TOEIC exam with us today!
             </Text>
-            <Button size="xl" mt={16}>
+            <Button size="xl" mt={16} onClick={() => navigate('/tests')}>
               Start
             </Button>
           </Box>

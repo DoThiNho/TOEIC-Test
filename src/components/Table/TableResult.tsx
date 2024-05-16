@@ -4,6 +4,7 @@ import { TableResultProps } from 'types';
 
 const TableResult = (props: TableResultProps) => {
   const { data } = props;
+
   const rows = data.map((result) => (
     <Table.Tr key={result.id}>
       <Table.Td>
@@ -26,9 +27,7 @@ const TableResult = (props: TableResultProps) => {
       <Table.Td>{`${result.total_correct} / ${result.total_questions}`}</Table.Td>
       <Table.Td>{result.complete_time}</Table.Td>
       <Table.Td>
-        <Anchor href={`/tests/${result.id}`} target="_blank">
-          Show detail
-        </Anchor>
+        <Anchor href={`/tests/${data[0].test_id}/results/${result.id}`}>Show detail</Anchor>
       </Table.Td>
     </Table.Tr>
   ));

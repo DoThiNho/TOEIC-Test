@@ -5,6 +5,7 @@ import Account from 'pages/account';
 import Tests from 'pages/tests';
 import TestDetail from 'pages/tests/detail';
 import TestQuestions from 'pages/tests/questions';
+import ResultExam from 'pages/tests/results';
 
 const routes = [
   {
@@ -34,6 +35,10 @@ const routes = [
   {
     path: '/tests/:id/:type',
     component: TestQuestions
+  },
+  {
+    path: '/tests/:id/results/:idResult',
+    component: ResultExam
   }
 ];
 

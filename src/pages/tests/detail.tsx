@@ -58,7 +58,7 @@ const TestDetail = () => {
               for IELTS), please select FULL TEST mode.
             </Text>
             <TableResult data={listResult} />
-            <TabTypeTest items={test.parts || []} />
+            <TabTypeTest items={test.parts || []} testId={test.id} />
           </Tabs.Panel>
 
           <Tabs.Panel value="second" pt="xs">

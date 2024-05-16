@@ -15,12 +15,18 @@ export const resultApi = createApi({
     }
   }),
   endpoints: (build) => ({
+    getResults: build.query({
+      query: (limit) => `api/results?limit=${limit}`
+    }),
+    getResultById: build.query({
+      query: (id) => `api/results/${id}`
+    }),
     getResultByTestId: build.query({
-      query: (id) => {
-        return `api/results/${id}`;
+      query: (testId) => {
+        return `api/tests/${testId}/results`;
       }
     })
   })
 });
 
-export const { useGetResultByTestIdQuery } = resultApi;
+export const { useGetResultsQuery, useGetResultByIdQuery, useGetResultByTestIdQuery } = resultApi;

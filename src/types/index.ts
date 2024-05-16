@@ -1,13 +1,14 @@
 export interface TableData {
   id?: number;
-  userId?: number;
-  testId?: number;
+  user_id?: number;
+  test_id?: number;
   type?: string;
   date?: string;
   total_correct?: number;
   total_questions?: number;
   complete_time?: string;
   parts?: string;
+  title?: string;
 }
 
 export interface Exam {
@@ -37,6 +38,7 @@ export interface Question {
   id: string;
   test_id: string;
   part_id: string;
+  file_id: string;
   question_title: string;
   image: string;
   answer_a: string;
@@ -45,11 +47,21 @@ export interface Question {
   answer_d: string;
   correct_answer: string;
   part_num: string;
+  user_answer?: UserAnswer;
+  order: number;
+}
+
+export interface UserAnswer {
+  questionId: string;
+  option: string;
 }
 
 export interface QuestionProps {
   question: Question;
   order: number;
+  isDisable: boolean;
+  updateQuestion: (question: Question) => void;
+  optionUser?: string;
 }
 
 export interface ExamCardProps {
@@ -62,6 +74,11 @@ export interface ExamListCardProps {
 
 export interface PartProps {
   items: Part[];
+  testId?: string;
+}
+
+export interface ResultProps {
+  result: TableData;
 }
 
 export interface TableResultProps {
@@ -83,4 +100,11 @@ export interface IAuthState {
 
 export interface IUserState {
   userDetail?: User;
+}
+
+export interface ModalConfirmProps {
+  text: string;
+  open: boolean;
+  onClose: () => void;
+  handleConfirm: () => void;
 }
