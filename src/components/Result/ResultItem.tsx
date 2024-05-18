@@ -1,9 +1,17 @@
 import { Badge, Button, Card, Group, Text, Title } from '@mantine/core';
 import moment from 'moment';
+import { useNavigate } from 'react-router-dom';
 import { ResultProps } from 'types';
 
 const ResultItem = (props: ResultProps) => {
   const { result } = props;
+
+  const navigate = useNavigate();
+
+  const handleShowDetail = () => {
+    navigate(`/tests/${result.test_id}/results/${result.id}`);
+  };
+
   return (
     <Card shadow="md">
       <Title order={3}>{result.title}</Title>
@@ -22,7 +30,7 @@ const ResultItem = (props: ResultProps) => {
       <Text>
         Result: {result.total_correct}/{result.total_questions}
       </Text>
-      <Button variant="outline" mt={16}>
+      <Button variant="outline" mt={16} onClick={handleShowDetail}>
         Show detail
       </Button>
     </Card>

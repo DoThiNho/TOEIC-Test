@@ -1,12 +1,12 @@
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Anchor, Box, Button, Container, Loader, Title } from '@mantine/core';
+import { Anchor, Box, Button, Container, Flex, Loader, Title } from '@mantine/core';
 import ResultList from './ResultList';
 import { useGetResultsQuery } from 'store/services/resultApi';
 import { useEffect, useState } from 'react';
 
 const ResultTestsPage = () => {
-  const { data, isLoading } = useGetResultsQuery(3);
+  const { data, isLoading } = useGetResultsQuery({ limit: 3 });
 
   const [results, setResult] = useState([]);
 
@@ -20,7 +20,9 @@ const ResultTestsPage = () => {
     <Box my={90} py={64} bg="blue.0">
       <Container size="xl">
         {isLoading ? (
-          <Loader size={30} ta="center" />
+          <Flex justify="center">
+            <Loader size={30} ta="center" />
+          </Flex>
         ) : (
           <Box>
             <Title order={3} mb={16}>

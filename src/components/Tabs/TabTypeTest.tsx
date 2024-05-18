@@ -1,7 +1,7 @@
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Checkbox, ComboboxItem, Flex, Select, Tabs, Text } from '@mantine/core';
+import { Button, Checkbox, Flex, Select, Tabs, Text } from '@mantine/core';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PartProps } from 'types';

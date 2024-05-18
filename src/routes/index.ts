@@ -6,6 +6,11 @@ import Tests from 'pages/tests';
 import TestDetail from 'pages/tests/detail';
 import TestQuestions from 'pages/tests/questions';
 import ResultExam from 'pages/tests/results';
+import Results from 'pages/results';
+import ResultPart from 'pages/tests/result-part';
+import FlashCards from 'pages/flashcards';
+import AddFlashCards from 'pages/flashcards/add';
+import FlashCardDetail from 'pages/flashcards/detail';
 
 const routes = [
   {
@@ -39,6 +44,26 @@ const routes = [
   {
     path: '/tests/:id/results/:idResult',
     component: ResultExam
+  },
+  {
+    path: '/results',
+    component: Results
+  },
+  {
+    path: '/tests/:testId/part/:partId',
+    component: ResultPart
+  },
+  {
+    path: '/flashcards',
+    component: FlashCards
+  },
+  {
+    path: '/flashcards/:id',
+    component: FlashCardDetail
+  },
+  {
+    path: '/flashcards/create',
+    component: AddFlashCards
   }
 ];
 

@@ -1,9 +1,10 @@
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { faUserPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Anchor, Badge, Button, Card, CardProps, Group, Text, Title } from '@mantine/core';
+import { Badge, Button, Card, CardProps, Group, Text, Title } from '@mantine/core';
 import styled from '@emotion/styled';
 import { ExamCardProps } from 'types';
+import { useNavigate } from 'react-router-dom';
 
 const StyledCard = styled(Card)<CardProps>`
   cursor: pointer;
@@ -17,6 +18,13 @@ const StyledCard = styled(Card)<CardProps>`
 
 const ExamItem = (props: ExamCardProps) => {
   const { exam } = props;
+
+  const navigate = useNavigate();
+
+  const handleShowDetail = () => {
+    navigate(`/tests/${exam.id}`);
+  };
+
   return (
     <StyledCard shadow="md" bg="gray.0">
       <Title order={3}>
@@ -38,8 +46,14 @@ const ExamItem = (props: ExamCardProps) => {
           <Badge size="md">#Listening</Badge>
         </Group>
       </Group>
-      <Button color="blue" fullWidth mt="md" radius="md" variant="outline">
-        <Anchor href={`/tests/${exam.id}`}>Detail</Anchor>
+      <Button
+        color="blue"
+        fullWidth
+        mt="md"
+        radius="md"
+        variant="outline"
+        onClick={handleShowDetail}>
+        Detail
       </Button>
     </StyledCard>
   );

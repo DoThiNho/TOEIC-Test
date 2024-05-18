@@ -22,6 +22,10 @@ import { useAppSelector, RootState } from 'store/index';
 import moment from 'moment';
 import { useDisclosure } from '@mantine/hooks';
 import ModalConfirm from 'components/Modal/ModalConfirmExit';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import ModalAddVocabulary from 'components/Modal/ModalAddVocabulary';
+import { useGetGroupVocabulariesQuery } from 'store/services/vocabularyApi';
 
 const TestQuestions = () => {
   const navigate = useNavigate();
@@ -36,21 +40,59 @@ const TestQuestions = () => {
     type: param.type,
     part: selectedParts
   });
+  const { data: listGroupVocabulary } = useGetGroupVocabulariesQuery({});
 
   const { userDetail } = useAppSelector((state: RootState) => state.user);
   const [addUserAnswers, { data }] = useAddUserAnswersMutation();
 
   const [questions, setQuestions] = useState<Question[]>([]);
+  const [words, setWords] = useState([]);
   const [timeLeft, setTimeLeft] = useState(0);
   const [openedModalExit, { open: openModalExit, close: closeModalExit }] = useDisclosure(false);
   const [openedModalSubmit, { open: openModalSubmit, close: closeModalSubmit }] =
     useDisclosure(false);
+  const [
+    openedModalAddVocabulary,
+    { open: openModalAddVocabulary, close: closeModalAddVocabulary }
+  ] = useDisclosure(false);
+
   const [images, setImages] = useState<string[]>([]);
   const [isShowAudio, setIsShowAudio] = useState(true);
+  const [title, setTitle] = useState('');
+  const [selectedText, setSelectedText] = useState('');
+
+  const [position, setPosition] = useState({ top: 0, left: 0, visible: false });
 
   useEffect(() => {
-    if (listQuestion?.data) {
-      const questionsCopy = [...listQuestion.data];
+    const handleSelectionChange = () => {
+      const selection = window.getSelection();
+      if (selection && selection.rangeCount > 0) {
+        const selectedText = selection.toString();
+        if (selectedText) {
+          const range = selection.getRangeAt(0);
+          const rect = range.getBoundingClientRect();
+          setPosition({
+            top: rect.top + window.scrollY,
+            left: rect.left + window.scrollX,
+            visible: true
+          });
+          setSelectedText(selectedText);
+        } else {
+          setPosition({ ...position, visible: false });
+        }
+      }
+    };
+
+    document.addEventListener('selectionchange', handleSelectionChange);
+
+    return () => {
+      document.removeEventListener('selectionchange', handleSelectionChange);
+    };
+  }, [position]);
+
+  useEffect(() => {
+    if (listQuestion?.data.questions) {
+      const questionsCopy = [...listQuestion?.data.questions];
       const sortedQuestions = questionsCopy.sort((a, b) => {
         const partNumA = parseInt(a.part_num, 10);
         const partNumB = parseInt(b.part_num, 10);
@@ -97,6 +139,18 @@ const TestQuestions = () => {
     return () => clearInterval(interval);
   }, [param.type, timeLimit]);
 
+  useEffect(() => {
+    if (testDetail) {
+      setTitle(`${testDetail?.data.book_title} ${testDetail?.data.title}`);
+    }
+  }, [testDetail]);
+
+  useEffect(() => {
+    if (listGroupVocabulary) {
+      setWords(listGroupVocabulary.data);
+    }
+  }, [listGroupVocabulary]);
+
   const hours = Math.floor(timeLeft / 3600);
   const minutes = Math.floor((timeLeft % 3600) / 60);
   const seconds = timeLeft % 60;
@@ -133,7 +187,8 @@ const TestQuestions = () => {
       completeTime: timeString,
       totalCorrect: totalCorrect,
       totalQuestions: questions.length,
-      type: param.type
+      type: param.type,
+      title
     };
     await addUserAnswers(results);
 
@@ -152,7 +207,7 @@ const TestQuestions = () => {
       <Container size="xxl" px="xl" pt={130} pb={32}>
         <Group justify="center" align="center" mb={64}>
           <Title order={2} ta="center">
-            Practice Set TOEIC 2022 Test 1
+            {title}
           </Title>
           <Button variant="outline" onClick={openModalExit}>
             Exit
@@ -160,7 +215,7 @@ const TestQuestions = () => {
         </Group>
         <Grid>
           <GridCol span={9}>
-            <Paper shadow="lg" p={16}>
+            <Paper className="relative" shadow="lg" p={16}>
               {isShowAudio && (
                 <Box>
                   <audio controls className="w-full mb-8">
@@ -169,6 +224,20 @@ const TestQuestions = () => {
                     )}
                   </audio>
                 </Box>
+              )}
+              {position.visible && (
+                <Button
+                  style={{
+                    position: 'absolute',
+                    top: position.top - 270,
+                    left: position.left - 30,
+                    boxShadow: '0 0 5px rgba(0,0,0,0.3)'
+                  }}
+                  onClick={openModalAddVocabulary}
+                  variant="variant"
+                  color="blue">
+                  <FontAwesomeIcon icon={faPlus} />
+                </Button>
               )}
               {images.map((image: string, index) => (
                 <>
@@ -220,6 +289,12 @@ const TestQuestions = () => {
           </GridCol>
         </Grid>
       </Container>
+      <ModalAddVocabulary
+        text={selectedText}
+        words={words}
+        open={openedModalAddVocabulary}
+        onClose={closeModalAddVocabulary}
+      />
       <ModalConfirm
         text="Do you sure you want to exit? "
         open={openedModalExit}

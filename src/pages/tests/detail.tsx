@@ -64,27 +64,12 @@ const TestDetail = () => {
           <Tabs.Panel value="second" pt="xs">
             <Text mb="lg">Exam sections:</Text>
             <List>
-              <List.Item>
-                Part 1 : <Anchor href="/">See answer</Anchor>
-              </List.Item>
-              <List.Item>
-                Part 2 : <Anchor href="/">See answer</Anchor>
-              </List.Item>
-              <List.Item>
-                Part 3 : <Anchor href="/">See answer</Anchor>
-              </List.Item>
-              <List.Item>
-                Part 4 : <Anchor href="/">See answer</Anchor>
-              </List.Item>
-              <List.Item>
-                Part 5 : <Anchor href="/">See answer</Anchor>
-              </List.Item>
-              <List.Item>
-                Part 6 : <Anchor href="/">See answer</Anchor>
-              </List.Item>
-              <List.Item>
-                Part 7 : <Anchor href="/">See answer</Anchor>
-              </List.Item>
+              {test?.parts?.map((part, index) => (
+                <List.Item key={index}>
+                  Part {part.part_num} :{' '}
+                  <Anchor href={`/tests/${test.id}/part/${part.id}`}>See answer</Anchor>
+                </List.Item>
+              ))}
             </List>
           </Tabs.Panel>
         </Tabs>

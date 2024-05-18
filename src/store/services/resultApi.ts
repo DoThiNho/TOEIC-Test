@@ -16,7 +16,10 @@ export const resultApi = createApi({
   }),
   endpoints: (build) => ({
     getResults: build.query({
-      query: (limit) => `api/results?limit=${limit}`
+      query: (params) => {
+        const queryParams = new URLSearchParams(params).toString();
+        return `api/results?${queryParams}`;
+      }
     }),
     getResultById: build.query({
       query: (id) => `api/results/${id}`

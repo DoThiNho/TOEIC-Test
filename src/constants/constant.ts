@@ -6,8 +6,8 @@ export const NAV_LINKS = [
   },
   {
     id: 2,
-    title: 'Vocabulary',
-    link: '/vocabulary'
+    title: 'Flashcards',
+    link: '/flashcards'
   }
 ];
 

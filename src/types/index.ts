@@ -17,6 +17,7 @@ export interface Exam {
   book_id: string;
   book_title: string;
   file_id: string;
+  audio_link?: string;
 }
 
 export interface Part {
@@ -51,6 +52,13 @@ export interface Question {
   order: number;
 }
 
+export interface Answer {
+  id: string;
+  option: string;
+  achievement_id: string;
+  question_id: string;
+}
+
 export interface UserAnswer {
   questionId: string;
   option: string;
@@ -60,6 +68,7 @@ export interface QuestionProps {
   question: Question;
   order: number;
   isDisable: boolean;
+  isShowAnswer?: boolean;
   updateQuestion: (question: Question) => void;
   optionUser?: string;
 }
@@ -107,4 +116,49 @@ export interface ModalConfirmProps {
   open: boolean;
   onClose: () => void;
   handleConfirm: () => void;
+}
+
+export interface ModalAddVocabularyProps {
+  text: string;
+  words: FlashCardProps[];
+  open: boolean;
+  onClose: () => void;
+}
+
+export interface Results {
+  test: Exam;
+  answers: Answer[];
+  questions: Question[];
+  results: TableData[];
+}
+
+export interface ResultDetailProps {
+  items: Results;
+}
+
+export interface FlashCardProps {
+  id?: string;
+  title?: string;
+  description?: string;
+  onClick?: () => void;
+}
+
+export interface CardVocabulary {
+  id: string;
+  group_vocabularies_id?: string;
+  title: string;
+  mean: string;
+}
+
+export interface VocabularyAddProps {
+  order: number;
+  card: CardVocabulary;
+  onDelete: (id: string) => void;
+  onChange: (id: string, name: string, value: string) => void;
+}
+
+export interface FormAddListFlashCardsProps {
+  title: string;
+  description: string;
+  onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
 }

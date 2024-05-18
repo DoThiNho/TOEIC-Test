@@ -3,7 +3,9 @@ import {
   ComboboxData,
   ComboboxItem,
   Container,
+  Flex,
   Group,
+  Loader,
   Select,
   Text,
   TextInput,
@@ -22,8 +24,8 @@ const ExamListTestsPage = () => {
   const [tests, setTests] = useState([]);
   const [allBooks, setAllBooks] = useState([]);
   const [queryOptions, setQueryOptions] = useState({});
-  const { data: testsData } = useGetTestsQuery(queryOptions);
-  const { data: booksData } = useGetBooksQuery(queryOptions);
+  const { data: testsData, isLoading } = useGetTestsQuery(queryOptions);
+  const { data: booksData } = useGetBooksQuery({});
 
   const [selectedBook, setSelectedBook] = useState<string | null>('');
   const [valueSearch, setValueSearch] = useState<string>('');
@@ -50,7 +52,10 @@ const ExamListTestsPage = () => {
   };
 
   const handleChangeSelect = (option: ComboboxItem) => {
-    setQueryOptionsValue(option?.value);
+    let newTests = [];
+    if (!option?.value) newTests = testsData.tests;
+    else newTests = tests.filter((test: Exam) => test.book_title.includes(option?.value));
+    setTests(newTests);
     setSelectedBook(option?.value);
   };
 
@@ -61,34 +66,37 @@ const ExamListTestsPage = () => {
 
   return (
     <Container size="xl">
-      <Box>
-        <Title order={1} ta="center" mb={32}>
-          Exams
-        </Title>
-        <Group justify="space-between" mb={32}>
-          <Group>
-            <Text>Ets: </Text>
-            <Select
-              placeholder="Pick version"
-              data={allBooks.map((book: Exam) => book.title) as ComboboxData}
-              value={selectedBook}
-              onChange={(_value, option) => handleChangeSelect(option)}
-              clearable
+      {isLoading ? (
+        <Flex justify="center">
+          <Loader size={30} ta="center" />
+        </Flex>
+      ) : (
+        <Box>
+          <Title order={1} ta="center" mb={32}>
+            Exams
+          </Title>
+          <Group justify="space-between" mb={32}>
+            <Group>
+              <Text>Ets: </Text>
+              <Select
+                placeholder="Pick version"
+                data={allBooks.map((book: Exam) => book.title) as ComboboxData}
+                value={selectedBook}
+                onChange={(_value, option) => handleChangeSelect(option)}
+                clearable
+              />
+            </Group>
+            <TextInput
+              rightSectionPointerEvents="none"
+              rightSection={<FontAwesomeIcon icon={faSearch} />}
+              placeholder="Enter test"
+              value={valueSearch}
+              onChange={(event) => handleSearch(event.currentTarget.value)}
             />
           </Group>
-          <TextInput
-            rightSectionPointerEvents="none"
-            rightSection={<FontAwesomeIcon icon={faSearch} />}
-            placeholder="Enter test"
-            value={valueSearch}
-            onChange={(event) => handleSearch(event.currentTarget.value)}
-          />
-        </Group>
-        <ExamList exams={tests} />
-        {/* <Flex justify="center">
-          <Pagination total={2} mt={32} />
-        </Flex> */}
-      </Box>
+          <ExamList exams={tests} />
+        </Box>
+      )}
     </Container>
   );
 };

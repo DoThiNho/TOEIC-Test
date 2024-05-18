@@ -8,6 +8,7 @@ import { TypedUseSelectorHook, useSelector } from 'react-redux';
 import { resultApi } from 'store/services/resultApi';
 import { questionApi } from 'store/services/questionApi';
 import { userAnswerApi } from './services/userAnswerApi';
+import { vocabularyApi } from './services/vocabularyApi';
 
 export const store = configureStore({
   reducer: {
@@ -18,7 +19,8 @@ export const store = configureStore({
     [testApi.reducerPath]: testApi.reducer,
     [resultApi.reducerPath]: resultApi.reducer,
     [questionApi.reducerPath]: questionApi.reducer,
-    [userAnswerApi.reducerPath]: userAnswerApi.reducer
+    [userAnswerApi.reducerPath]: userAnswerApi.reducer,
+    [vocabularyApi.reducerPath]: vocabularyApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -29,6 +31,7 @@ export const store = configureStore({
       .concat(resultApi.middleware)
       .concat(questionApi.middleware)
       .concat(userAnswerApi.middleware)
+      .concat(vocabularyApi.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;

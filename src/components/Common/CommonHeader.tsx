@@ -54,6 +54,11 @@ const CommonHeader = () => {
     }
   }, []);
 
+  const handleLogOut = () => {
+    localStorageClient.removeItem('token');
+    navigate('/login');
+  };
+
   return (
     <Paper p="md" shadow="md" px="xl" className="fixed top-0 w-full z-10">
       <header>
@@ -81,11 +86,13 @@ const CommonHeader = () => {
                   </Menu.Target>
 
                   <Menu.Dropdown>
-                    <Menu.Item leftSection={<FontAwesomeIcon icon={faUser} />}>
-                      <Anchor href="/account">Profile</Anchor>
+                    <Menu.Item
+                      leftSection={<FontAwesomeIcon icon={faUser} />}
+                      onClick={() => navigate('/account')}>
+                      Profile
                     </Menu.Item>
                     <Menu.Item
-                      onClick={() => localStorageClient.removeItem('token')}
+                      onClick={handleLogOut}
                       leftSection={<FontAwesomeIcon icon={faRightFromBracket} />}>
                       Log Out
                     </Menu.Item>

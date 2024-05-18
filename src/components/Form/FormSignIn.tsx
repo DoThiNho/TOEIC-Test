@@ -10,7 +10,7 @@ import {
   Title
 } from '@mantine/core';
 import { loginSchema } from '../../schemas';
-import { Formik } from 'formik';
+import { Form, Formik } from 'formik';
 import { useLoginMutation } from 'store/services/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
@@ -44,7 +44,7 @@ const FormSignIn = () => {
           setSubmitting(false);
         }}>
         {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
-          <form onSubmit={handleSubmit}>
+          <Form onSubmit={handleSubmit}>
             <Title order={3} size="h3" ta="center" mb="lg">
               SIGN IN
             </Title>
@@ -76,7 +76,7 @@ const FormSignIn = () => {
               <Text>You have an account</Text>
               <Anchor href="/register">Sign up</Anchor>
             </Group>
-          </form>
+          </Form>
         )}
       </Formik>
     </Box>

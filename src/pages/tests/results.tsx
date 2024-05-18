@@ -11,8 +11,6 @@ import {
   Box,
   Button,
   Container,
-  Grid,
-  GridCol,
   Group,
   LoadingOverlay,
   Paper,
@@ -20,7 +18,7 @@ import {
   Title
 } from '@mantine/core';
 import CommonHeader from 'components/Common/CommonHeader';
-import QuestionPart from 'components/Question/QuestionPart';
+import ResultDetail from 'components/Result/ResultDetail';
 import { isEmpty } from 'lodash';
 import { useState } from 'react';
 import { useParams } from 'react-router-dom';
@@ -99,7 +97,6 @@ const ResultExam = () => {
                 <Button variant="outline" onClick={() => setIsShowAnswer(!isShowAnswer)}>
                   See detail answer
                 </Button>
-                <Button variant="outline">Redo test</Button>
               </Group>
               <Box>
                 {!isShowAnswer && resultDetail?.data?.questions && resultDetail?.data?.answers && (
@@ -160,29 +157,7 @@ const ResultExam = () => {
                   </Group>
                 )}
               </Box>
-              {isShowAnswer && (
-                <Paper shadow="lg" p={16}>
-                  <Box>
-                    <audio controls className="w-full mb-8">
-                      {resultDetail?.data && (
-                        <source
-                          src={`/src/assets/${resultDetail.data.test.audio_link}`}
-                          type="audio/mpeg"
-                        />
-                      )}
-                    </audio>
-                  </Box>
-                  {resultDetail.data.questions.map((question: Question, index: number) => (
-                    <QuestionPart
-                      order={index + 1}
-                      question={question}
-                      updateQuestion={() => {}}
-                      isDisable={true}
-                      optionUser={resultDetail.data.answers[index].option}
-                    />
-                  ))}
-                </Paper>
-              )}
+              {isShowAnswer && <ResultDetail items={resultDetail?.data} />}
             </>
           )}
         </Paper>

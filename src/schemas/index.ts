@@ -62,3 +62,15 @@ export const profileSchema = yup.object().shape({
     .max(10, 'too long')
     .required('Please enter valid phone number')
 });
+
+export const flashcardAddListSchema = yup.object().shape({
+  title: yup.string().required('Tile is required'),
+  description: yup.string().required('Description is required'),
+  vocabulary: yup.string().required('Vocabulary is required'),
+  mean: yup.string().required('Mean is required')
+});
+
+export const flashcardSchema = yup.object().shape({
+  vocabulary: yup.string().required('Vocabulary is required'),
+  mean: yup.string().required('Mean is required')
+});

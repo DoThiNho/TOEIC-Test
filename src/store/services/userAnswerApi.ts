@@ -19,7 +19,8 @@ export const userAnswerApi = createApi({
           complete_time: data.completeTime,
           total_correct: data.totalCorrect,
           total_questions: data.totalQuestions,
-          type: data.type
+          type: data.type,
+          title: data.title
         }
       })
     })

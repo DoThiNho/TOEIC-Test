@@ -1,13 +1,9 @@
-import { toast } from 'react-hot-toast';
+import { toast } from 'react-toastify';
 
 export const showMessage = (message: string, isSuccess: boolean) => {
   if (isSuccess) {
-    toast.success(message, {
-      position: 'top-center'
-    });
+    toast.success(message);
   } else {
-    toast.error(message, {
-      position: 'top-center'
-    });
+    toast.error(message);
   }
 };

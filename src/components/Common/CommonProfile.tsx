@@ -5,10 +5,9 @@ import UserIcon from 'assets/images/user_icon.png';
 import FormProfile from 'components/Form/FormProfile';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
-import { Toaster } from 'react-hot-toast';
 import { RootState, useAppSelector } from 'store/index';
 import { useSetAvatarMutation } from 'store/services/userApi';
-import { showMessage } from 'utils/parse.util';
+import { ToastContainer, toast } from 'react-toastify';
 
 const CommonProfile = () => {
   const { userDetail } = useAppSelector((state: RootState) => state.user);
@@ -25,9 +24,9 @@ const CommonProfile = () => {
   useEffect(() => {
     if (data?.status) {
       if (data.status === 200) {
-        showMessage(data.message, true);
+        toast(data.message);
       } else {
-        showMessage(data.error, false);
+        toast(data.error);
       }
     }
   }, [data]);
@@ -72,7 +71,7 @@ const CommonProfile = () => {
 
         <FormProfile userDetail={userDetail} />
 
-        <Toaster />
+        <ToastContainer />
       </Box>
     </Container>
   );
