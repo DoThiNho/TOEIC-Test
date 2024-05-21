@@ -67,7 +67,9 @@ const TestDetail = () => {
               {test?.parts?.map((part, index) => (
                 <List.Item key={index}>
                   Part {part.part_num} :{' '}
-                  <Anchor href={`/tests/${test.id}/part/${part.id}`}>See answer</Anchor>
+                  <Anchor href={`/learner/tests/${test.id}/part?part=${part.part_num}`}>
+                    See answer
+                  </Anchor>
                 </List.Item>
               ))}
             </List>

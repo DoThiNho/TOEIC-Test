@@ -18,7 +18,7 @@ import { useNavigate } from 'react-router-dom';
 
 const FormSignUp = () => {
   const navigate = useNavigate();
-  const [register, { data, isLoading }] = useRegisterMutation();
+  const [register, { data, isLoading, error }] = useRegisterMutation();
 
   useEffect(() => {
     const token = data?.token;
@@ -126,7 +126,11 @@ const FormSignUp = () => {
               onChange={handleChange}
               error={errors.confirmPassword}
             />
-
+            {error && (
+              <Text color="red" mt={16}>
+                {'message' in error ? error.message : ''}
+              </Text>
+            )}
             <Group justify="center" my="md">
               <Button size="md" fullWidth type="submit" disabled={isSubmitting}>
                 Sign Up

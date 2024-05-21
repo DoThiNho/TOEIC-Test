@@ -22,7 +22,7 @@ const ExamItem = (props: ExamCardProps) => {
   const navigate = useNavigate();
 
   const handleShowDetail = () => {
-    navigate(`/tests/${exam.id}`);
+    navigate(`/learner/tests/${exam.id}`);
   };
 
   return (

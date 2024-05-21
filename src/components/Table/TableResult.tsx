@@ -27,7 +27,7 @@ const TableResult = (props: TableResultProps) => {
       <Table.Td>{`${result.total_correct} / ${result.total_questions}`}</Table.Td>
       <Table.Td>{result.complete_time}</Table.Td>
       <Table.Td>
-        <Anchor href={`/tests/${data[0].test_id}/results/${result.id}`}>Show detail</Anchor>
+        <Anchor href={`/learner/tests/${data[0].test_id}/results/${result.id}`}>Show detail</Anchor>
       </Table.Td>
     </Table.Tr>
   ));

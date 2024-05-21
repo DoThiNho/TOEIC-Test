@@ -18,9 +18,7 @@ import { localStorageClient } from 'utils/localStorage.util';
 
 const FormSignIn = () => {
   const navigate = useNavigate();
-
-  const [login, { data, isLoading }] = useLoginMutation();
-
+  const [login, { data, isLoading, error }] = useLoginMutation();
   useEffect(() => {
     const token = data?.token;
     if (token) {
@@ -28,6 +26,8 @@ const FormSignIn = () => {
       navigate('/');
     }
   }, [data]);
+
+  console.log({ data });
 
   return (
     <Box pos="relative">
@@ -68,7 +68,11 @@ const FormSignIn = () => {
               onChange={handleChange}
               error={errors.password}
             />
-
+            {error && (
+              <Text color="red" mt={16}>
+                {'message' in error ? error.message : ''}
+              </Text>
+            )}
             <Group justify="center" my="md">
               <Button size="lg" fullWidth type="submit" disabled={isSubmitting}>
                 Sign In

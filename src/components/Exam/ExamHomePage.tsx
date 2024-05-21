@@ -21,7 +21,7 @@ const ExamHome = () => {
         <Title order={1} ta="center" mb={32}>
           Exams
         </Title>
-        <Anchor td="none" href="/tests">
+        <Anchor td="none" href="/learner/tests">
           <Button
             leftSection={<FontAwesomeIcon icon={faArrowRight} />}
             variant="light"

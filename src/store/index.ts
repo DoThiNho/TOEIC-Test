@@ -9,6 +9,8 @@ import { resultApi } from 'store/services/resultApi';
 import { questionApi } from 'store/services/questionApi';
 import { userAnswerApi } from './services/userAnswerApi';
 import { vocabularyApi } from './services/vocabularyApi';
+import { groupQuestionApi } from './services/groupQuestionApi';
+import { chatApi } from './services/chatApi';
 
 export const store = configureStore({
   reducer: {
@@ -20,7 +22,9 @@ export const store = configureStore({
     [resultApi.reducerPath]: resultApi.reducer,
     [questionApi.reducerPath]: questionApi.reducer,
     [userAnswerApi.reducerPath]: userAnswerApi.reducer,
-    [vocabularyApi.reducerPath]: vocabularyApi.reducer
+    [vocabularyApi.reducerPath]: vocabularyApi.reducer,
+    [groupQuestionApi.reducerPath]: groupQuestionApi.reducer,
+    [chatApi.reducerPath]: chatApi.reducer
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware()
@@ -32,6 +36,8 @@ export const store = configureStore({
       .concat(questionApi.middleware)
       .concat(userAnswerApi.middleware)
       .concat(vocabularyApi.middleware)
+      .concat(groupQuestionApi.middleware)
+      .concat(chatApi.middleware)
 });
 
 export type AppDispatch = typeof store.dispatch;

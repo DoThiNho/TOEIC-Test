@@ -20,16 +20,32 @@ import {
 import CommonHeader from 'components/Common/CommonHeader';
 import ResultDetail from 'components/Result/ResultDetail';
 import { isEmpty } from 'lodash';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { useGetResultByIdQuery } from 'store/services/resultApi';
-import { Question } from 'types';
+import { GroupQuestionProps, Question } from 'types';
 
 const ResultExam = () => {
   const param = useParams();
   const { data: resultDetail } = useGetResultByIdQuery(param.idResult);
 
   const [isShowAnswer, setIsShowAnswer] = useState(false);
+  const [questions, setQuestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    if (resultDetail?.data) {
+      const allQuestions = resultDetail.data.groupQuestions.flatMap(
+        (groupQuestion: GroupQuestionProps) => groupQuestion.questions
+      );
+      const combinedQuestions = [...resultDetail.data.questions, ...allQuestions];
+      const uniqueQuestions = Array.from(
+        new Map(combinedQuestions.map((question) => [question.id, question])).values()
+      );
+      uniqueQuestions.sort((a, b) => a.order - b.order);
+
+      setQuestions(uniqueQuestions);
+    }
+  }, [resultDetail]);
 
   return (
     <>
@@ -92,22 +108,22 @@ const ResultExam = () => {
                   <Text>Questions</Text>
                 </Paper>
               </Group>
-              <Group my={32}>
+              <Group mt={32}>
                 <Text>Answer : </Text>
                 <Button variant="outline" onClick={() => setIsShowAnswer(!isShowAnswer)}>
                   See detail answer
                 </Button>
               </Group>
               <Box>
-                {!isShowAnswer && resultDetail?.data?.questions && resultDetail?.data?.answers && (
-                  <Group w="50%" justify="space-between" align="start">
+                {!isShowAnswer && questions && resultDetail?.data?.answers && (
+                  <Group w="50%" justify="space-between" align="start" mt={32}>
                     <Box>
-                      {resultDetail.data.questions
-                        .slice(0, resultDetail.data.questions.length / 2)
+                      {questions
+                        .slice(0, questions.length / 2)
                         .map((question: Question, index: number) => (
                           <Group mb={8}>
                             <Text className="px-4 py-2 bg-cyan-200 text-cyan-700 rounded-full">
-                              {index + 1}
+                              {question.order}
                             </Text>
                             <Text className="uppercase">{question.correct_answer} : </Text>
                             <Text className="uppercase">
@@ -127,15 +143,12 @@ const ResultExam = () => {
                         ))}
                     </Box>
                     <Box>
-                      {resultDetail.data.questions
-                        .slice(
-                          resultDetail.data.questions.length / 2,
-                          resultDetail.data.questions.length
-                        )
+                      {questions
+                        .slice(questions.length / 2, questions.length)
                         .map((question: Question, index: number) => (
                           <Group mb={8}>
                             <Text className="px-4 py-2 bg-cyan-200 text-cyan-700 rounded-full">
-                              {index + resultDetail.data.questions.length / 2 + 1}
+                              {question.order}
                             </Text>
                             <Text className="uppercase">{question.correct_answer} : </Text>
                             <Text className="uppercase">

@@ -29,7 +29,7 @@ const ResultTestsPage = () => {
               Result Exams
             </Title>
             <ResultList data={results} />
-            <Anchor td="none" href="/results">
+            <Anchor td="none" href="/learner/results">
               <Button leftSection={<FontAwesomeIcon icon={faArrowRight} />} variant="light" mt={32}>
                 View All
               </Button>

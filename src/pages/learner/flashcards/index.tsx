@@ -29,7 +29,7 @@ const FlashCards = () => {
     <>
       <CommonHeader />
       <Box mih="100vh" className="bg-[#F6F7FB]">
-        <Container pt={150} pb={32}>
+        <Container size="xl" pt={150} pb={32}>
           <Group justify="space-between" mb={32}>
             <Title order={2}>List of created words:</Title>
             <ActionIcon
@@ -45,7 +45,7 @@ const FlashCards = () => {
                 <FlashCardBox
                   title={groupVocabulary.title}
                   description={groupVocabulary.description}
-                  onClick={() => handleRedictPage(`/flashcards/${groupVocabulary.id}`)}
+                  onClick={() => handleRedictPage(`/learner/flashcards/${groupVocabulary.id}`)}
                 />
               </Grid.Col>
             ))}

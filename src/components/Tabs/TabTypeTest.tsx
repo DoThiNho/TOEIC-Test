@@ -21,15 +21,15 @@ const TabTypeTest = (props: PartProps) => {
     console.log({ time, selectedParts });
     if (time) {
       navigate(
-        `/tests/${testId}/${activeTab}?part=${selectedParts.join('&part=')}&time_limit=${time}`
+        `/learner/tests/${testId}/${activeTab}?part=${selectedParts.join('&part=')}&time_limit=${time}`
       );
     } else {
-      navigate(`/tests/${testId}/${activeTab}?part=${selectedParts.join('&part=')}`);
+      navigate(`/learner/tests/${testId}/${activeTab}?part=${selectedParts.join('&part=')}`);
     }
   };
 
   const handleFullTest = () => {
-    navigate(`/tests/${testId}/${activeTab}`);
+    navigate(`/learner/tests/${testId}/${activeTab}`);
   };
 
   return (
@@ -64,8 +64,8 @@ const TabTypeTest = (props: PartProps) => {
                 key={item.id}
                 radius="sm"
                 size="md"
-                value={item.id}
-                label={`Part ${item.part_num} (${item.description})`}
+                value={item.part_num}
+                label={`Part ${item.part_num}`}
                 onChange={(event) => {
                   const { checked, value } = event.currentTarget;
                   setSelectedParts((prevSelectedItems) =>

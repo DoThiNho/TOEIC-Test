@@ -31,3 +31,23 @@ h1 {
   background-color: #228be6;
   color: #fff;
 }
+
+.rcw-client .rcw-message-text {
+  background-color: #334588;
+}
+
+.rcw-sender {
+  align-items: center;
+  gap: 8px;
+}
+
+.rcw-launcher {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.rcw-new-message,
+.rcw-response {
+  color: black;
+}

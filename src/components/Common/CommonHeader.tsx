@@ -88,7 +88,7 @@ const CommonHeader = () => {
                   <Menu.Dropdown>
                     <Menu.Item
                       leftSection={<FontAwesomeIcon icon={faUser} />}
-                      onClick={() => navigate('/account')}>
+                      onClick={() => navigate('/learner/account')}>
                       Profile
                     </Menu.Item>
                     <Menu.Item

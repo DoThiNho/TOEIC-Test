@@ -40,7 +40,7 @@ const AddFlashCards = () => {
     if (isSuccess) {
       toast.success(data.message);
       const timer = setTimeout(() => {
-        navigate('/flashcards');
+        navigate('/learner/flashcards');
       }, 1000);
 
       return () => clearTimeout(timer);

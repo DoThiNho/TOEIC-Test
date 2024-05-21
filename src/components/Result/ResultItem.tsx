@@ -9,7 +9,7 @@ const ResultItem = (props: ResultProps) => {
   const navigate = useNavigate();
 
   const handleShowDetail = () => {
-    navigate(`/tests/${result.test_id}/results/${result.id}`);
+    navigate(`/learner/tests/${result.test_id}/results/${result.id}`);
   };
 
   return (

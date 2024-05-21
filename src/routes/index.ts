@@ -1,16 +1,17 @@
 import Home from 'pages/home';
 import SignIn from 'pages/login';
 import SignUp from 'pages/register';
-import Account from 'pages/account';
-import Tests from 'pages/tests';
-import TestDetail from 'pages/tests/detail';
-import TestQuestions from 'pages/tests/questions';
-import ResultExam from 'pages/tests/results';
-import Results from 'pages/results';
-import ResultPart from 'pages/tests/result-part';
-import FlashCards from 'pages/flashcards';
-import AddFlashCards from 'pages/flashcards/add';
-import FlashCardDetail from 'pages/flashcards/detail';
+import Account from 'pages/learner/account';
+import Tests from 'pages/learner/tests';
+import TestDetail from 'pages/learner/tests/detail';
+import TestQuestions from 'pages/learner/tests/questions';
+import ResultExam from 'pages/learner/tests/results';
+import Results from 'pages/learner/results';
+import ResultPart from 'pages/learner/tests/result-part';
+import FlashCards from 'pages/learner/flashcards';
+import AddFlashCards from 'pages/learner/flashcards/add';
+import FlashCardDetail from 'pages/learner/flashcards/detail';
+import Admin from 'pages/admin';
 
 const routes = [
   {
@@ -26,44 +27,48 @@ const routes = [
     component: Home
   },
   {
-    path: '/account',
+    path: '/learner/account',
     component: Account
   },
   {
-    path: '/tests',
+    path: '/learner/tests',
     component: Tests
   },
   {
-    path: '/tests/:id',
+    path: '/learner/tests/:id',
     component: TestDetail
   },
   {
-    path: '/tests/:id/:type',
+    path: '/learner/tests/:id/:type',
     component: TestQuestions
   },
   {
-    path: '/tests/:id/results/:idResult',
+    path: '/learner/tests/:id/results/:idResult',
     component: ResultExam
   },
   {
-    path: '/results',
+    path: '/learner/results',
     component: Results
   },
   {
-    path: '/tests/:testId/part/:partId',
+    path: '/learner/tests/:testId/part',
     component: ResultPart
   },
   {
-    path: '/flashcards',
+    path: '/learner/flashcards',
     component: FlashCards
   },
   {
-    path: '/flashcards/:id',
+    path: '/learner/flashcards/:id',
     component: FlashCardDetail
   },
   {
-    path: '/flashcards/create',
+    path: '/learner/flashcards/create',
     component: AddFlashCards
+  },
+  {
+    path: '/admin',
+    component: Admin
   }
 ];
 

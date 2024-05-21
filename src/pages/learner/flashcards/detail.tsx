@@ -24,6 +24,8 @@ import { useEffect, useState } from 'react';
 import { CardVocabulary } from 'types';
 import ReactCardFlip from 'react-card-flip';
 import { ToastContainer, toast } from 'react-toastify';
+import { useDisclosure } from '@mantine/hooks';
+import ModalWordScramble from 'components/Modal/ModalWordScramble';
 
 const FlashCardDetail = () => {
   const navigate = useNavigate();
@@ -33,6 +35,7 @@ const FlashCardDetail = () => {
   const [vocabularies, setVocabularies] = useState<CardVocabulary[]>([]);
   const [isFlipped, setIsFlipped] = useState(false);
   const [vocabulariesAdd, setVocabulariesAdd] = useState<CardVocabulary[]>([]);
+  const [opened, { open, close }] = useDisclosure(false);
 
   useEffect(() => {
     if (data) {
@@ -59,7 +62,7 @@ const FlashCardDetail = () => {
   };
 
   const handleGoBack = () => {
-    navigate('/flashcards');
+    navigate('/learner/flashcards');
   };
 
   const handleAddCard = () => {
@@ -98,12 +101,17 @@ const FlashCardDetail = () => {
         <Container pt={150} pb={32}>
           <Group justify="space-between" mb={32}>
             <Title order={2}>List of group vocabulary:</Title>
-            <Button
-              variant="light"
-              leftSection={<FontAwesomeIcon icon={faArrowLeft} />}
-              onClick={handleGoBack}>
-              Go back
-            </Button>
+            <Group>
+              <Button variant="outline" onClick={open}>
+                Revision
+              </Button>
+              <Button
+                variant="light"
+                leftSection={<FontAwesomeIcon icon={faArrowLeft} />}
+                onClick={handleGoBack}>
+                Go back
+              </Button>
+            </Group>
           </Group>
           <Carousel withIndicators height={500}>
             {vocabularies.map((vocabulary: CardVocabulary, index) => (
@@ -206,6 +214,9 @@ const FlashCardDetail = () => {
           </Box>
         </Container>
         <ToastContainer />
+        {vocabularies.length > 0 && (
+          <ModalWordScramble words={vocabularies} open={opened} onClose={close} />
+        )}
       </Box>
     </>
   );

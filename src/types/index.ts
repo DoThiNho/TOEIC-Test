@@ -50,6 +50,8 @@ export interface Question {
   part_num: string;
   user_answer?: UserAnswer;
   order: number;
+  audio: string;
+  [key: string]: any;
 }
 
 export interface Answer {
@@ -66,7 +68,6 @@ export interface UserAnswer {
 
 export interface QuestionProps {
   question: Question;
-  order: number;
   isDisable: boolean;
   isShowAnswer?: boolean;
   updateQuestion: (question: Question) => void;
@@ -125,11 +126,18 @@ export interface ModalAddVocabularyProps {
   onClose: () => void;
 }
 
+export interface ModalWordScrambleProps {
+  open: boolean;
+  onClose: () => void;
+  words: CardVocabulary[];
+}
+
 export interface Results {
   test: Exam;
   answers: Answer[];
   questions: Question[];
-  results: TableData[];
+  groupQuestions: GroupQuestionProps[];
+  results: TableData;
 }
 
 export interface ResultDetailProps {
@@ -161,4 +169,26 @@ export interface FormAddListFlashCardsProps {
   title: string;
   description: string;
   onChange: (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => void;
+}
+
+export interface GroupQuestionProps {
+  id: string;
+  group_image: string;
+  group_audio: string;
+  part_id: string;
+  part_num: string;
+  questions: Question[];
+}
+
+export interface QuestionListPartProps {
+  questions: Question[];
+  isDisable: boolean;
+  isShowAnswer: boolean;
+}
+
+export interface QuestionListPart34Props {
+  groupQuestions: GroupQuestionProps[];
+  isDisable: boolean;
+  isShowAnswer: boolean;
+  updateQuestion: (question: Question) => void;
 }

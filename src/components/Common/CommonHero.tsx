@@ -18,7 +18,7 @@ const CommonHero = () => {
               Access practice tests and vocabulary exercises to enhance your skills and confidence.
               Start preparing for your TOEIC exam with us today!
             </Text>
-            <Button size="xl" mt={16} onClick={() => navigate('/tests')}>
+            <Button size="xl" mt={16} onClick={() => navigate('/learner/tests')}>
               Start
             </Button>
           </Box>

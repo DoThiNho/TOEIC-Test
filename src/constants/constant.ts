@@ -1,13 +1,15 @@
+export const API_URL = 'http://localhost:5000';
+
 export const NAV_LINKS = [
   {
     id: 1,
     title: 'Online Exam Questions',
-    link: '/tests'
+    link: '/learner/tests'
   },
   {
     id: 2,
     title: 'Flashcards',
-    link: '/flashcards'
+    link: '/learner/flashcards'
   }
 ];
 
