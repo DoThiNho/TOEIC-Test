@@ -32,7 +32,6 @@ import QuestionPart2 from 'components/Question/QuestionPart2';
 import QuestionPart5 from 'components/Question/QuestionPart5';
 import QuestionListPart6 from 'components/Question/QuestionListPart6';
 import QuestionListPart7 from 'components/Question/QuestionListPart7';
-import CommonChatBox from 'components/Common/CommonChatBox';
 
 const TestQuestions = () => {
   const navigate = useNavigate();
@@ -432,7 +431,7 @@ const TestQuestions = () => {
           </GridCol>
         </Grid>
       </Container>
-      <CommonChatBox />
+      {/* <CommonChatBox /> */}
       <ModalAddVocabulary
         text={selectedText}
         words={words}
