@@ -72,6 +72,7 @@ const ResultDetail = (props: ResultDetailProps) => {
                     updateQuestion={() => {}}
                     isDisable={true}
                     isShowAnswer={true}
+                    optionUser={question.user_answer?.option}
                   />
                 ))}
               </Tabs.Panel>
@@ -85,6 +86,7 @@ const ResultDetail = (props: ResultDetailProps) => {
                     updateQuestion={() => {}}
                     isDisable={true}
                     isShowAnswer={true}
+                    optionUser={question.user_answer?.option}
                   />
                 ))}
               </Tabs.Panel>
@@ -120,6 +122,7 @@ const ResultDetail = (props: ResultDetailProps) => {
                     updateQuestion={() => {}}
                     isDisable={true}
                     isShowAnswer={true}
+                    optionUser={question.user_answer?.option}
                   />
                 ))}
               </Tabs.Panel>

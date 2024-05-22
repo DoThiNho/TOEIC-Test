@@ -28,8 +28,18 @@ export const resultApi = createApi({
       query: (testId) => {
         return `api/tests/${testId}/results`;
       }
+    }),
+    getResultByUserId: build.query({
+      query: (userId) => {
+        return `api/results/user/${userId}`;
+      }
     })
   })
 });
 
-export const { useGetResultsQuery, useGetResultByIdQuery, useGetResultByTestIdQuery } = resultApi;
+export const {
+  useGetResultsQuery,
+  useGetResultByIdQuery,
+  useGetResultByUserIdQuery,
+  useGetResultByTestIdQuery
+} = resultApi;

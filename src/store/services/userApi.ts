@@ -14,11 +14,18 @@ export const userApi = createApi({
       return headers;
     }
   }),
-  tagTypes: ['User'],
+  tagTypes: ['Users', 'User'],
   endpoints: (build) => ({
+    getUsers: build.query({
+      query: () => 'api/users',
+      providesTags: ['Users']
+    }),
     getUser: build.query({
       query: () => 'api/users/me',
       providesTags: ['User']
+    }),
+    getUserById: build.query({
+      query: (id) => `api/users/${id}`
     }),
     updateUser: build.mutation({
       query: (userData) => ({
@@ -34,8 +41,22 @@ export const userApi = createApi({
         body: formData
       }),
       invalidatesTags: ['User']
+    }),
+    deleteUerById: build.mutation({
+      query: (id) => ({
+        url: `api/users/${id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['Users']
     })
   })
 });
 
-export const { useGetUserQuery, useSetAvatarMutation, useUpdateUserMutation } = userApi;
+export const {
+  useGetUserQuery,
+  useGetUsersQuery,
+  useGetUserByIdQuery,
+  useSetAvatarMutation,
+  useUpdateUserMutation,
+  useDeleteUerByIdMutation
+} = userApi;

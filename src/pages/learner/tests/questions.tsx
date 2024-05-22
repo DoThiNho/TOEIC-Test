@@ -32,6 +32,7 @@ import QuestionPart2 from 'components/Question/QuestionPart2';
 import QuestionPart5 from 'components/Question/QuestionPart5';
 import QuestionListPart6 from 'components/Question/QuestionListPart6';
 import QuestionListPart7 from 'components/Question/QuestionListPart7';
+import CommonChatBox from 'components/Common/CommonChatBox';
 
 const TestQuestions = () => {
   const navigate = useNavigate();
@@ -72,6 +73,17 @@ const TestQuestions = () => {
   const [selectedText, setSelectedText] = useState('');
   const [activeTab, setActiveTab] = useState<string | null>(selectedParts[0] || '1');
   const [position, setPosition] = useState({ top: 0, left: 0, visible: false });
+  const [allQuestions, setAllQuestions] = useState<Question[]>([]);
+
+  useEffect(() => {
+    if (questions.length > 0 && groupQuestions.length > 0) {
+      const allQuestions = groupQuestions.flatMap(
+        (groupQuestion: GroupQuestionProps) => groupQuestion.questions
+      );
+      const combinedQuestions = [...questions, ...allQuestions].sort((a, b) => a.order - b.order);
+      setAllQuestions(combinedQuestions);
+    }
+  }, [questions, groupQuestions]);
 
   useEffect(() => {
     const handleSelectionChange = () => {
@@ -134,7 +146,7 @@ const TestQuestions = () => {
 
   useEffect(() => {
     if (data?.status === 200) {
-      navigate(`/tests/${param.id}/results/${data.data.id}`);
+      navigate(`/learner/tests/${param.id}/results/${data.data.id}`);
     }
   }, [data]);
 
@@ -236,7 +248,7 @@ const TestQuestions = () => {
     const answers = combinedQuestions.map((question) => question.user_answer);
     const currentDate = moment().format('YYYY-MM-DD');
     const totalCorrect = combinedQuestions.reduce((total, item) => {
-      if (item.correct_answer === item.user_answer?.option) {
+      if (item.correct_answer.trim() === item.user_answer?.option.trim()) {
         return total + 1;
       }
       return total;
@@ -254,12 +266,15 @@ const TestQuestions = () => {
       type: param.type,
       title
     };
+    console.log({ results });
     await addUserAnswers(results);
   };
 
   const handleConfirmExit = () => {
     navigate(`/learner/tests/${param.id}`);
   };
+
+  console.log({ allQuestions });
 
   return (
     <>
@@ -409,29 +424,33 @@ const TestQuestions = () => {
               <Button variant="filled" color="cyan" fullWidth mb={32} onClick={openModalSubmit}>
                 Submit
               </Button>
-              <Flex wrap="wrap" gap={8}>
-                {questions.map((question) => (
+              <Flex wrap="wrap" gap={8} justify="center">
+                {allQuestions.map((question) => (
                   <Button
+                    p={0}
+                    w={50}
                     key={question.id}
                     variant={question.user_answer?.option === '' ? 'outline' : 'filled'}>
                     {question.order}
                   </Button>
                 ))}
-                {groupQuestions.map((groupQuestion) =>
+                {/* {groupQuestions.map((groupQuestion) =>
                   groupQuestion.questions.map((question) => (
                     <Button
+                      p={0}
+                      w={50}
                       key={question.id}
                       variant={question.user_answer?.option === '' ? 'outline' : 'filled'}>
                       {question.order}
                     </Button>
                   ))
-                )}
+                )} */}
               </Flex>
             </Paper>
           </GridCol>
         </Grid>
       </Container>
-      {/* <CommonChatBox /> */}
+      <CommonChatBox />
       <ModalAddVocabulary
         text={selectedText}
         words={words}

@@ -9,6 +9,8 @@ export interface TableData {
   complete_time?: string;
   parts?: string;
   title?: string;
+  test_title?: string;
+  book_title?: string;
 }
 
 export interface Exam {
@@ -126,6 +128,12 @@ export interface ModalAddVocabularyProps {
   onClose: () => void;
 }
 
+export interface ModalAddProps {
+  open: boolean;
+  onClose: () => void;
+  setIsAddSuccess: (value: boolean) => void;
+}
+
 export interface ModalWordScrambleProps {
   open: boolean;
   onClose: () => void;
@@ -191,4 +199,20 @@ export interface QuestionListPart34Props {
   isDisable: boolean;
   isShowAnswer: boolean;
   updateQuestion: (question: Question) => void;
+}
+
+export interface SideBarProps {
+  activeLink: string;
+}
+
+export interface IUser {
+  id: string;
+  email: string;
+  first_name: string;
+  last_name: string;
+  image: string;
+  password: string;
+  phone_number: string;
+  register_at: string;
+  role_id: string;
 }

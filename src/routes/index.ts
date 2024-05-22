@@ -12,6 +12,9 @@ import FlashCards from 'pages/learner/flashcards';
 import AddFlashCards from 'pages/learner/flashcards/add';
 import FlashCardDetail from 'pages/learner/flashcards/detail';
 import Admin from 'pages/admin';
+import Users from 'pages/admin/users';
+import UserAdd from 'pages/admin/users/add';
+import UserDetail from 'pages/admin/users/detail';
 
 const routes = [
   {
@@ -69,6 +72,18 @@ const routes = [
   {
     path: '/admin',
     component: Admin
+  },
+  {
+    path: '/admin/users',
+    component: Users
+  },
+  {
+    path: '/admin/users/add',
+    component: UserAdd
+  },
+  {
+    path: '/admin/users/:id',
+    component: UserDetail
   }
 ];
 

@@ -4,7 +4,7 @@ import { QuestionProps } from 'types';
 import { getAudioUrl } from 'utils/parse.util';
 
 const QuestionPart2 = (props: QuestionProps) => {
-  const { question, updateQuestion, isDisable, isShowAnswer } = props;
+  const { question, updateQuestion, isDisable, isShowAnswer, optionUser } = props;
 
   const getRadioStyle = (option: string) => {
     const isChecked = isShowAnswer && question.correct_answer === option;
@@ -38,7 +38,10 @@ const QuestionPart2 = (props: QuestionProps) => {
       </audio>
       <Group align="center" mt={32}>
         <Title order={4}>{`${question.order}. `}</Title>
-        <RadioGroup variant="vertical" required value={isShowAnswer ? question.correct_answer : ''}>
+        <RadioGroup
+          variant="vertical"
+          required
+          value={isShowAnswer ? question.correct_answer : optionUser}>
           {options.map((option: string) => (
             <Radio
               key={option}
