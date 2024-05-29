@@ -85,7 +85,6 @@ const ResultPart = () => {
 
   return (
     <>
-      <CommonHeader />
       <Container size="xxl" px="xl" pt={130} pb={32}>
         <Title order={2} ta="center" mb={16}>
           Answer / Transcript : Part {listQuestion?.data.questions[0].part_num}

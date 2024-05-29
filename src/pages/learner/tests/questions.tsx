@@ -76,11 +76,13 @@ const TestQuestions = () => {
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
 
   useEffect(() => {
-    if (questions.length > 0 && groupQuestions.length > 0) {
+    console.log({ questions, groupQuestions });
+    if (questions.length > 0 || groupQuestions.length > 0) {
       const allQuestions = groupQuestions.flatMap(
         (groupQuestion: GroupQuestionProps) => groupQuestion.questions
       );
       const combinedQuestions = [...questions, ...allQuestions].sort((a, b) => a.order - b.order);
+      console.log({ combinedQuestions });
       setAllQuestions(combinedQuestions);
     }
   }, [questions, groupQuestions]);
@@ -266,7 +268,6 @@ const TestQuestions = () => {
       type: param.type,
       title
     };
-    console.log({ results });
     await addUserAnswers(results);
   };
 
@@ -278,8 +279,7 @@ const TestQuestions = () => {
 
   return (
     <>
-      <CommonHeader />
-      <Container size="xxl" px="xl" pt={130} pb={32}>
+      <Container size="xxl" px="xl" pt={50} pb={32}>
         <Group justify="center" align="center" mb={64}>
           <Title order={2} ta="center">
             {title}

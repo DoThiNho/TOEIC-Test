@@ -35,6 +35,13 @@ const CommonHeader = () => {
   const token = localStorageClient.getItem('token');
   const { data } = useGetUserQuery(token);
   const { userDetail } = useAppSelector((state: RootState) => state.user);
+  const currentUrl = window.location.pathname;
+
+  useEffect(() => {
+    if (!token) {
+      if (currentUrl !== '/' && currentUrl !== '/register') navigate('/login');
+    }
+  }, []);
 
   useEffect(() => {
     if (data && _.isEmpty(userDetail)) {
@@ -47,12 +54,6 @@ const CommonHeader = () => {
       {item.title}
     </Anchor>
   ));
-
-  useEffect(() => {
-    if (!token) {
-      navigate('/login');
-    }
-  }, []);
 
   const handleLogOut = () => {
     localStorageClient.removeItem('token');

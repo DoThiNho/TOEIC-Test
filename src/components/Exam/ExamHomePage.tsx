@@ -16,7 +16,7 @@ const ExamHome = () => {
   }, [data]);
 
   return (
-    <Container size="xl" mt={64}>
+    <Container size="xl" mt={64} mb={150}>
       <Box>
         <Title order={1} ta="center" mb={32}>
           Exams

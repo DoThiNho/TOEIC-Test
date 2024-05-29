@@ -14,12 +14,14 @@ export const resultApi = createApi({
       return headers;
     }
   }),
+  tagTypes: ['Results'],
   endpoints: (build) => ({
     getResults: build.query({
       query: (params) => {
         const queryParams = new URLSearchParams(params).toString();
         return `api/results?${queryParams}`;
-      }
+      },
+      providesTags: ['Results']
     }),
     getResultById: build.query({
       query: (id) => `api/results/${id}`
@@ -33,6 +35,13 @@ export const resultApi = createApi({
       query: (userId) => {
         return `api/results/user/${userId}`;
       }
+    }),
+    deleteResultById: build.mutation({
+      query: (id) => ({
+        url: `api/results/${id}`,
+        method: 'DELETE'
+      }),
+      invalidatesTags: ['Results']
     })
   })
 });
@@ -41,5 +50,6 @@ export const {
   useGetResultsQuery,
   useGetResultByIdQuery,
   useGetResultByUserIdQuery,
-  useGetResultByTestIdQuery
+  useGetResultByTestIdQuery,
+  useDeleteResultByIdMutation
 } = resultApi;

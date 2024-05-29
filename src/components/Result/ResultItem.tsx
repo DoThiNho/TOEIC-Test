@@ -1,7 +1,18 @@
-import { Badge, Button, Card, Group, Text, Title } from '@mantine/core';
+import { Badge, Button, Card, CardProps, Group, Text, Title } from '@mantine/core';
 import moment from 'moment';
 import { useNavigate } from 'react-router-dom';
 import { ResultProps } from 'types';
+import styled from '@emotion/styled';
+
+const StyledCard = styled(Card)<CardProps>`
+  cursor: pointer;
+  border: 1px solid #e0e0e0;
+
+  &:hover {
+    transform: translateY(-2px);
+    transition: all 0.4s;
+  }
+`;
 
 const ResultItem = (props: ResultProps) => {
   const { result } = props;
@@ -13,7 +24,7 @@ const ResultItem = (props: ResultProps) => {
   };
 
   return (
-    <Card shadow="md">
+    <StyledCard shadow="md" bg="gray.0">
       <Title order={3}>{result.title}</Title>
       <Group my={4}>
         <Badge size="md" color="yellow">
@@ -33,7 +44,7 @@ const ResultItem = (props: ResultProps) => {
       <Button variant="outline" mt={16} onClick={handleShowDetail}>
         Show detail
       </Button>
-    </Card>
+    </StyledCard>
   );
 };
 

@@ -1,21 +1,21 @@
 import { Box, Button, Group, LoadingOverlay, PasswordInput, Text, TextInput } from '@mantine/core';
 import { signUpSchema } from '../../schemas';
 import { Formik } from 'formik';
-import { useRegisterMutation } from 'store/services/authApi';
 import { useEffect } from 'react';
+import { useAddUserMutation } from 'store/services/userApi';
+import { toast } from 'react-toastify';
 
 interface FormAddUserProps {
-  setIsAddSuccess: (value: boolean) => void;
   close: () => void;
 }
 
 const FormAddUser = (props: FormAddUserProps) => {
-  const [register, { isLoading, isSuccess, error }] = useRegisterMutation();
-  const { setIsAddSuccess, close } = props;
+  const [addUser, { isLoading, isSuccess, error }] = useAddUserMutation();
+  const { close } = props;
 
   useEffect(() => {
     if (isSuccess) {
-      setIsAddSuccess(true);
+      toast.success('Create user successfully');
       close();
     }
   }, [isSuccess]);
@@ -37,7 +37,7 @@ const FormAddUser = (props: FormAddUserProps) => {
         validationSchema={signUpSchema}
         onSubmit={async (values, { setSubmitting }) => {
           const { firstName, lastName, email, phoneNumber, password } = values;
-          await register({
+          await addUser({
             email,
             password,
             role_id: '2',

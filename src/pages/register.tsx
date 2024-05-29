@@ -14,12 +14,7 @@ const Register = () => {
   }, []);
   return (
     <>
-      <Paper
-        w={{ md: 500, lg: 500, sm: 500, s: 300 }}
-        shadow="md"
-        p="xl"
-        mx="auto"
-        style={{ transform: 'translateY(17%)' }}>
+      <Paper w={{ md: 500, lg: 500, sm: 500, s: 300 }} shadow="md" p="xl" mx="auto" mt={80}>
         <FormSignUp />
       </Paper>
     </>

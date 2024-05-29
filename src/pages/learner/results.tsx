@@ -1,8 +1,6 @@
 import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Box, Container, Flex, Group, Loader, Pagination, TextInput, Title } from '@mantine/core';
-import CommonFooter from 'components/Common/CommonFooter';
-import CommonHeader from 'components/Common/CommonHeader';
 import ResultList from 'components/Result/ResultList';
 import { useEffect, useState } from 'react';
 import { useGetResultsQuery } from 'store/services/resultApi';
@@ -30,9 +28,10 @@ const Results = () => {
     });
   }, [activePage, valueSearch]);
 
+  console.log({ allResult });
+
   return (
-    <>
-      <CommonHeader />
+    <Box mb={150}>
       <Container size="xl" pt={isLoading ? 0 : 130}>
         {isLoading ? (
           <Group justify="center" align="center" mih="100vh">
@@ -55,7 +54,7 @@ const Results = () => {
               </Group>
               <ResultList data={results} />
               <Flex justify="center" mt={32}>
-                {allResult.achievements.length > 6 && (
+                {allResult?.achievements.length > 6 && (
                   <Pagination
                     value={activePage}
                     onChange={setPage}
@@ -67,8 +66,7 @@ const Results = () => {
           </>
         )}
       </Container>
-      <CommonFooter />
-    </>
+    </Box>
   );
 };
 

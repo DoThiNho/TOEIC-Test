@@ -17,7 +17,7 @@ const ResultTestsPage = () => {
   }, [data]);
 
   return (
-    <Box my={90} py={64} bg="blue.0">
+    <Box mb={90} py={64} bg="blue.0">
       <Container size="xl">
         {isLoading ? (
           <Flex justify="center">

@@ -1,3 +1,5 @@
+import { ReactNode } from 'react';
+
 export interface TableData {
   id?: number;
   user_id?: number;
@@ -131,7 +133,6 @@ export interface ModalAddVocabularyProps {
 export interface ModalAddProps {
   open: boolean;
   onClose: () => void;
-  setIsAddSuccess: (value: boolean) => void;
 }
 
 export interface ModalWordScrambleProps {
@@ -215,4 +216,8 @@ export interface IUser {
   phone_number: string;
   register_at: string;
   role_id: string;
+}
+
+export interface LayoutProps {
+  children: ReactNode;
 }

@@ -6,6 +6,7 @@ import {
   Flex,
   Group,
   Loader,
+  Pagination,
   Select,
   Text,
   TextInput,
@@ -17,18 +18,19 @@ import { faSearch } from '@fortawesome/free-solid-svg-icons';
 import { useEffect, useState } from 'react';
 import { useGetBooksQuery } from 'store/services/bookApi';
 import { Exam } from 'types';
-import _ from 'lodash';
 import { useGetTestsQuery } from 'store/services/testApi';
 
 const ExamListTestsPage = () => {
   const [tests, setTests] = useState([]);
   const [allBooks, setAllBooks] = useState([]);
+  const { data: allTests } = useGetTestsQuery({});
   const [queryOptions, setQueryOptions] = useState({});
   const { data: testsData, isLoading } = useGetTestsQuery(queryOptions);
   const { data: booksData } = useGetBooksQuery({});
 
   const [selectedBook, setSelectedBook] = useState<string | null>('');
   const [valueSearch, setValueSearch] = useState<string>('');
+  const [activePage, setPage] = useState(1);
 
   useEffect(() => {
     if (testsData) {
@@ -42,14 +44,13 @@ const ExamListTestsPage = () => {
     }
   }, [booksData]);
 
-  const setQueryOptionsValue = (value: string | undefined) => {
-    if (_.isEmpty(value)) {
-      setQueryOptions({});
-    } else {
-      setQueryOptions({ search: value });
-      setSelectedBook(null);
-    }
-  };
+  useEffect(() => {
+    setQueryOptions({
+      limit: 9,
+      page: activePage,
+      search: valueSearch
+    });
+  }, [activePage, valueSearch]);
 
   const handleChangeSelect = (option: ComboboxItem) => {
     let newTests = [];
@@ -59,13 +60,8 @@ const ExamListTestsPage = () => {
     setSelectedBook(option?.value);
   };
 
-  const handleSearch = (value: string) => {
-    setQueryOptionsValue(value);
-    setValueSearch(value);
-  };
-
   return (
-    <Container size="xl">
+    <Container size="xl" mb={150}>
       {isLoading ? (
         <Flex justify="center">
           <Loader size={30} ta="center" />
@@ -91,10 +87,27 @@ const ExamListTestsPage = () => {
               rightSection={<FontAwesomeIcon icon={faSearch} />}
               placeholder="Enter test"
               value={valueSearch}
-              onChange={(event) => handleSearch(event.currentTarget.value)}
+              onChange={(event) => setValueSearch(event.currentTarget.value)}
             />
           </Group>
-          <ExamList exams={tests} />
+          {tests.length > 0 ? (
+            <>
+              <ExamList exams={tests} />
+              <Flex justify="center" mt={32}>
+                {allTests.tests.length > 9 && (
+                  <Pagination
+                    value={activePage}
+                    onChange={setPage}
+                    total={allTests.tests.length / 6}
+                  />
+                )}
+              </Flex>
+            </>
+          ) : (
+            <Flex mih={300} align="center" justify="center">
+              <Text>Not found tests</Text>
+            </Flex>
+          )}
         </Box>
       )}
     </Container>

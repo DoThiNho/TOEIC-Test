@@ -53,8 +53,8 @@ const CommonProfile = () => {
   };
 
   return (
-    <Container size="xl" className="h-screen flex justify-center items-center">
-      <Box w="50%">
+    <Container size="xl" className="h-screen flex justify-center">
+      <Box w="50%" pt={50}>
         <Box className="relative">
           <Avatar src={imageUrl ? imageUrl : UserIcon} size={200} alt="it's me" mx="auto" />
           <label htmlFor="upload-image" className="cursor-pointer absolute bottom-0 right-[30%]">
@@ -68,10 +68,7 @@ const CommonProfile = () => {
             />
           </label>
         </Box>
-
         <FormProfile userDetail={userDetail} />
-
-        <ToastContainer />
       </Box>
     </Container>
   );

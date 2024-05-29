@@ -15,75 +15,98 @@ import Admin from 'pages/admin';
 import Users from 'pages/admin/users';
 import UserAdd from 'pages/admin/users/add';
 import UserDetail from 'pages/admin/users/detail';
+import Exams from 'pages/admin/exams';
 
 const routes = [
   {
     path: '/login',
-    component: SignIn
+    component: SignIn,
+    layout: 'auth'
   },
   {
     path: '/register',
-    component: SignUp
+    component: SignUp,
+    layout: 'auth'
   },
   {
     path: '/',
-    component: Home
+    component: Home,
+    layout: 'main'
   },
   {
     path: '/learner/account',
-    component: Account
+    component: Account,
+    layout: 'main'
   },
   {
     path: '/learner/tests',
-    component: Tests
+    component: Tests,
+    layout: 'main'
   },
   {
     path: '/learner/tests/:id',
-    component: TestDetail
+    component: TestDetail,
+    layout: 'main'
   },
   {
     path: '/learner/tests/:id/:type',
-    component: TestQuestions
+    component: TestQuestions,
+    layout: 'main'
   },
   {
     path: '/learner/tests/:id/results/:idResult',
-    component: ResultExam
+    component: ResultExam,
+    layout: 'main'
   },
   {
     path: '/learner/results',
-    component: Results
+    component: Results,
+    layout: 'main'
   },
   {
     path: '/learner/tests/:testId/part',
-    component: ResultPart
+    component: ResultPart,
+    layout: 'main'
   },
   {
     path: '/learner/flashcards',
-    component: FlashCards
+    component: FlashCards,
+    layout: 'main'
   },
   {
     path: '/learner/flashcards/:id',
-    component: FlashCardDetail
+    component: FlashCardDetail,
+    layout: 'main'
   },
   {
     path: '/learner/flashcards/create',
-    component: AddFlashCards
+    component: AddFlashCards,
+    layout: 'main'
   },
   {
     path: '/admin',
-    component: Admin
+    component: Admin,
+    layout: 'admin'
   },
   {
     path: '/admin/users',
-    component: Users
+    component: Users,
+    layout: 'admin'
   },
   {
     path: '/admin/users/add',
-    component: UserAdd
+    component: UserAdd,
+    layout: 'admin'
   },
   {
     path: '/admin/users/:id',
-    component: UserDetail
+    component: UserDetail,
+    layout: 'admin'
+  },
+  {
+    path: '/admin/exams',
+    component: Exams,
+    layout: 'admin'
   }
 ];
 

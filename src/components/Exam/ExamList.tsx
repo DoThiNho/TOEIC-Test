@@ -4,6 +4,7 @@ import { ExamListCardProps } from 'types';
 
 const ExamList = (props: ExamListCardProps) => {
   const { exams } = props;
+
   return (
     <Grid gutter="xl">
       {exams.map((exam) => (

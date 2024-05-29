@@ -6,7 +6,7 @@ import { FOOTER_INFOS } from 'constants/constant';
 
 const CommonFooter = () => {
   return (
-    <Box mt={120} py={64} bg="#05091f" c="gray">
+    <Box py={64} bg="#05091f" c="gray">
       <Container size="xl">
         <Grid>
           <GridCol span={{ base: 12, md: 6, lg: 4 }}>

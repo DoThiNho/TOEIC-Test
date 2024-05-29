@@ -42,7 +42,15 @@ export const userApi = createApi({
       }),
       invalidatesTags: ['User']
     }),
-    deleteUerById: build.mutation({
+    addUser: build.mutation({
+      query: (user) => ({
+        url: 'api/auth/register',
+        method: 'POST',
+        body: { ...user }
+      }),
+      invalidatesTags: ['Users']
+    }),
+    deleteUserById: build.mutation({
       query: (id) => ({
         url: `api/users/${id}`,
         method: 'DELETE'
@@ -58,5 +66,6 @@ export const {
   useGetUserByIdQuery,
   useSetAvatarMutation,
   useUpdateUserMutation,
-  useDeleteUerByIdMutation
+  useAddUserMutation,
+  useDeleteUserByIdMutation
 } = userApi;

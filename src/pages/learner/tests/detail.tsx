@@ -33,7 +33,6 @@ const TestDetail = () => {
 
   return (
     <>
-      <CommonHeader />
       <Container size="md" pt={150} pb={32}>
         <Title order={2}>
           {test.book_title} TOIEC {test.title}

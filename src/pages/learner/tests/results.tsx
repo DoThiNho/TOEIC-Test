@@ -56,8 +56,7 @@ const ResultExam = () => {
 
   return (
     <>
-      <CommonHeader />
-      <Container size="xxl" px="xl" pt={130} pb={32}>
+      <Container size="xxl" px="xl" pt={50} pb={32} mb={150}>
         <Paper w="80%" shadow="lg" p={16} mx="auto">
           {!resultDetail?.data ? (
             <LoadingOverlay

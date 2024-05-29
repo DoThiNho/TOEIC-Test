@@ -1,10 +1,30 @@
 import moment from 'moment';
-import { ActionIcon, Badge, Box, Group, Table } from '@mantine/core';
+import { ActionIcon, Badge, Box, Group, Table, Text } from '@mantine/core';
 import { TableResultProps } from 'types';
 import { IconTrash } from '@tabler/icons-react';
+import { useDisclosure } from '@mantine/hooks';
+import { useDeleteResultByIdMutation } from 'store/services/resultApi';
+import { useEffect, useState } from 'react';
+import ModalConfirmDelete from 'components/Modal/ModalConfirmDelete';
+import { ToastContainer, toast } from 'react-toastify';
 
 const TableResultUser = (props: TableResultProps) => {
   const { data } = props;
+  const [opened, { open, close }] = useDisclosure(false);
+
+  const [deleteResultById, { isSuccess }] = useDeleteResultByIdMutation();
+  const [idDel, setIdDel] = useState('');
+
+  const handleConfirmDelete = async () => {
+    await deleteResultById(idDel);
+  };
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Delete user successfully!');
+      close();
+    }
+  }, [isSuccess]);
 
   const rows = data.map((result) => (
     <Table.Tr key={result.id}>
@@ -30,7 +50,13 @@ const TableResultUser = (props: TableResultProps) => {
       <Table.Td>{`${result.total_correct} / ${result.total_questions}`}</Table.Td>
       <Table.Td>{result.complete_time}</Table.Td>
       <Table.Td>
-        <ActionIcon variant="filled" color="red">
+        <ActionIcon
+          variant="filled"
+          color="red"
+          onClick={() => {
+            setIdDel(result.id?.toString() || '');
+            open();
+          }}>
           <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
         </ActionIcon>
       </Table.Td>
@@ -52,6 +78,12 @@ const TableResultUser = (props: TableResultProps) => {
         </Table.Thead>
         <Table.Tbody>{rows}</Table.Tbody>
       </Table>
+      <ModalConfirmDelete
+        text="result"
+        open={opened}
+        onClose={close}
+        handleConfirm={handleConfirmDelete}
+      />
     </Box>
   );
 };

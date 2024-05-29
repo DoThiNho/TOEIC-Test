@@ -20,11 +20,17 @@
 body {
   min-width: 320px;
   min-height: 100vh;
+  /* background-color: #f6f7fb; */
 }
 
 h1 {
   font-size: 3.2em;
   line-height: 1.1;
+}
+
+.main {
+  padding-top: 90px;
+  /* padding-bottom: 120px; */
 }
 
 .active {
