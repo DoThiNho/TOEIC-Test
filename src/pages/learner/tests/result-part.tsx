@@ -1,6 +1,5 @@
 import { Box, Button, Container, Group, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import CommonHeader from 'components/Common/CommonHeader';
 import ModalConfirm from 'components/Modal/ModalConfirmExit';
 import QuestionListPart3 from 'components/Question/QuestionListPart3';
 import QuestionListPart6 from 'components/Question/QuestionListPart6';

@@ -7,7 +7,7 @@ import _ from 'lodash';
 import { useEffect, useState } from 'react';
 import { RootState, useAppSelector } from 'store/index';
 import { useSetAvatarMutation } from 'store/services/userApi';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const CommonProfile = () => {
   const { userDetail } = useAppSelector((state: RootState) => state.user);

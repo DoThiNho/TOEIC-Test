@@ -33,7 +33,9 @@ const ModalAddBook = (props: ModalAddProps) => {
         value={title}
         onChange={(event) => setTitle(event.currentTarget.value)}
       />
-      <Button onClick={handleAdd}>Add</Button>
+      <Button onClick={handleAdd} mt={16}>
+        Add
+      </Button>
     </Modal>
   );
 };

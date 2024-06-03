@@ -1,6 +1,9 @@
 import { Title } from '@mantine/core';
 import classes from './SideBar.module.css';
 import { SideBarProps } from 'types';
+import { useEffect } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { localStorageClient } from 'utils/localStorage.util';
 
 const linksMockdata = [
   {
@@ -16,6 +19,17 @@ const linksMockdata = [
 ];
 
 export function SideBar({ activeLink }: SideBarProps) {
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    const isAdmin = localStorageClient.getItem('isAdmin');
+    console.log({ isAdmin });
+    if (isAdmin === 'false') {
+      localStorageClient.removeItem('token');
+      navigate('/login');
+    }
+  }, []);
+
   const links = linksMockdata.map((item) => (
     <a
       className={classes.link}

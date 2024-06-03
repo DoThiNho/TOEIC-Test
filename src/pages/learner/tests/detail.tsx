@@ -1,7 +1,6 @@
 import { faClock } from '@fortawesome/free-regular-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Anchor, Container, Group, List, Tabs, Text, Title } from '@mantine/core';
-import CommonHeader from 'components/Common/CommonHeader';
 import TableResult from 'components/Table/TableResult';
 import TabTypeTest from 'components/Tabs/TabTypeTest';
 import { useEffect, useState } from 'react';

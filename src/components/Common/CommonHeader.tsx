@@ -57,6 +57,7 @@ const CommonHeader = () => {
 
   const handleLogOut = () => {
     localStorageClient.removeItem('token');
+    localStorageClient.removeItem('isAdmin');
     navigate('/login');
   };
 

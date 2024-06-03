@@ -44,8 +44,6 @@ const ResultDetail = (props: ResultDetailProps) => {
     return listGroupQuestion;
   };
 
-  console.log({ selectedParts });
-
   return (
     <Box p={16}>
       <Tabs

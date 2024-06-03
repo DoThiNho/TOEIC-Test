@@ -19,12 +19,14 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
 import ModalAddBook from 'components/Modal/ModalAddBook';
+import ModalAddTest from 'components/Modal/ModalAddTest';
 import ModalConfirmDelete from 'components/Modal/ModalConfirmDelete';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useDeleteBookByIdMutation, useGetBooksQuery } from 'store/services/bookApi';
-import { useGetTestsQuery } from 'store/services/testApi';
+import { useDeleteTestByIdMutation, useGetTestsQuery } from 'store/services/testApi';
 import { Exam } from 'types';
 
 const TableTest = () => {
@@ -38,9 +40,16 @@ const TableTest = () => {
   const [selectedBook, setSelectedBook] = useState<string | null>('');
   const [activePage, setPage] = useState(1);
   const [opened, { open, close }] = useDisclosure(false);
+  const [openedAddTest, { open: openAddTest, close: closeAddTest }] = useDisclosure(false);
+
   const [openedDeteleBook, { open: openDeteleBook, close: closeDeteleBook }] = useDisclosure(false);
+  const [openedDeteleTest, { open: openDeteleTest, close: closeDeteleTest }] = useDisclosure(false);
+  const [idDelTest, setIdDelTest] = useState('');
 
   const [deleteBookById] = useDeleteBookByIdMutation();
+  const [deleteTestById] = useDeleteTestByIdMutation();
+
+  const navigate = useNavigate();
 
   useEffect(() => {
     if (testsData) {
@@ -85,10 +94,19 @@ const TableTest = () => {
       </Table.Td>
       <Table.Td>
         <Group gap={16} justify="center">
-          <ActionIcon variant="filled" color="yellow">
+          <ActionIcon
+            variant="filled"
+            color="yellow"
+            onClick={() => navigate(`/admin/exams/${test.id}`)}>
             <IconPencil style={{ width: '70%', height: '70%' }} stroke={1.5} />
           </ActionIcon>
-          <ActionIcon variant="filled" color="red">
+          <ActionIcon
+            variant="filled"
+            color="red"
+            onClick={() => {
+              setIdDelTest(test.id);
+              openDeteleTest();
+            }}>
             <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
           </ActionIcon>
         </Group>
@@ -113,6 +131,12 @@ const TableTest = () => {
     setSelectedBook('');
   };
 
+  const handleConfirmDeleteTest = async () => {
+    await deleteTestById(idDelTest);
+    toast.success('Delete test successfully!');
+    closeDeteleTest();
+  };
+
   return (
     <Box mt={16}>
       <Title order={1} ta="center" mb={32}>
@@ -129,7 +153,9 @@ const TableTest = () => {
             onChange={(_value, option) => handleChangeSelect(option)}
             clearable
           />
-          <Button color="teal">Add Test</Button>
+          <Button color="teal" onClick={openAddTest}>
+            Add Test
+          </Button>
           <Button color="red" onClick={openDeteleBook}>
             Delete Book
           </Button>
@@ -168,11 +194,18 @@ const TableTest = () => {
         )}
       </Flex>
       <ModalAddBook open={opened} onClose={close} />
+      <ModalAddTest open={openedAddTest} onClose={closeAddTest} />
       <ModalConfirmDelete
         text="book"
         open={openedDeteleBook}
         onClose={closeDeteleBook}
         handleConfirm={handleConfirmDeleteBook}
+      />
+      <ModalConfirmDelete
+        text="test"
+        open={openedDeteleTest}
+        onClose={closeDeteleTest}
+        handleConfirm={handleConfirmDeleteTest}
       />
     </Box>
   );

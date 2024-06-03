@@ -1,12 +1,12 @@
 import moment from 'moment';
-import { ActionIcon, Badge, Box, Group, Table, Text } from '@mantine/core';
+import { ActionIcon, Badge, Box, Group, Table } from '@mantine/core';
 import { TableResultProps } from 'types';
 import { IconTrash } from '@tabler/icons-react';
 import { useDisclosure } from '@mantine/hooks';
 import { useDeleteResultByIdMutation } from 'store/services/resultApi';
 import { useEffect, useState } from 'react';
 import ModalConfirmDelete from 'components/Modal/ModalConfirmDelete';
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 
 const TableResultUser = (props: TableResultProps) => {
   const { data } = props;

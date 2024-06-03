@@ -17,7 +17,6 @@ import {
   Text,
   Title
 } from '@mantine/core';
-import CommonHeader from 'components/Common/CommonHeader';
 import ResultDetail from 'components/Result/ResultDetail';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
@@ -130,8 +129,8 @@ const ResultExam = () => {
                             {question.order}
                           </Text>
                           <Text className="uppercase">{question.correct_answer} : </Text>
-                          <Text className="uppercase">{getUserAnswer(question.id)}</Text>
-                          {question.correct_answer.trim() === getUserAnswer(question.id) ? (
+                          <Text className="uppercase">{getUserAnswer(question.id || '')}</Text>
+                          {question.correct_answer.trim() === getUserAnswer(question.id || '') ? (
                             <Text c="green">
                               <FontAwesomeIcon icon={faCheck} />
                             </Text>
@@ -152,9 +151,9 @@ const ResultExam = () => {
                               {question.order}
                             </Text>
                             <Text className="uppercase">{question.correct_answer} : </Text>
-                            <Text className="uppercase">{getUserAnswer(question.id)}</Text>
-                            {!isEmpty(getUserAnswer(question.id)) &&
-                            question.correct_answer.trim() === getUserAnswer(question.id) ? (
+                            <Text className="uppercase">{getUserAnswer(question.id || '')}</Text>
+                            {!isEmpty(getUserAnswer(question.id || '')) &&
+                            question.correct_answer.trim() === getUserAnswer(question.id || '') ? (
                               <Text c="green">
                                 <FontAwesomeIcon icon={faCheck} />
                               </Text>

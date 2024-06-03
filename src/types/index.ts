@@ -221,3 +221,15 @@ export interface IUser {
 export interface LayoutProps {
   children: ReactNode;
 }
+
+export interface QuestionPart {
+  questionTitle?: string;
+  answerA?: string;
+  answerB?: string;
+  answerC?: string;
+  answerD?: string;
+  correctAnswer?: string;
+  image?: string;
+  audio?: string;
+  order?: number;
+}

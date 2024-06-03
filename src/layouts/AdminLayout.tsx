@@ -5,8 +5,8 @@ import { useGetUserQuery } from 'store/services/userApi';
 import { localStorageClient } from 'utils/localStorage.util';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faRightFromBracket, faUser } from '@fortawesome/free-solid-svg-icons';
-import { useNavigate } from 'react-router-dom';
-import { ReactNode, useEffect, useState } from 'react';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { useEffect, useState } from 'react';
 import { SideBar } from 'components/SideBar/SideBar';
 import { ToastContainer } from 'react-toastify';
 import { useAppSelector, RootState, AppDispatch } from 'store/index';
@@ -25,6 +25,15 @@ const AdminLayout = ({ children }: LayoutProps) => {
   const [activeLink, setActiveLink] = useState('Users');
 
   const { userDetail } = useAppSelector((state: RootState) => state.user);
+  const location = useLocation();
+
+  useEffect(() => {
+    if (location.pathname.includes('/admin/exams')) {
+      setActiveLink('Exams');
+    } else {
+      setActiveLink('Users');
+    }
+  }, [location]);
 
   useEffect(() => {
     if (data && _.isEmpty(userDetail)) {

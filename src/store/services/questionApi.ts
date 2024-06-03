@@ -11,8 +11,23 @@ export const questionApi = createApi({
         const { id, type, part } = params;
         return `api/questions/${id}?type=${type}&part=${part.join('&part=')}`;
       }
+    }),
+    addQuestions: build.mutation({
+      query: (formData) => ({
+        url: 'api/questions',
+        method: 'POST',
+        body: formData
+      })
+    }),
+    updateQuestion: build.mutation({
+      query: ({ id, formData }) => ({
+        url: `api/questions/${id}`,
+        method: 'POST',
+        body: formData
+      })
     })
   })
 });
 
-export const { useGetQuestionsQuery } = questionApi;
+export const { useGetQuestionsQuery, useUpdateQuestionMutation, useAddQuestionsMutation } =
+  questionApi;

@@ -10,7 +10,6 @@ import {
   Tabs,
   Title
 } from '@mantine/core';
-import CommonHeader from 'components/Common/CommonHeader';
 import { useEffect, useState } from 'react';
 import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useGetQuestionsQuery } from 'store/services/questionApi';
@@ -32,7 +31,7 @@ import QuestionPart2 from 'components/Question/QuestionPart2';
 import QuestionPart5 from 'components/Question/QuestionPart5';
 import QuestionListPart6 from 'components/Question/QuestionListPart6';
 import QuestionListPart7 from 'components/Question/QuestionListPart7';
-import CommonChatBox from 'components/Common/CommonChatBox';
+// import CommonChatBox from 'components/Common/CommonChatBox';
 
 const TestQuestions = () => {
   const navigate = useNavigate();
@@ -76,7 +75,6 @@ const TestQuestions = () => {
   const [allQuestions, setAllQuestions] = useState<Question[]>([]);
 
   useEffect(() => {
-    console.log({ questions, groupQuestions });
     if (questions.length > 0 || groupQuestions.length > 0) {
       const allQuestions = groupQuestions.flatMap(
         (groupQuestion: GroupQuestionProps) => groupQuestion.questions
@@ -450,7 +448,7 @@ const TestQuestions = () => {
           </GridCol>
         </Grid>
       </Container>
-      <CommonChatBox />
+      {/* <CommonChatBox /> */}
       <ModalAddVocabulary
         text={selectedText}
         words={words}

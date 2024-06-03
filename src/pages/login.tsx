@@ -8,8 +8,12 @@ const SignIn = () => {
   const navigate = useNavigate();
   useEffect(() => {
     const token = localStorageClient.getItem('token');
+    const isAdmin = localStorageClient.getItem('isAdmin');
     if (token) {
-      navigate('/');
+      console.log({ token, isAdmin });
+      if (isAdmin) {
+        navigate('/admin/users');
+      } else navigate('/');
     }
   }, []);
   return (
