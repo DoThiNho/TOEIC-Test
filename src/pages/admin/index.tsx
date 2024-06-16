@@ -19,13 +19,13 @@ const Admin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
-  const { data } = useGetUserQuery(token);
+  const { data } = useGetUserQuery(token || '');
   const { userDetail } = useAppSelector((state: RootState) => state.user);
   const [activeLink, setActiveLink] = useState('Users');
 
   useEffect(() => {
     if (data && _.isEmpty(userDetail)) {
-      dispatch(setUserDetail(data.user));
+      dispatch(setUserDetail(data.data || {}));
     }
   }, [data]);
 
@@ -47,7 +47,7 @@ const Admin = () => {
           <Menu>
             <Menu.Target>
               <Avatar
-                src={data?.user.image ? data?.user.image : UserIcon}
+                src={data?.data?.image ? data?.data.image : UserIcon}
                 size={40}
                 alt="it's me"
                 mx={0}

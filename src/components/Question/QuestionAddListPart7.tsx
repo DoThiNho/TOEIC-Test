@@ -1,6 +1,5 @@
 import { Box, Divider, Grid, GridCol } from '@mantine/core';
 import { GroupQuestionProps } from 'types';
-import { getImageUrl } from 'utils/parse.util';
 import QuestionAddPart7 from './QuestionAddPart7';
 
 interface QuestionAddListPart6Props {
@@ -17,7 +16,7 @@ const QuestionAddListPart7 = (props: QuestionAddListPart6Props) => {
           <Grid align="center">
             <GridCol span={{ base: 12, md: 6, lg: 6 }}>
               {groupQuestion.group_image.split(',').map((img) => (
-                <img className="mb-4" src={getImageUrl(img)} alt="image question" />
+                <img className="mb-4" src={img} alt="image question" />
               ))}
             </GridCol>
             <GridCol span={{ base: 12, md: 6, lg: 6 }}>

@@ -1,4 +1,4 @@
-import { Box, Button, ComboboxData, Modal, Select, Text, TextInput } from '@mantine/core';
+import { Box, Button, ComboboxData, Group, Modal, Select, Text, TextInput } from '@mantine/core';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -10,7 +10,7 @@ import { Exam, ModalAddProps } from 'types';
 
 type ApiResponse = {
   data?: {
-    test: {
+    data: {
       id: string;
     };
   };
@@ -55,7 +55,7 @@ const ModalAddTest = (props: ModalAddProps) => {
     }
   };
   const handleAdd = async () => {
-    const book = booksData?.books.find((book: Exam) => book.title === selectedBook);
+    const book = booksData?.data.find((book: Exam) => book.title === selectedBook);
     const formData = new FormData();
     const formDataExcel = new FormData();
 
@@ -72,7 +72,9 @@ const ModalAddTest = (props: ModalAddProps) => {
 
     try {
       const res: ApiResponse = await addTest(formData);
-      const testId = res.data?.test.id;
+      console.log({ res });
+      const testId = res.data?.data.id;
+      console.log({ testId });
       if (testId) {
         formDataExcel.append('test_id', testId);
         await addQuestions(formDataExcel);
@@ -93,7 +95,7 @@ const ModalAddTest = (props: ModalAddProps) => {
       <Select
         checkIconPosition="right"
         placeholder="Select book"
-        data={booksData?.books.map((book: Exam) => book.title) as ComboboxData}
+        data={booksData?.data.map((book: Exam) => book.title) as ComboboxData}
         value={selectedBook}
         onChange={setSelectedBook}
         clearable
@@ -108,22 +110,25 @@ const ModalAddTest = (props: ModalAddProps) => {
         mt={16}
         mb={8}
       />
-      {audioUrlTest ? (
-        <Box mt={16}>
-          <audio controls className="mb-8">
-            <source src={audioUrlTest} type="audio/mpeg" />
-            Your browser does not support the audio element.
-          </audio>
-        </Box>
-      ) : (
+      <Group>
+        <Text>Audio: </Text>
         <input
           id={`upload-audio`}
           accept="audio/*"
           type="file"
           onChange={(event) => handleFileUpload(event)}
         />
+      </Group>
+      {audioUrlTest && (
+        <Box mt={16}>
+          <audio controls className="mb-8">
+            <source src={audioUrlTest} type="audio/mpeg" />
+            Your browser does not support the audio element.
+          </audio>
+        </Box>
       )}
-      <Text>File nội dung (Excel)</Text>
+
+      <Text mt={16}>File nội dung (Excel)</Text>
       <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
 
       <Button onClick={handleAdd} mt={16}>

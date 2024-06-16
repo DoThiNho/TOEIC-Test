@@ -24,9 +24,9 @@ const CommonProfile = () => {
   useEffect(() => {
     if (data?.status) {
       if (data.status === 200) {
-        toast(data.message);
+        toast.success(data.message);
       } else {
-        toast(data.error);
+        toast.error(data.error);
       }
     }
   }, [data]);
@@ -39,7 +39,6 @@ const CommonProfile = () => {
       const reader = new FileReader();
       reader.onloadend = () => {
         const result = reader.result;
-        console.log(result);
         if (typeof result === 'string' || result === null) {
           setImageUrl(result || '');
         }

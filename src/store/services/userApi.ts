@@ -1,4 +1,7 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { IUser } from 'types';
+import { SuccessResponse } from 'types/api';
+import { User } from 'types/user';
 import { localStorageClient } from 'utils/localStorage.util';
 
 export const userApi = createApi({
@@ -16,18 +19,18 @@ export const userApi = createApi({
   }),
   tagTypes: ['Users', 'User'],
   endpoints: (build) => ({
-    getUsers: build.query({
+    getUsers: build.query<SuccessResponse<IUser[]>, void>({
       query: () => 'api/users',
       providesTags: ['Users']
     }),
-    getUser: build.query({
+    getUser: build.query<SuccessResponse<IUser>, string>({
       query: () => 'api/users/me',
       providesTags: ['User']
     }),
-    getUserById: build.query({
+    getUserById: build.query<SuccessResponse<IUser>, string>({
       query: (id) => `api/users/${id}`
     }),
-    updateUser: build.mutation({
+    updateUser: build.mutation<SuccessResponse<IUser>, User>({
       query: (userData) => ({
         url: 'api/users/me',
         method: 'PUT',

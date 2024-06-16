@@ -17,7 +17,7 @@ function TableUser() {
   const navigate = useNavigate();
 
   const [selectedRows, setSelectedRows] = useState<string[]>([]);
-  const { data } = useGetUsersQuery({});
+  const { data } = useGetUsersQuery();
   const [users, setUsers] = useState<IUser[]>([]);
   const [valueSearch, setValueSearch] = useState<string>('');
   const [opened, { open, close }] = useDisclosure(false);
@@ -28,7 +28,7 @@ function TableUser() {
 
   useEffect(() => {
     if (data) {
-      setUsers(data.users);
+      setUsers(data?.data || []);
     }
   }, [data]);
 
@@ -88,7 +88,7 @@ function TableUser() {
   const handleSearch = (value: string) => {
     setValueSearch(value);
     if (isEmpty(value)) {
-      setUsers(data.users);
+      setUsers(data?.data || []);
     } else {
       const usersSearch = users.filter((user) => {
         return (

@@ -34,15 +34,12 @@ const QuestionAddPart2 = (props: QuestionAddPart1Prop) => {
   const handleFileUpload = (event: any, type: 'image' | 'audio') => {
     const files = event.target?.files;
 
-    console.log(event.target, { files });
-
     if (files && files.length > 0) {
       const file = files[0];
       const reader = new FileReader();
       reader.onloadend = () => {
         const result = reader.result;
         if (type === 'audio') {
-          console.log({ result });
           if (typeof result === 'string' || result === null) {
             setAudioUrl(result || '');
           }
@@ -81,6 +78,7 @@ const QuestionAddPart2 = (props: QuestionAddPart1Prop) => {
               />
               Your browser does not support the audio element.
             </audio>
+            {/* <iframe height="50" src={questionData.audio} allowFullScreen={false}></iframe> */}
           </Box>
           <input
             id={`upload-audio-${questionData.order}`}

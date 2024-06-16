@@ -18,7 +18,6 @@ const TabTypeTest = (props: PartProps) => {
   const [time, setTime] = useState<string | null>(null);
 
   const handlePractice = () => {
-    console.log({ time, selectedParts });
     if (time) {
       navigate(
         `/learner/tests/${testId}/${activeTab}?part=${selectedParts.join('&part=')}&time_limit=${time}`

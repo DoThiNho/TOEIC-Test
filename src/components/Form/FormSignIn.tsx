@@ -15,6 +15,8 @@ import { useLoginMutation } from 'store/services/authApi';
 import { useNavigate } from 'react-router-dom';
 import { useEffect } from 'react';
 import { localStorageClient } from 'utils/localStorage.util';
+import { toast } from 'react-toastify';
+import { ErrorResponse } from 'types/api';
 
 const FormSignIn = () => {
   const navigate = useNavigate();
@@ -31,9 +33,10 @@ const FormSignIn = () => {
         navigate('/');
       }
     }
-  }, [data]);
-
-  console.log({ data });
+    if (error) {
+      toast.error((error as ErrorResponse).message);
+    }
+  }, [data, error]);
 
   return (
     <Box pos="relative">

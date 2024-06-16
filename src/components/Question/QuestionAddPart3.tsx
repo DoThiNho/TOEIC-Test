@@ -71,7 +71,7 @@ const QuestionAddPart3 = (props: QuestionAddPart3Prop) => {
           <TextInput w="80%" name="answerD" value={questionData.answerD} onChange={handleChange} />
         </Group>
       </RadioGroup>
-      <Button>{question ? 'Edit' : 'Add'}</Button>
+      <Button>Edit</Button>
     </Box>
   );
 };

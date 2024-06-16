@@ -35,11 +35,18 @@ const QuestionPart1 = (props: QuestionProps) => {
     <Group mb={64} gap={64} onChange={handleOptionChange} w={isShowAnswer ? '80%' : '100%'}>
       <Grid w="100%">
         <GridCol span={{ base: 12, md: 6, lg: 6 }}>
-          <img
+          {/* <img
             width="100%"
             height="100%"
             className="mb-4"
             src={getImageUrl(question.image)}
+            alt="image question"
+          /> */}
+          <img
+            width="100%"
+            height="100%"
+            className="mb-4"
+            src={question.image}
             alt="image question"
           />
         </GridCol>
@@ -48,6 +55,7 @@ const QuestionPart1 = (props: QuestionProps) => {
             <audio controls className="w-full">
               <source src={getAudioUrl(question.audio)} type="audio/mpeg" />
             </audio>
+            {/* <iframe height="50" src={question.audio} allowFullScreen={false}></iframe> */}
           </Box>
           <Group mt={32}>
             <Title order={4}>{`${question.order}. `}</Title>

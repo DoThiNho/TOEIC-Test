@@ -119,6 +119,12 @@ const ResultPart = () => {
             isShowAnswer={true}
             updateQuestion={() => {}}
           />
+          <QuestionListPart3
+            groupQuestions={getGroupQuestions('4')}
+            isDisable={true}
+            isShowAnswer={true}
+            updateQuestion={() => {}}
+          />
           {getQuestions('5').map((question) => (
             <QuestionPart5
               question={question}

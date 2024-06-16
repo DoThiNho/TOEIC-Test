@@ -15,6 +15,7 @@ import { useRegisterMutation } from 'store/services/authApi';
 import { localStorageClient } from 'utils/localStorage.util';
 import { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'react-toastify';
 
 const FormSignUp = () => {
   const navigate = useNavigate();
@@ -25,6 +26,9 @@ const FormSignUp = () => {
     if (token) {
       localStorageClient.setItem('token', token);
       navigate('/');
+    }
+    if (error) {
+      toast.error('Register failed!');
     }
   }, [data]);
 

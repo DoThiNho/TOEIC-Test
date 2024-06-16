@@ -13,7 +13,7 @@ import { ChangeEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useUpdateQuestionMutation } from 'store/services/questionApi';
 import { Question, QuestionPart } from 'types';
-import { getAudioUrl, getImageUrl } from 'utils/parse.util';
+import { getAudioUrl } from 'utils/parse.util';
 
 interface QuestionAddPart1Prop {
   question?: Question;
@@ -84,8 +84,6 @@ const QuestionAddPart1 = (props: QuestionAddPart1Prop) => {
       correct_answer: questionData.correctAnswer
     };
 
-    console.log({ audioFile, imageFile });
-
     const form = new FormData();
     (Object.keys(newQuestion) as (keyof typeof newQuestion)[]).forEach((key) => {
       const value = newQuestion[key];
@@ -104,8 +102,6 @@ const QuestionAddPart1 = (props: QuestionAddPart1Prop) => {
     } else {
       form.append('image', question?.image || '');
     }
-
-    console.log({ newQuestion, questionData });
 
     try {
       await updateQuestion({ id: question?.id || '', formData: form });
@@ -141,10 +137,17 @@ const QuestionAddPart1 = (props: QuestionAddPart1Prop) => {
               {imageUrl ? (
                 <img src={imageUrl} className="w-full h-full" alt="image error" />
               ) : (
+                // <img
+                //   src={getImageUrl(questionData.image || '')}
+                //   className="w-full h-full"
+                //   alt="image error"
+                // />
                 <img
-                  src={getImageUrl(questionData.image || '')}
+                  width="100%"
+                  height="100%"
                   className="w-full h-full"
-                  alt="image error"
+                  src={questionData.image}
+                  alt="image question"
                 />
               )}
             </Box>
@@ -169,6 +172,7 @@ const QuestionAddPart1 = (props: QuestionAddPart1Prop) => {
                 />
                 Your browser does not support the audio element.
               </audio>
+              {/* <iframe height="50" src={questionData.audio} allowFullScreen={false}></iframe> */}
             </Box>
             <input
               id={`upload-audio-${questionData.order}`}

@@ -11,7 +11,7 @@ const ExamHome = () => {
 
   useEffect(() => {
     if (data) {
-      setTests(data.tests);
+      setTests(data.data);
     }
   }, [data]);
 

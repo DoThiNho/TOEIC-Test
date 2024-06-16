@@ -53,7 +53,7 @@ const TableTest = () => {
 
   useEffect(() => {
     if (testsData) {
-      setTests(testsData.tests);
+      setTests(testsData.data);
     }
   }, [testsData]);
 
@@ -148,7 +148,7 @@ const TableTest = () => {
           <Select
             checkIconPosition="right"
             placeholder="Pick version"
-            data={booksData?.books.map((book: Exam) => book.title) as ComboboxData}
+            data={booksData?.data.map((book: Exam) => book.title) as ComboboxData}
             value={selectedBook}
             onChange={(_value, option) => handleChangeSelect(option)}
             clearable

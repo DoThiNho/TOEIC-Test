@@ -10,7 +10,6 @@ const SignIn = () => {
     const token = localStorageClient.getItem('token');
     const isAdmin = localStorageClient.getItem('isAdmin');
     if (token) {
-      console.log({ token, isAdmin });
       if (isAdmin) {
         navigate('/admin/users');
       } else navigate('/');

@@ -80,7 +80,6 @@ const TestQuestions = () => {
         (groupQuestion: GroupQuestionProps) => groupQuestion.questions
       );
       const combinedQuestions = [...questions, ...allQuestions].sort((a, b) => a.order - b.order);
-      console.log({ combinedQuestions });
       setAllQuestions(combinedQuestions);
     }
   }, [questions, groupQuestions]);
@@ -248,7 +247,7 @@ const TestQuestions = () => {
     const answers = combinedQuestions.map((question) => question.user_answer);
     const currentDate = moment().format('YYYY-MM-DD');
     const totalCorrect = combinedQuestions.reduce((total, item) => {
-      if (item.correct_answer.trim() === item.user_answer?.option.trim()) {
+      if (item.correct_answer?.trim() === item.user_answer?.option?.trim()) {
         return total + 1;
       }
       return total;
@@ -272,8 +271,6 @@ const TestQuestions = () => {
   const handleConfirmExit = () => {
     navigate(`/learner/tests/${param.id}`);
   };
-
-  console.log({ allQuestions });
 
   return (
     <>

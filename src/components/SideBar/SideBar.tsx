@@ -23,7 +23,6 @@ export function SideBar({ activeLink }: SideBarProps) {
 
   useEffect(() => {
     const isAdmin = localStorageClient.getItem('isAdmin');
-    console.log({ isAdmin });
     if (isAdmin === 'false') {
       localStorageClient.removeItem('token');
       navigate('/login');

@@ -16,6 +16,7 @@ const ModalWordScramble = ({ words, open, onClose }: ModalWordScrambleProps) => 
   const wrongAudioRef = useRef<HTMLAudioElement | null>(null);
   const [isFinished, setIsFinished] = useState<boolean>(false);
   const [countCorrect, setCountCorrect] = useState<number>(0);
+  const [usedWords, setUsedWords] = useState<string[]>([]);
 
   useEffect(() => {
     initGame();
@@ -38,7 +39,14 @@ const ModalWordScramble = ({ words, open, onClose }: ModalWordScrambleProps) => 
   };
 
   const initGame = () => {
-    const randomObj = words[Math.floor(Math.random() * words.length)];
+    let availableWords = words.filter((word) => !usedWords.includes(word.title));
+    if (availableWords.length === 0) {
+      setMessage('All words have been used!');
+      return;
+    }
+    const randomObj = availableWords[Math.floor(Math.random() * availableWords.length)];
+    setUsedWords([...usedWords, randomObj.title]);
+
     setCurrentWord(randomObj.title);
     setScrambledWord(scrambleWord(randomObj.title));
     setHint(randomObj.mean);
@@ -108,7 +116,7 @@ const ModalWordScramble = ({ words, open, onClose }: ModalWordScrambleProps) => 
                 />
               </Group>
               <Group justify="center" my={32}>
-                {currentWord.split('').map((char, index) => (
+                {scrambledWord.split('').map((char, index) => (
                   <Button
                     key={index}
                     onClick={() => handleCharClick(char)}

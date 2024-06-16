@@ -33,7 +33,7 @@ const CommonHeader = () => {
 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const token = localStorageClient.getItem('token');
-  const { data } = useGetUserQuery(token);
+  const { data } = useGetUserQuery(token || '');
   const { userDetail } = useAppSelector((state: RootState) => state.user);
   const currentUrl = window.location.pathname;
 
@@ -45,7 +45,7 @@ const CommonHeader = () => {
 
   useEffect(() => {
     if (data && _.isEmpty(userDetail)) {
-      dispatch(setUserDetail(data.user));
+      dispatch(setUserDetail(data.data || {}));
     }
   }, [data]);
 
@@ -79,7 +79,7 @@ const CommonHeader = () => {
                 <Menu>
                   <Menu.Target>
                     <Avatar
-                      src={data?.user.image ? data?.user.image : UserIcon}
+                      src={data?.data?.image ? data?.data.image : UserIcon}
                       size={40}
                       alt="it's me"
                       mx="auto"

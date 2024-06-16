@@ -34,13 +34,13 @@ const ExamListTestsPage = () => {
 
   useEffect(() => {
     if (testsData) {
-      setTests(testsData.tests);
+      setTests(testsData.data);
     }
   }, [testsData]);
 
   useEffect(() => {
     if (booksData) {
-      setAllBooks(booksData.books);
+      setAllBooks(booksData.data);
     }
   }, [booksData]);
 
@@ -54,7 +54,7 @@ const ExamListTestsPage = () => {
 
   const handleChangeSelect = (option: ComboboxItem) => {
     let newTests = [];
-    if (!option?.value) newTests = testsData.tests;
+    if (!option?.value) newTests = testsData.data;
     else newTests = tests.filter((test: Exam) => test.book_title.includes(option?.value));
     setTests(newTests);
     setSelectedBook(option?.value);
@@ -94,11 +94,11 @@ const ExamListTestsPage = () => {
             <>
               <ExamList exams={tests} />
               <Flex justify="center" mt={32}>
-                {allTests.tests.length > 9 && (
+                {allTests?.data.length > 9 && (
                   <Pagination
                     value={activePage}
                     onChange={setPage}
-                    total={allTests.tests.length / 6}
+                    total={allTests?.data.length / 9}
                   />
                 )}
               </Flex>

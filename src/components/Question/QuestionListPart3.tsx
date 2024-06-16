@@ -1,7 +1,7 @@
 import { Box } from '@mantine/core';
 import { QuestionListPart34Props } from 'types';
 import QuestionPart3 from './QuestionPart3';
-import { getAudioUrl, getImageUrl } from 'utils/parse.util';
+import { getAudioUrl } from 'utils/parse.util';
 
 const QuestionListPart3 = (props: QuestionListPart34Props) => {
   const { groupQuestions, isDisable, isShowAnswer, updateQuestion } = props;
@@ -14,9 +14,20 @@ const QuestionListPart3 = (props: QuestionListPart34Props) => {
             <audio controls className="w-full">
               <source src={getAudioUrl(groupQuestion.group_audio)} type="audio/mpeg" />
             </audio>
+            {/* <iframe
+              width="100%"
+              height="50"
+              src={groupQuestion.group_audio}
+              allowFullScreen={false}></iframe> */}
           </Box>
-          {getImageUrl(groupQuestion.group_image) && (
-            <img src={getImageUrl(groupQuestion.group_image)} alt="image group" />
+          {groupQuestion.group_image && (
+            <img
+              width="100%"
+              height="100%"
+              className="mb-4"
+              src={groupQuestion.group_image}
+              alt="image question"
+            />
           )}
           {[...groupQuestion.questions]
             .sort((a, b) => a.order - b.order)

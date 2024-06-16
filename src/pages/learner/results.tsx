@@ -28,8 +28,6 @@ const Results = () => {
     });
   }, [activePage, valueSearch]);
 
-  console.log({ allResult });
-
   return (
     <Box mb={150}>
       <Container size="xl" pt={isLoading ? 0 : 130}>

@@ -50,7 +50,7 @@ const ResultExam = () => {
     const userAnswer = resultDetail.data.answers.find(
       (answer: Answer) => answer.question_id === questionId
     );
-    return userAnswer?.option.trim();
+    return userAnswer?.option?.trim();
   };
 
   return (
@@ -124,13 +124,13 @@ const ResultExam = () => {
                   <Group w="50%" justify="space-between" align="start" mt={32}>
                     <Box>
                       {questions.slice(0, questions.length / 2).map((question: Question) => (
-                        <Group mb={8}>
+                        <Group mb={8} key={question.id}>
                           <Text className="px-4 py-2 bg-cyan-200 text-cyan-700 rounded-full">
                             {question.order}
                           </Text>
                           <Text className="uppercase">{question.correct_answer} : </Text>
                           <Text className="uppercase">{getUserAnswer(question.id || '')}</Text>
-                          {question.correct_answer.trim() === getUserAnswer(question.id || '') ? (
+                          {question.correct_answer?.trim() === getUserAnswer(question.id || '') ? (
                             <Text c="green">
                               <FontAwesomeIcon icon={faCheck} />
                             </Text>
@@ -153,7 +153,7 @@ const ResultExam = () => {
                             <Text className="uppercase">{question.correct_answer} : </Text>
                             <Text className="uppercase">{getUserAnswer(question.id || '')}</Text>
                             {!isEmpty(getUserAnswer(question.id || '')) &&
-                            question.correct_answer.trim() === getUserAnswer(question.id || '') ? (
+                            question.correct_answer?.trim() === getUserAnswer(question.id || '') ? (
                               <Text c="green">
                                 <FontAwesomeIcon icon={faCheck} />
                               </Text>

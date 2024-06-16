@@ -73,7 +73,6 @@ const FlashCardDetail = () => {
     };
     const list = [...vocabulariesAdd];
     list.push(newCard);
-    console.log({ newCard });
     setVocabulariesAdd(list);
   };
 
