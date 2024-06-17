@@ -28,8 +28,8 @@ export const userAnswerApi = createApi({
           start_time: data.startTime,
           complete_time: data.completeTime,
           total_corrects: data.totalCorrect,
-          total_correct_listening: data.totalCorrectListening,
-          total_correct_reading: data.totalCorrectReading,
+          score_listening: data.scoreListening,
+          score_reading: data.scoreReading,
           total_questions: data.totalQuestions,
           type: data.type,
           title: data.title

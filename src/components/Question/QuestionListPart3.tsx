@@ -1,4 +1,4 @@
-import { Box } from '@mantine/core';
+import { Box, Divider } from '@mantine/core';
 import { QuestionListPart34Props } from 'types';
 import QuestionPart3 from './QuestionPart3';
 import { getAudioUrl } from 'utils/parse.util';
@@ -43,6 +43,7 @@ const QuestionListPart3 = (props: QuestionListPart34Props) => {
                 optionUser={question.user_answer?.option}
               />
             ))}
+          <Divider my={16} />
         </Box>
       ))}
     </Box>

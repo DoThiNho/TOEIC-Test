@@ -1,4 +1,4 @@
-import { Box, CheckIcon, Group, Radio, RadioGroup, Title } from '@mantine/core';
+import { Box, CheckIcon, Radio, RadioGroup, Title } from '@mantine/core';
 import { ChangeEvent } from 'react';
 import { QuestionProps } from 'types';
 type AnswerKey = 'answer_a' | 'answer_b' | 'answer_c' | 'answer_d';
@@ -25,9 +25,9 @@ const QuestionPart3 = (props: QuestionProps) => {
   const options = ['a', 'b', 'c', 'd'];
 
   return (
-    <Box mt={64} onChange={handleOptionChange}>
-      <Group align="center" mt={32}>
-        <Title order={4}>{`${question.order}. `}</Title>
+    <Box mt={16} onChange={handleOptionChange}>
+      <Box>
+        <Title mb={8} order={4}>{`${question.order}. ${question.question_title}`}</Title>
         <RadioGroup
           variant="vertical"
           required
@@ -48,7 +48,7 @@ const QuestionPart3 = (props: QuestionProps) => {
             );
           })}
         </RadioGroup>
-      </Group>
+      </Box>
     </Box>
   );
 };

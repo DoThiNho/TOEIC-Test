@@ -56,29 +56,34 @@ const AdminLayout = ({ children }: LayoutProps) => {
         <Group h="100%" px="md" justify="space-between">
           <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
           <Title order={3}>Admin</Title>
-          <Menu>
-            <Menu.Target>
-              <Avatar
-                src={data?.data?.image ? data?.data.image : UserIcon}
-                size={40}
-                alt="it's me"
-                className="cursor-pointer"
-              />
-            </Menu.Target>
+          <Group>
+            <Title order={5}>
+              {data?.data?.lastName} {data?.data?.firstName}
+            </Title>
+            <Menu>
+              <Menu.Target>
+                <Avatar
+                  src={data?.data?.image ? data?.data.image : UserIcon}
+                  size={40}
+                  alt="it's me"
+                  className="cursor-pointer"
+                />
+              </Menu.Target>
 
-            <Menu.Dropdown>
-              <Menu.Item
-                leftSection={<FontAwesomeIcon icon={faUser} />}
-                onClick={() => navigate('/admin/account')}>
-                Profile
-              </Menu.Item>
-              <Menu.Item
-                onClick={handleLogOut}
-                leftSection={<FontAwesomeIcon icon={faRightFromBracket} />}>
-                Log Out
-              </Menu.Item>
-            </Menu.Dropdown>
-          </Menu>
+              <Menu.Dropdown>
+                <Menu.Item
+                  leftSection={<FontAwesomeIcon icon={faUser} />}
+                  onClick={() => navigate('/admin/account')}>
+                  Profile
+                </Menu.Item>
+                <Menu.Item
+                  onClick={handleLogOut}
+                  leftSection={<FontAwesomeIcon icon={faRightFromBracket} />}>
+                  Log Out
+                </Menu.Item>
+              </Menu.Dropdown>
+            </Menu>
+          </Group>
         </Group>
       </AppShell.Header>
       <AppShell.Navbar p="md">

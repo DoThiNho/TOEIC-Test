@@ -27,14 +27,22 @@ const ResultItem = (props: ResultProps) => {
     <StyledCard shadow="md" bg="gray.0">
       <Title order={3}>{result.title}</Title>
       <Group my={4}>
-        <Badge size="md" color="yellow">
-          {result.type}
-        </Badge>
-        {result?.parts?.split(',').map((item, index) => (
-          <Badge key={index} size="sm" color="yellow">
-            Part {item}
+        {result.type === 'practice' ? (
+          <Badge size="md" color="yellow">
+            {result.type}
           </Badge>
-        ))}
+        ) : (
+          <Badge size="md" color="blue">
+            {result.type}
+          </Badge>
+        )}
+
+        {result.type === 'practice' &&
+          result?.parts?.split(',').map((item, index) => (
+            <Badge key={index} size="sm" color="yellow">
+              Part {item}
+            </Badge>
+          ))}
       </Group>
       <Text>Date: {moment(result.date).format('DD-MM-YYYY')}</Text>
       <Text my={4}>Completion time: {result.complete_time}</Text>

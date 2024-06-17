@@ -1,4 +1,5 @@
 import { API_URL } from 'constants/constant';
+import { listeningScoreTable, readingScoreTable } from 'constants/score';
 import { toast } from 'react-toastify';
 import { GroupQuestionProps, Question, UserAnswer } from 'types';
 
@@ -46,4 +47,14 @@ export const getGroupQuestions = (partNum: number, groupQuestions: GroupQuestion
     (groupQuestion) => parseInt(groupQuestion.part_num) === partNum
   );
   return listGroupQuestion;
+};
+
+export const calculateTOEICScore = (correctListening: number, correctReading: number) => {
+  const listeningScore = listeningScoreTable[correctListening];
+  const readingScore = readingScoreTable[correctReading];
+
+  return {
+    listeningScore: listeningScore || 0,
+    readingScore: readingScore || 0
+  };
 };

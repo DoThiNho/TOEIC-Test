@@ -32,7 +32,7 @@ const QuestionPart2 = (props: QuestionProps) => {
   const options = ['a', 'b', 'c'];
 
   return (
-    <Box mt={64} onChange={handleOptionChange}>
+    <Box onChange={handleOptionChange}>
       {isShowAudio && (
         <audio controls className="w-full">
           <source src={getAudioUrl(question.audio)} type="audio/mpeg" />

@@ -12,6 +12,7 @@ import {
   Box,
   Button,
   Container,
+  Flex,
   Group,
   LoadingOverlay,
   Paper,
@@ -92,6 +93,16 @@ const ResultExam = () => {
                   </>
                 )}
               </Group>
+              {resultDetail?.data.results.type === 'fulltest' && (
+                <Flex my={32} justify="center">
+                  <Title order={3}>
+                    Score :{' '}
+                    {resultDetail.data.results.score_listening +
+                      resultDetail.data.results.score_reading}{' '}
+                    / 200
+                  </Title>
+                </Flex>
+              )}
               <Group ta="center" justify="center">
                 <Paper shadow="lg" p={48}>
                   <Text c="green">

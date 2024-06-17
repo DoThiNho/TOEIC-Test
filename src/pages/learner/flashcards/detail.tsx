@@ -94,7 +94,7 @@ const FlashCardDetail = () => {
 
   return (
     <Box mih="100vh" className="bg-[#F6F7FB]" pb={120}>
-      <Container pt={150} pb={32}>
+      <Container pt={50} pb={32}>
         <Group justify="space-between" mb={32}>
           <Title order={2}>List of group vocabulary:</Title>
           <Group>

@@ -8,7 +8,9 @@ export interface SuccessResponse<T> {
 
 export interface ErrorResponse {
   status: number;
-  message: string;
+  data: {
+    message: string;
+  };
 }
 
 export type AuthResponse = {

@@ -1,6 +1,6 @@
 import { Box, Divider, Grid, GridCol } from '@mantine/core';
 import { QuestionListPart34Props } from 'types';
-import QuestionPart3 from './QuestionPart3';
+import QuestionPart6 from './QuestionPart6';
 
 const QuestionListPart6 = (props: QuestionListPart34Props) => {
   const { groupQuestions, isDisable, isShowAnswer, updateQuestion } = props;
@@ -18,7 +18,7 @@ const QuestionListPart6 = (props: QuestionListPart34Props) => {
             <GridCol span={{ base: 12, md: 6, lg: 6 }}>
               <Box mah={500} className="overflow-y-auto">
                 {groupQuestion.questions.map((question) => (
-                  <QuestionPart3
+                  <QuestionPart6
                     key={question.id}
                     question={question}
                     isDisable={isDisable}

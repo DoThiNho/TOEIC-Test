@@ -32,8 +32,12 @@ import QuestionPart2 from 'components/Question/QuestionPart2';
 import QuestionPart5 from 'components/Question/QuestionPart5';
 import QuestionListPart6 from 'components/Question/QuestionListPart6';
 import QuestionListPart7 from 'components/Question/QuestionListPart7';
-import { getAudioUrl, getGroupQuestions, getQuestions } from 'utils/parse.util';
-// import CommonChatBox from 'components/Common/CommonChatBox';
+import {
+  calculateTOEICScore,
+  getAudioUrl,
+  getGroupQuestions,
+  getQuestions
+} from 'utils/parse.util';
 
 const TestQuestions = () => {
   const navigate = useNavigate();
@@ -243,6 +247,31 @@ const TestQuestions = () => {
       return total;
     }, 0);
 
+    const totalCorrectListening = combinedQuestions.reduce((total, item) => {
+      if (
+        [1, 2, 3, 4].some((num) => num === parseInt(item.part_num)) &&
+        item.correct_answer?.trim() === item.user_answer?.option?.trim()
+      ) {
+        return total + 1;
+      }
+      return total;
+    }, 0);
+
+    const totalCorrectReading = combinedQuestions.reduce((total, item) => {
+      if (
+        [5, 6, 7].some((num) => num === parseInt(item.part_num)) &&
+        item.correct_answer?.trim() === item.user_answer?.option?.trim()
+      ) {
+        return total + 1;
+      }
+      return total;
+    }, 0);
+
+    const { listeningScore, readingScore } = calculateTOEICScore(
+      totalCorrectListening,
+      totalCorrectReading
+    );
+
     const results = {
       answers,
       userId: userDetail?.id,
@@ -251,6 +280,8 @@ const TestQuestions = () => {
       startTime: currentDate,
       completeTime: timeString,
       totalCorrect: totalCorrect,
+      scoreListening: listeningScore,
+      scoreReading: readingScore,
       totalQuestions: combinedQuestions.length,
       type: param.type,
       title

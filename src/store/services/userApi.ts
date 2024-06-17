@@ -24,7 +24,7 @@ export const userApi = createApi({
       query: () => 'api/users',
       providesTags: ['Users']
     }),
-    getUser: build.query<SuccessResponse<IUser>, string>({
+    getUser: build.query({
       query: () => 'api/users/me',
       providesTags: ['User']
     }),

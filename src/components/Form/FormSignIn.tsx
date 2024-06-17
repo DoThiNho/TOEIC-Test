@@ -25,7 +25,6 @@ const FormSignIn = () => {
     const token = data?.token;
     if (token) {
       localStorageClient.setItem('token', token);
-      console.log(data.user.role_id);
       if (data.user.role_id === 1) {
         localStorageClient.setItem('isAdmin', true);
         navigate('/admin/users');
@@ -35,7 +34,7 @@ const FormSignIn = () => {
       }
     }
     if (error) {
-      toast.error((error as ErrorResponse).message);
+      toast.error((error as ErrorResponse).data.message);
     }
   }, [data, error]);
 
