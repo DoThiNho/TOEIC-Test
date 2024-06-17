@@ -1,7 +1,7 @@
 import { faLightbulb } from '@fortawesome/free-regular-svg-icons';
 import { faCircleExclamation } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Button, Checkbox, Flex, Select, Tabs, Text } from '@mantine/core';
+import { Button, Checkbox, Flex, Loader, Select, Tabs, Text } from '@mantine/core';
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { PartProps } from 'types';
@@ -51,45 +51,53 @@ const TabTypeTest = (props: PartProps) => {
             complete the entire test.
           </Text>
         </Flex>
-        <Checkbox.Group
-          size="lg"
-          defaultValue={[]}
-          label="Select the test you want to take"
-          flex="column"
-          my={16}>
-          <Flex direction="column" mt="xs" gap={16}>
-            {items.map((item) => (
-              <Checkbox
-                key={item.id}
-                radius="sm"
-                size="md"
-                value={item.part_num}
-                label={`Part ${item.part_num}`}
-                onChange={(event) => {
-                  const { checked, value } = event.currentTarget;
-                  setSelectedParts((prevSelectedItems) =>
-                    checked
-                      ? [...prevSelectedItems, value]
-                      : prevSelectedItems.filter((item) => item !== value)
-                  );
-                }}
-              />
-            ))}
+        {items.length === 0 ? (
+          <Flex my={32} w="100%" justify="center">
+            <Loader size={30} ta="center" />
           </Flex>
-        </Checkbox.Group>
-        <Select
-          label="Time limit (Leave blank for unlimited time)"
-          placeholder="Pick time"
-          size="md"
-          clearable
-          mb="xs"
-          data={timeIntervals}
-          value={time}
-          onChange={setTime}
-        />
-        <Button variant="filled" onClick={handlePractice}>
-          Practice
-        </Button>
+        ) : (
+          <>
+            <Checkbox.Group
+              size="lg"
+              defaultValue={[]}
+              label="Select the test you want to take"
+              flex="column"
+              my={16}>
+              <Flex direction="column" mt="xs" gap={16}>
+                {items.map((item) => (
+                  <Checkbox
+                    key={item.id}
+                    radius="sm"
+                    size="md"
+                    value={item.part_num?.toString()}
+                    label={`Part ${item.part_num}`}
+                    onChange={(event) => {
+                      const { checked, value } = event.currentTarget;
+                      setSelectedParts((prevSelectedItems) =>
+                        checked
+                          ? [...prevSelectedItems, value]
+                          : prevSelectedItems.filter((item) => item !== value)
+                      );
+                    }}
+                  />
+                ))}
+              </Flex>
+            </Checkbox.Group>
+            <Select
+              label="Time limit (Leave blank for unlimited time)"
+              placeholder="Pick time"
+              size="md"
+              clearable
+              mb="xs"
+              data={timeIntervals}
+              value={time}
+              onChange={setTime}
+            />
+            <Button variant="filled" onClick={handlePractice}>
+              Practice
+            </Button>
+          </>
+        )}
       </Tabs.Panel>
 
       <Tabs.Panel value="fulltest" pt="xs">

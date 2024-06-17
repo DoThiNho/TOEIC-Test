@@ -11,8 +11,8 @@ const ResultTestsPage = () => {
   const [results, setResult] = useState([]);
 
   useEffect(() => {
-    if (data?.achievements) {
-      setResult(data.achievements);
+    if (data?.data) {
+      setResult(data.data);
     }
   }, [data]);
 

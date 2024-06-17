@@ -1,9 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { API_URL } from 'constants/constant';
 
 export const bookApi = createApi({
   reducerPath: 'bookApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/'
+    baseUrl: API_URL
   }),
   tagTypes: ['Books'],
 

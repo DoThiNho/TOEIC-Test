@@ -1,4 +1,14 @@
-import { Box, Button, ComboboxData, Group, Modal, Select, Text, TextInput } from '@mantine/core';
+import {
+  Box,
+  Button,
+  ComboboxData,
+  Group,
+  LoadingOverlay,
+  Modal,
+  Select,
+  Text,
+  TextInput
+} from '@mantine/core';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
 import { ChangeEvent, useEffect, useState } from 'react';
@@ -6,7 +16,7 @@ import { toast } from 'react-toastify';
 import { useGetBooksQuery } from 'store/services/bookApi';
 import { useAddQuestionsMutation } from 'store/services/questionApi';
 import { useAddTestMutation } from 'store/services/testApi';
-import { Exam, ModalAddProps } from 'types';
+import { Exam, ModalAddTestProps } from 'types';
 
 type ApiResponse = {
   data?: {
@@ -17,26 +27,40 @@ type ApiResponse = {
   error?: FetchBaseQueryError | SerializedError;
 };
 
-const ModalAddTest = (props: ModalAddProps) => {
-  const { open, onClose } = props;
-
+const ModalAddTest = (props: ModalAddTestProps) => {
+  const { open, onClose, bookTitle } = props;
   const { data: booksData } = useGetBooksQuery({});
-  const [selectedBook, setSelectedBook] = useState<string | null>('');
+  const [selectedBook, setSelectedBook] = useState<string | null>(bookTitle);
 
-  const [addTest, { isSuccess }] = useAddTestMutation();
-  const [addQuestions] = useAddQuestionsMutation();
+  const [addTest, { isSuccess: isSuccessAddTest }] = useAddTestMutation();
+  const [addQuestions, { isSuccess: isSuccessAddQuestions }] = useAddQuestionsMutation();
 
   const [testTitle, setTestTitle] = useState<string>('');
   const [audioUrlTest, setAudioUrlTest] = useState<string | undefined>('');
   const [audioFile, setAudioFile] = useState<File | null>(null);
   const [file, setFile] = useState<File | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+  const [isAddQuestion, setIsAddQuestion] = useState<boolean>(false);
 
   useEffect(() => {
-    if (isSuccess) {
-      toast.success('Add Test successfully');
-      onClose();
+    setSelectedBook(bookTitle);
+  }, [bookTitle]);
+
+  useEffect(() => {
+    if (isAddQuestion) {
+      if (isSuccessAddTest && isSuccessAddQuestions) {
+        setIsLoading(false);
+        toast.success('Add Test successfully');
+        onClose();
+      }
+    } else {
+      if (isSuccessAddTest) {
+        setIsLoading(false);
+        toast.success('Add Test successfully');
+        onClose();
+      }
     }
-  }, [isSuccess]);
+  }, [isSuccessAddTest, isSuccessAddQuestions]);
 
   const handleFileUpload = (event: any) => {
     const files = event.target?.files;
@@ -71,11 +95,11 @@ const ModalAddTest = (props: ModalAddProps) => {
     formData.append('bookId', book?.id || '');
 
     try {
+      setIsLoading(true);
       const res: ApiResponse = await addTest(formData);
-      console.log({ res });
       const testId = res.data?.data.id;
-      console.log({ testId });
-      if (testId) {
+      if (testId && file) {
+        setIsAddQuestion(true);
         formDataExcel.append('test_id', testId);
         await addQuestions(formDataExcel);
       }
@@ -92,12 +116,13 @@ const ModalAddTest = (props: ModalAddProps) => {
 
   return (
     <Modal opened={open} onClose={onClose} title="Create book" className="select-none">
+      <LoadingOverlay visible={isLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
       <Select
         checkIconPosition="right"
         placeholder="Select book"
         data={booksData?.data.map((book: Exam) => book.title) as ComboboxData}
         value={selectedBook}
-        onChange={setSelectedBook}
+        onChange={(_value, option) => setSelectedBook(option.value)}
         clearable
         mt={16}
       />

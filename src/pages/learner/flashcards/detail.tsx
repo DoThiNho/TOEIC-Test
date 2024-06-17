@@ -38,7 +38,7 @@ const FlashCardDetail = () => {
 
   useEffect(() => {
     if (data) {
-      setVocabularies(data.vocabularies);
+      setVocabularies(data.data);
     }
   }, [data]);
 

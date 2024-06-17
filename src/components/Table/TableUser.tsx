@@ -1,5 +1,18 @@
 import { useEffect, useState } from 'react';
-import { Table, Checkbox, ActionIcon, Group, Box, TextInput, Title, Button } from '@mantine/core';
+import {
+  Table,
+  Checkbox,
+  ActionIcon,
+  Group,
+  Box,
+  TextInput,
+  Title,
+  Button,
+  Badge,
+  Flex,
+  Loader,
+  Text
+} from '@mantine/core';
 import { useDeleteUserByIdMutation, useGetUsersQuery } from 'store/services/userApi';
 import { IUser } from 'types';
 import { IconPencil, IconTrash } from '@tabler/icons-react';
@@ -53,7 +66,13 @@ function TableUser() {
       <Table.Td>{user.first_name}</Table.Td>
       <Table.Td>{user.last_name}</Table.Td>
       <Table.Td>{user.email}</Table.Td>
-      <Table.Td>{user.role_id === '1' ? 'Admin' : 'User'}</Table.Td>
+      <Table.Td>
+        {user.role_id === 1 ? (
+          <Badge color="blue">Admin</Badge>
+        ) : (
+          <Badge color="yellow">User</Badge>
+        )}
+      </Table.Td>
       <Table.Td>
         {`${moment(user.register_at).format('HH:mm:ss')} ${moment(user.register_at).format('DD-MM-YYYY')}`}
       </Table.Td>
@@ -116,20 +135,34 @@ function TableUser() {
         />
         <Button onClick={openModalAdd}>Add User</Button>
       </Group>
-      <Table ta="center" striped highlightOnHover withColumnBorders withTableBorder>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th />
-            <Table.Th ta="center">First Name</Table.Th>
-            <Table.Th ta="center">Last Name</Table.Th>
-            <Table.Th ta="center">Email</Table.Th>
-            <Table.Th ta="center">User Type</Table.Th>
-            <Table.Th ta="center">Register At</Table.Th>
-            <Table.Th ta="center">Action</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
+      {!data?.data ? (
+        <Flex w="100%" h={600} align="center" justify="center">
+          <Loader size={30} ta="center" />
+        </Flex>
+      ) : (
+        <>
+          <Table ta="center" striped highlightOnHover withColumnBorders withTableBorder>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th />
+                <Table.Th ta="center">First Name</Table.Th>
+                <Table.Th ta="center">Last Name</Table.Th>
+                <Table.Th ta="center">Email</Table.Th>
+                <Table.Th ta="center">User Type</Table.Th>
+                <Table.Th ta="center">Register At</Table.Th>
+                <Table.Th ta="center">Action</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>{rows}</Table.Tbody>
+          </Table>
+          {users.length === 0 && (
+            <Flex w="100%" h={600} align="center" justify="center">
+              <Text>Not found User</Text>
+            </Flex>
+          )}
+        </>
+      )}
+
       <ModalConfirmDelete
         text="user"
         open={opened}

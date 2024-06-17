@@ -15,8 +15,8 @@ const Results = () => {
   const { data, isLoading } = useGetResultsQuery(queryOptions);
 
   useEffect(() => {
-    if (data?.achievements) {
-      setResult(data.achievements);
+    if (data?.data) {
+      setResult(data.data);
     }
   }, [data]);
 
@@ -52,11 +52,11 @@ const Results = () => {
               </Group>
               <ResultList data={results} />
               <Flex justify="center" mt={32}>
-                {allResult?.achievements.length > 6 && (
+                {allResult?.data.length > 6 && (
                   <Pagination
                     value={activePage}
                     onChange={setPage}
-                    total={allResult.achievements.length / 6}
+                    total={allResult.data.length / 6}
                   />
                 )}
               </Flex>

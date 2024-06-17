@@ -1,10 +1,10 @@
 import { Box, CheckIcon, Grid, GridCol, Group, Radio, RadioGroup, Title } from '@mantine/core';
 import { ChangeEvent } from 'react';
 import { QuestionProps } from 'types';
-import { getAudioUrl, getImageUrl } from 'utils/parse.util';
+import { getAudioUrl } from 'utils/parse.util';
 
 const QuestionPart1 = (props: QuestionProps) => {
-  const { question, updateQuestion, isDisable, isShowAnswer, optionUser } = props;
+  const { question, updateQuestion, isDisable, isShowAnswer, optionUser, isShowAudio } = props;
 
   const getRadioStyle = (option: string) => {
     const isChecked = isShowAnswer && question.correct_answer === option;
@@ -51,12 +51,14 @@ const QuestionPart1 = (props: QuestionProps) => {
           />
         </GridCol>
         <GridCol span={{ base: 12, md: 6, lg: 6 }} className="flex flex-col justify-center">
-          <Box w="100%">
-            <audio controls className="w-full">
-              <source src={getAudioUrl(question.audio)} type="audio/mpeg" />
-            </audio>
-            {/* <iframe height="50" src={question.audio} allowFullScreen={false}></iframe> */}
-          </Box>
+          {isShowAudio && (
+            <Box w="100%">
+              <audio controls className="w-full">
+                <source src={getAudioUrl(question.audio)} type="audio/mpeg" />
+              </audio>
+              {/* <iframe height="50" src={question.audio} allowFullScreen={false}></iframe> */}
+            </Box>
+          )}
           <Group mt={32}>
             <Title order={4}>{`${question.order}. `}</Title>
             <RadioGroup

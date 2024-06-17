@@ -25,7 +25,8 @@ const FormSignIn = () => {
     const token = data?.token;
     if (token) {
       localStorageClient.setItem('token', token);
-      if (data.user.role_id === '1') {
+      console.log(data.user.role_id);
+      if (data.user.role_id === 1) {
         localStorageClient.setItem('isAdmin', true);
         navigate('/admin/users');
       } else {

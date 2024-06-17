@@ -12,6 +12,7 @@ import { useLocation, useNavigate, useParams } from 'react-router-dom';
 import { useGetGroupQuestionsQuery } from 'store/services/groupQuestionApi';
 import { useGetQuestionsQuery } from 'store/services/questionApi';
 import { GroupQuestionProps, Question } from 'types';
+import { getGroupQuestions, getQuestions } from 'utils/parse.util';
 
 const ResultPart = () => {
   const navigate = useNavigate();
@@ -20,12 +21,6 @@ const ResultPart = () => {
   const location = useLocation();
   const searchParams = new URLSearchParams(location.search);
   const selectedParts = searchParams.getAll('part');
-  // const { data: listQuestion } = useGetQuestionsQuery({
-  //   id: testId,
-  //   type: '',
-  //   part: [selectedParts]
-  // });
-
   const { data: listQuestion } = useGetQuestionsQuery({
     id: testId,
     type: '',
@@ -68,23 +63,9 @@ const ResultPart = () => {
     navigate(`/learner/tests/${testId}`);
   };
 
-  const getQuestions = (partNum: string) => {
-    const listQuestion = questions
-      .filter((question) => question.part_num === partNum)
-      .sort((a, b) => a.order - b.order);
-    return listQuestion;
-  };
-
-  const getGroupQuestions = (partNum: string) => {
-    const listGroupQuestion = groupQuestions.filter(
-      (groupQuestion) => groupQuestion.part_num === partNum
-    );
-    return listGroupQuestion;
-  };
-
   return (
     <>
-      <Container size="xxl" px="xl" pt={130} pb={32}>
+      <Container size="xxl" px="xl" pt={50} pb={32}>
         <Title order={2} ta="center" mb={16}>
           Answer / Transcript : Part {listQuestion?.data.questions[0].part_num}
         </Title>
@@ -97,35 +78,39 @@ const ResultPart = () => {
           </Button>
         </Group>
         <Box>
-          {getQuestions('1').map((question) => (
+          {getQuestions(1, questions).map((question) => (
             <QuestionPart1
               question={question}
               updateQuestion={() => {}}
               isDisable={true}
               isShowAnswer={true}
+              isShowAudio={true}
             />
           ))}
-          {getQuestions('2').map((question) => (
+          {getQuestions(2, questions).map((question) => (
             <QuestionPart2
               question={question}
               updateQuestion={() => {}}
               isDisable={true}
               isShowAnswer={true}
+              isShowAudio={true}
             />
           ))}
           <QuestionListPart3
-            groupQuestions={getGroupQuestions('3')}
+            groupQuestions={getGroupQuestions(3, groupQuestions)}
             isDisable={true}
             isShowAnswer={true}
             updateQuestion={() => {}}
+            isShowAudio={true}
           />
           <QuestionListPart3
-            groupQuestions={getGroupQuestions('4')}
+            groupQuestions={getGroupQuestions(4, groupQuestions)}
             isDisable={true}
             isShowAnswer={true}
             updateQuestion={() => {}}
+            isShowAudio={true}
           />
-          {getQuestions('5').map((question) => (
+          {getQuestions(5, questions).map((question) => (
             <QuestionPart5
               question={question}
               updateQuestion={() => {}}
@@ -134,13 +119,13 @@ const ResultPart = () => {
             />
           ))}
           <QuestionListPart6
-            groupQuestions={getGroupQuestions('6')}
+            groupQuestions={getGroupQuestions(6, groupQuestions)}
             isDisable={true}
             isShowAnswer={true}
             updateQuestion={() => {}}
           />
           <QuestionListPart7
-            groupQuestions={getGroupQuestions('7')}
+            groupQuestions={getGroupQuestions(7, groupQuestions)}
             isDisable={true}
             isShowAnswer={true}
             updateQuestion={() => {}}

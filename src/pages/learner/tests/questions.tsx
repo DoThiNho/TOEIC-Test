@@ -6,6 +6,7 @@ import {
   Grid,
   GridCol,
   Group,
+  Loader,
   Paper,
   Tabs,
   Title
@@ -31,6 +32,7 @@ import QuestionPart2 from 'components/Question/QuestionPart2';
 import QuestionPart5 from 'components/Question/QuestionPart5';
 import QuestionListPart6 from 'components/Question/QuestionListPart6';
 import QuestionListPart7 from 'components/Question/QuestionListPart7';
+import { getAudioUrl, getGroupQuestions, getQuestions } from 'utils/parse.util';
 // import CommonChatBox from 'components/Common/CommonChatBox';
 
 const TestQuestions = () => {
@@ -204,18 +206,6 @@ const TestQuestions = () => {
     }));
   };
 
-  const getQuestions = (partNum: string) => {
-    const listQuestion = questions.filter((question) => question.part_num === partNum);
-    return listQuestion;
-  };
-
-  const getGroupQuestions = (partNum: string) => {
-    const listGroupQuestion = groupQuestions.filter(
-      (groupQuestion) => groupQuestion.part_num === partNum
-    );
-    return listGroupQuestion;
-  };
-
   const updateQuestion = (updatedQuestion: Question) => {
     setQuestions((prevQuestions) =>
       prevQuestions.map((question) =>
@@ -283,6 +273,15 @@ const TestQuestions = () => {
             Exit
           </Button>
         </Group>
+        {param.type === 'fulltest' && (
+          <Box w="100%">
+            <audio controls className="w-full">
+              <source src={getAudioUrl(testDetail?.data.audio)} type="audio/mpeg" />
+            </audio>
+            {/* <iframe height="50" src={question.audio} allowFullScreen={false}></iframe> */}
+          </Box>
+        )}
+
         <Grid>
           <GridCol span={9}>
             <Paper className="relative" shadow="lg" p={16}>
@@ -302,7 +301,7 @@ const TestQuestions = () => {
                   <FontAwesomeIcon icon={faPlus} />
                 </Button>
               )}
-              <Box>
+              <Box mih={500}>
                 <Tabs value={activeTab} onChange={setActiveTab} radius="lg" color="teal" mt="xl">
                   <Tabs.List className="border-b-0 font-semibold" my={16}>
                     {(param.type === 'fulltest'
@@ -322,12 +321,17 @@ const TestQuestions = () => {
                     if (part === '1') {
                       return (
                         <Tabs.Panel value="1" pt="xs">
-                          {getQuestions('1').map((question) => (
+                          {getQuestions(1, questions).length === 0 && (
+                            <Flex w="100%" h={600} justify="center" align="center">
+                              <Loader size={30} ta="center" />
+                            </Flex>
+                          )}
+                          {getQuestions(1, questions).map((question) => (
                             <QuestionPart1
                               question={question}
                               updateQuestion={updateQuestion}
                               isDisable={timeLimit ? (timeLeft === 0 ? true : false) : false}
-                              isShowAnswer={false}
+                              isShowAudio={param.type === 'practice'}
                             />
                           ))}
                         </Tabs.Panel>
@@ -335,12 +339,18 @@ const TestQuestions = () => {
                     } else if (part === '2') {
                       return (
                         <Tabs.Panel value="2" pt="xs">
-                          {getQuestions('2').map((question) => (
+                          {getQuestions(2, questions).length === 0 && (
+                            <Flex w="100%" h={600} justify="center" align="center">
+                              <Loader size={30} ta="center" />
+                            </Flex>
+                          )}
+                          {getQuestions(2, questions).map((question) => (
                             <QuestionPart2
                               question={question}
                               updateQuestion={updateQuestion}
                               isDisable={timeLimit ? (timeLeft === 0 ? true : false) : false}
                               isShowAnswer={false}
+                              isShowAudio={param.type === 'practice'}
                             />
                           ))}
                         </Tabs.Panel>
@@ -348,29 +358,46 @@ const TestQuestions = () => {
                     } else if (part === '3') {
                       return (
                         <Tabs.Panel value="3" pt="xs">
+                          {getGroupQuestions(3, groupQuestions).length === 0 && (
+                            <Flex w="100%" h={600} justify="center" align="center">
+                              <Loader size={30} ta="center" />
+                            </Flex>
+                          )}
                           <QuestionListPart3
-                            groupQuestions={getGroupQuestions('3')}
+                            groupQuestions={getGroupQuestions(3, groupQuestions)}
                             isDisable={false}
                             isShowAnswer={false}
                             updateQuestion={updateGroupQuestion}
+                            isShowAudio={param.type === 'practice'}
                           />
                         </Tabs.Panel>
                       );
                     } else if (part === '4') {
                       return (
                         <Tabs.Panel value="4" pt="xs">
+                          {getGroupQuestions(4, groupQuestions).length === 0 && (
+                            <Flex w="100%" h={600} justify="center" align="center">
+                              <Loader size={30} ta="center" />
+                            </Flex>
+                          )}
                           <QuestionListPart3
-                            groupQuestions={getGroupQuestions('4')}
+                            groupQuestions={getGroupQuestions(4, groupQuestions)}
                             isDisable={false}
                             isShowAnswer={false}
                             updateQuestion={updateGroupQuestion}
+                            isShowAudio={param.type === 'practice'}
                           />
                         </Tabs.Panel>
                       );
                     } else if (part === '5') {
                       return (
                         <Tabs.Panel value="5" pt="xs">
-                          {getQuestions('5').map((question) => (
+                          {getQuestions(5, questions).length === 0 && (
+                            <Flex w="100%" h={600} justify="center" align="center">
+                              <Loader size={30} ta="center" />
+                            </Flex>
+                          )}
+                          {getQuestions(5, questions).map((question) => (
                             <QuestionPart5
                               question={question}
                               updateQuestion={updateQuestion}
@@ -383,8 +410,13 @@ const TestQuestions = () => {
                     } else if (part === '6') {
                       return (
                         <Tabs.Panel value="6" pt="xs">
+                          {getGroupQuestions(6, groupQuestions).length === 0 && (
+                            <Flex w="100%" h={600} justify="center" align="center">
+                              <Loader size={30} ta="center" />
+                            </Flex>
+                          )}
                           <QuestionListPart6
-                            groupQuestions={getGroupQuestions('6')}
+                            groupQuestions={getGroupQuestions(6, groupQuestions)}
                             isDisable={false}
                             isShowAnswer={false}
                             updateQuestion={updateGroupQuestion}
@@ -394,8 +426,13 @@ const TestQuestions = () => {
                     } else {
                       return (
                         <Tabs.Panel value="7" pt="xs">
+                          {getGroupQuestions(7, groupQuestions).length === 0 && (
+                            <Flex w="100%" h={600} justify="center" align="center">
+                              <Loader size={30} ta="center" />
+                            </Flex>
+                          )}
                           <QuestionListPart7
-                            groupQuestions={getGroupQuestions('7')}
+                            groupQuestions={getGroupQuestions(7, groupQuestions)}
                             isDisable={false}
                             isShowAnswer={false}
                             updateQuestion={updateGroupQuestion}
@@ -413,8 +450,9 @@ const TestQuestions = () => {
               <Title order={3} ta="center" mb={16}>
                 Time
                 <br />
-                {hours.toString().padStart(2, '0')}:{minutes.toString().padStart(2, '0')}:
-                {seconds.toString().padStart(2, '0')}
+                {!(listQuestion || listGroupQuestions)
+                  ? '00:00:00'
+                  : `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}
               </Title>
               <Button variant="filled" color="cyan" fullWidth mb={32} onClick={openModalSubmit}>
                 Submit

@@ -1,4 +1,5 @@
 import {
+  faArrowLeft,
   faCheck,
   faCircleCheck,
   faCircleXmark,
@@ -20,12 +21,13 @@ import {
 import ResultDetail from 'components/Result/ResultDetail';
 import { isEmpty } from 'lodash';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useGetResultByIdQuery } from 'store/services/resultApi';
 import { GroupQuestionProps, Question, Answer } from 'types';
 
 const ResultExam = () => {
   const param = useParams();
+  const navigate = useNavigate();
   const { data: resultDetail } = useGetResultByIdQuery(param.idResult);
 
   const [isShowAnswer, setIsShowAnswer] = useState(false);
@@ -65,6 +67,12 @@ const ResultExam = () => {
             />
           ) : (
             <>
+              <Button
+                variant="light"
+                leftSection={<FontAwesomeIcon icon={faArrowLeft} />}
+                onClick={() => navigate(-1)}>
+                Go back
+              </Button>
               <Group justify="center">
                 <Title order={2} ta="center">
                   {resultDetail && resultDetail.data.test.book_title}
@@ -90,7 +98,7 @@ const ResultExam = () => {
                     <FontAwesomeIcon icon={faCircleCheck} />
                   </Text>
                   <Text c="green">Correct</Text>
-                  <Text fw={700}>{resultDetail.data.results.total_correct}</Text>
+                  <Text fw={700}>{resultDetail.data.results.total_corrects}</Text>
                   <Text>Questions</Text>
                 </Paper>
                 <Paper shadow="lg" p={48}>
@@ -100,7 +108,7 @@ const ResultExam = () => {
                   <Text c="red">Incorrect</Text>
                   <Text fw={700}>
                     {resultDetail.data.results.total_questions -
-                      resultDetail.data.results.total_correct}
+                      resultDetail.data.results.total_corrects}
                   </Text>
                   <Text>Questions</Text>
                 </Paper>

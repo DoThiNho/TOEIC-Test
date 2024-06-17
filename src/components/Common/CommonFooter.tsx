@@ -6,11 +6,11 @@ import { FOOTER_INFOS } from 'constants/constant';
 
 const CommonFooter = () => {
   return (
-    <Box py={64} bg="#05091f" c="gray">
+    <Box id="footer" h={350} py={64} bg="#05091f" c="gray">
       <Container size="xl">
         <Grid>
           <GridCol span={{ base: 12, md: 6, lg: 4 }}>
-            <Title order={3}>TOIEC Test</Title>
+            <Title order={3}>TOEIC Test</Title>
             <Text my={16} mt={32}>
               Prepare for the TOEIC exam effectively and for free with our comprehensive resources.
               Access practice tests and vocabulary exercises to enhance your skills and confidence.

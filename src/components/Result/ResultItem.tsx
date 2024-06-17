@@ -39,7 +39,7 @@ const ResultItem = (props: ResultProps) => {
       <Text>Date: {moment(result.date).format('DD-MM-YYYY')}</Text>
       <Text my={4}>Completion time: {result.complete_time}</Text>
       <Text>
-        Result: {result.total_correct}/{result.total_questions}
+        Result: {result.total_corrects}/{result.total_questions}
       </Text>
       <Button variant="outline" mt={16} onClick={handleShowDetail}>
         Show detail

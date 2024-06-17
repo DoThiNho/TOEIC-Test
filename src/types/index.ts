@@ -6,7 +6,7 @@ export interface TableData {
   test_id?: number;
   type?: string;
   date?: string;
-  total_correct?: number;
+  total_corrects?: number;
   total_questions?: number;
   complete_time?: string;
   parts?: string;
@@ -21,7 +21,7 @@ export interface Exam {
   book_id: string;
   book_title: string;
   file_id: string;
-  audio_link?: string;
+  audio?: string;
 }
 
 export interface Part {
@@ -76,6 +76,7 @@ export interface QuestionProps {
   isShowAnswer?: boolean;
   updateQuestion: (question: Question) => void;
   optionUser?: string;
+  isShowAudio?: boolean;
 }
 
 export interface ExamCardProps {
@@ -133,6 +134,12 @@ export interface ModalAddVocabularyProps {
 export interface ModalAddProps {
   open: boolean;
   onClose: () => void;
+}
+
+export interface ModalAddTestProps {
+  open: boolean;
+  onClose: () => void;
+  bookTitle: string;
 }
 
 export interface ModalWordScrambleProps {
@@ -200,6 +207,7 @@ export interface QuestionListPart34Props {
   isDisable: boolean;
   isShowAnswer: boolean;
   updateQuestion: (question: Question) => void;
+  isShowAudio?: boolean;
 }
 
 export interface SideBarProps {
@@ -215,7 +223,7 @@ export interface IUser {
   password: string;
   phone_number: string;
   register_at: string;
-  role_id: string;
+  role_id: number;
 }
 
 export interface LayoutProps {

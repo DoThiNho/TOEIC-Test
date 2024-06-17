@@ -47,7 +47,7 @@ const TableResultUser = (props: TableResultProps) => {
       </Table.Td>
       <Table.Td>{result.test_title}</Table.Td>
       <Table.Td>{result.book_title}</Table.Td>
-      <Table.Td>{`${result.total_correct} / ${result.total_questions}`}</Table.Td>
+      <Table.Td>{`${result.total_corrects} / ${result.total_questions}`}</Table.Td>
       <Table.Td>{result.complete_time}</Table.Td>
       <Table.Td>
         <ActionIcon

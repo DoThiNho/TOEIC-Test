@@ -1,4 +1,5 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { API_URL } from 'constants/constant';
 import { IUser } from 'types';
 import { SuccessResponse } from 'types/api';
 import { User } from 'types/user';
@@ -7,7 +8,7 @@ import { localStorageClient } from 'utils/localStorage.util';
 export const userApi = createApi({
   reducerPath: 'userApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/',
+    baseUrl: API_URL,
     prepareHeaders: (headers) => {
       const token = localStorageClient.getItem('token');
       if (token) {

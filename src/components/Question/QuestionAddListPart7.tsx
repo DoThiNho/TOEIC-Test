@@ -13,14 +13,14 @@ const QuestionAddListPart7 = (props: QuestionAddListPart6Props) => {
     <Box>
       {groupQuestions.map((groupQuestion) => (
         <>
-          <Grid align="center">
+          <Grid mah={600} className="overflow-y-auto overflow-x-hidden">
             <GridCol span={{ base: 12, md: 6, lg: 6 }}>
               {groupQuestion.group_image.split(',').map((img) => (
                 <img className="mb-4" src={img} alt="image question" />
               ))}
             </GridCol>
             <GridCol span={{ base: 12, md: 6, lg: 6 }}>
-              <Box mah={500} className="overflow-y-auto">
+              <Box className="overflow-y-auto">
                 {groupQuestion.questions.map((question) => (
                   <QuestionAddPart7 key={question.id} question={question} />
                 ))}

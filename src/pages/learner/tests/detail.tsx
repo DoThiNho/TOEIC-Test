@@ -1,16 +1,18 @@
 import { faClock } from '@fortawesome/free-regular-svg-icons';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Anchor, Container, Group, List, Tabs, Text, Title } from '@mantine/core';
+import { Anchor, Button, Container, Group, List, Tabs, Text, Title } from '@mantine/core';
 import TableResult from 'components/Table/TableResult';
 import TabTypeTest from 'components/Tabs/TabTypeTest';
 import { useEffect, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { useGetResultByTestIdQuery } from 'store/services/resultApi';
 import { useGetTestQuery } from 'store/services/testApi';
 import { TableData, Test } from 'types';
 
 const TestDetail = () => {
   const param = useParams();
+  const navigate = useNavigate();
 
   const { data: testDetail } = useGetTestQuery(param.id);
   const { data: results } = useGetResultByTestIdQuery(param.id);
@@ -32,10 +34,18 @@ const TestDetail = () => {
 
   return (
     <>
-      <Container size="md" pt={150} pb={32}>
-        <Title order={2}>
-          {test.book_title} TOIEC {test.title}
-        </Title>
+      <Container size="md" pt={50} pb={32}>
+        <Group justify="space-between">
+          <Title order={2}>
+            {test.book_title} TOEIC {test.title}
+          </Title>
+          <Button
+            variant="light"
+            leftSection={<FontAwesomeIcon icon={faArrowLeft} />}
+            onClick={() => navigate('/')}>
+            Go back
+          </Button>
+        </Group>
         <Tabs variant="pills" radius="lg" color="teal" defaultValue="first">
           <Tabs.List className="border-b-0 font-semibold" my={16}>
             <Tabs.Tab value="first" color="blue">

@@ -1,10 +1,11 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react';
+import { API_URL } from 'constants/constant';
 import { localStorageClient } from 'utils/localStorage.util';
 
 export const userAnswerApi = createApi({
   reducerPath: 'userAnswerApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: 'http://localhost:5000/',
+    baseUrl: API_URL,
     prepareHeaders: (headers) => {
       const token = localStorageClient.getItem('token');
       if (token) {
@@ -26,7 +27,9 @@ export const userAnswerApi = createApi({
           parts: data.parts,
           start_time: data.startTime,
           complete_time: data.completeTime,
-          total_correct: data.totalCorrect,
+          total_corrects: data.totalCorrect,
+          total_correct_listening: data.totalCorrectListening,
+          total_correct_reading: data.totalCorrectReading,
           total_questions: data.totalQuestions,
           type: data.type,
           title: data.title

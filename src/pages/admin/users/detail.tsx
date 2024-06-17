@@ -1,15 +1,26 @@
-import { Tabs } from '@mantine/core';
+import { Button, Tabs } from '@mantine/core';
 import _ from 'lodash';
 import CommonProfile from 'components/Common/CommonProfile';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import ResultUser from 'components/Result/ResultUser';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faArrowLeft } from '@fortawesome/free-solid-svg-icons';
 
 const UserDetail = () => {
   const param = useParams();
+  const navigate = useNavigate();
+
   const { id } = param;
 
   return (
     <Tabs color="teal" defaultValue="first">
+      <Button
+        variant="light"
+        className="float-right"
+        leftSection={<FontAwesomeIcon icon={faArrowLeft} />}
+        onClick={() => navigate(-1)}>
+        Go back
+      </Button>
       <Tabs.List>
         <Tabs.Tab value="first">Profile</Tabs.Tab>
         <Tabs.Tab value="second">Achievement</Tabs.Tab>

@@ -4,7 +4,7 @@ import { QuestionProps } from 'types';
 import { getAudioUrl } from 'utils/parse.util';
 
 const QuestionPart2 = (props: QuestionProps) => {
-  const { question, updateQuestion, isDisable, isShowAnswer, optionUser } = props;
+  const { question, updateQuestion, isDisable, isShowAnswer, optionUser, isShowAudio } = props;
 
   const getRadioStyle = (option: string) => {
     const isChecked = isShowAnswer && question.correct_answer === option;
@@ -33,9 +33,11 @@ const QuestionPart2 = (props: QuestionProps) => {
 
   return (
     <Box mt={64} onChange={handleOptionChange}>
-      <audio controls className="w-full">
-        <source src={getAudioUrl(question.audio)} type="audio/mpeg" />
-      </audio>
+      {isShowAudio && (
+        <audio controls className="w-full">
+          <source src={getAudioUrl(question.audio)} type="audio/mpeg" />
+        </audio>
+      )}
       {/* <iframe height="50" src={question.audio} allowFullScreen={false}></iframe> */}
       <Group align="center" mt={32}>
         <Title order={4}>{`${question.order}. `}</Title>

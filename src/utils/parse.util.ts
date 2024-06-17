@@ -1,6 +1,6 @@
 import { API_URL } from 'constants/constant';
 import { toast } from 'react-toastify';
-import { Question, UserAnswer } from 'types';
+import { GroupQuestionProps, Question, UserAnswer } from 'types';
 
 export const showMessage = (message: string, isSuccess: boolean) => {
   if (isSuccess) {
@@ -34,4 +34,16 @@ export const getOptions = (question: Question) => {
 
 export const clearSelection = (userAnswer: UserAnswer) => {
   userAnswer.option = '';
+};
+
+export const getQuestions = (partNum: number, questions: Question[]) => {
+  const listQuestion = questions.filter((question) => parseInt(question.part_num) === partNum);
+  return listQuestion;
+};
+
+export const getGroupQuestions = (partNum: number, groupQuestions: GroupQuestionProps[]) => {
+  const listGroupQuestion = groupQuestions.filter(
+    (groupQuestion) => parseInt(groupQuestion.part_num) === partNum
+  );
+  return listGroupQuestion;
 };

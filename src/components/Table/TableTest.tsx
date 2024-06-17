@@ -10,9 +10,11 @@ import {
   ComboboxItem,
   Flex,
   Group,
+  Loader,
   Pagination,
   Select,
   Table,
+  Text,
   TextInput,
   Title
 } from '@mantine/core';
@@ -116,14 +118,14 @@ const TableTest = () => {
 
   const handleChangeSelect = (option: ComboboxItem) => {
     let newTests = [];
-    if (!option?.value) newTests = testsData.tests;
-    else newTests = allTests.tests.filter((test: Exam) => test.book_title.includes(option?.value));
+    if (!option?.value) newTests = testsData.data;
+    else newTests = allTests.data.filter((test: Exam) => test.book_title.includes(option?.value));
     setTests(newTests);
     setSelectedBook(option?.value);
   };
 
   const handleConfirmDeleteBook = async () => {
-    const book = booksData?.books.find((book: Exam) => book.title === selectedBook);
+    const book = booksData?.data.find((book: Exam) => book.title === selectedBook);
     await deleteBookById(book.id);
     toast.success('Delete book successfully!');
     closeDeteleBook();
@@ -171,19 +173,32 @@ const TableTest = () => {
           <Button onClick={open}>Add Book</Button>
         </Group>
       </Group>
-      <Table ta="center" striped highlightOnHover withColumnBorders withTableBorder>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th />
-            <Table.Th ta="center">Book</Table.Th>
-            <Table.Th ta="center">Test</Table.Th>
-            <Table.Th ta="center">Time</Table.Th>
-            <Table.Th ta="center">Type</Table.Th>
-            <Table.Th ta="center">Action</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>{rows}</Table.Tbody>
-      </Table>
+      {!testsData?.data ? (
+        <Flex w="100%" h={600} align="center" justify="center">
+          <Loader size={30} ta="center" />
+        </Flex>
+      ) : (
+        <>
+          <Table ta="center" striped highlightOnHover withColumnBorders withTableBorder>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th />
+                <Table.Th ta="center">Book</Table.Th>
+                <Table.Th ta="center">Test</Table.Th>
+                <Table.Th ta="center">Time</Table.Th>
+                <Table.Th ta="center">Type</Table.Th>
+                <Table.Th ta="center">Action</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>{rows}</Table.Tbody>
+          </Table>
+          {tests.length === 0 && (
+            <Flex w="100%" h={600} align="center" justify="center">
+              <Text>Not found Test</Text>
+            </Flex>
+          )}
+        </>
+      )}
       <Flex justify="center" mt={32}>
         {(isEmpty(selectedBook) ? allTests?.tests : tests)?.length > 10 && (
           <Pagination
@@ -194,7 +209,7 @@ const TableTest = () => {
         )}
       </Flex>
       <ModalAddBook open={opened} onClose={close} />
-      <ModalAddTest open={openedAddTest} onClose={closeAddTest} />
+      <ModalAddTest open={openedAddTest} onClose={closeAddTest} bookTitle={selectedBook || ''} />
       <ModalConfirmDelete
         text="book"
         open={openedDeteleBook}

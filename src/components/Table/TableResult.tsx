@@ -24,7 +24,7 @@ const TableResult = (props: TableResultProps) => {
           )}
         </Group>
       </Table.Td>
-      <Table.Td>{`${result.total_correct} / ${result.total_questions}`}</Table.Td>
+      <Table.Td>{`${result.total_corrects} / ${result.total_questions}`}</Table.Td>
       <Table.Td>{result.complete_time}</Table.Td>
       <Table.Td>
         <Anchor href={`/learner/tests/${data[0].test_id}/results/${result.id}`}>Show detail</Anchor>
