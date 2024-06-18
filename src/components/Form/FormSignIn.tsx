@@ -34,7 +34,7 @@ const FormSignIn = () => {
       }
     }
     if (error) {
-      toast.error((error as ErrorResponse).data.message);
+      toast.error((error as ErrorResponse).data?.message);
     }
   }, [data, error]);
 
@@ -79,7 +79,7 @@ const FormSignIn = () => {
             />
             {error && (
               <Text color="red" mt={16}>
-                {'message' in error ? error.message : ''}
+                {(error as ErrorResponse).data?.message}
               </Text>
             )}
             <Group justify="center" my="md">
