@@ -17,6 +17,7 @@ import UserAdd from 'pages/admin/users/add';
 import UserDetail from 'pages/admin/users/detail';
 import Exams from 'pages/admin/exams';
 import ExamDetail from 'pages/admin/exams/detail';
+import AdminProfile from 'pages/admin/account';
 
 const routes = [
   {
@@ -112,6 +113,11 @@ const routes = [
   {
     path: '/admin/exams/:id',
     component: ExamDetail,
+    layout: 'admin'
+  },
+  {
+    path: '/admin/account',
+    component: AdminProfile,
     layout: 'admin'
   }
 ];

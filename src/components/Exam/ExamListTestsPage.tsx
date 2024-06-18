@@ -19,18 +19,32 @@ import { useEffect, useState } from 'react';
 import { useGetBooksQuery } from 'store/services/bookApi';
 import { Exam } from 'types';
 import { useGetTestsQuery } from 'store/services/testApi';
+import io from 'socket.io-client';
+
+const socket = io('https://toiec-test-be-production.up.railway.app');
 
 const ExamListTestsPage = () => {
   const [tests, setTests] = useState([]);
   const [allBooks, setAllBooks] = useState([]);
   const { data: allTests } = useGetTestsQuery({});
   const [queryOptions, setQueryOptions] = useState({});
-  const { data: testsData, isLoading } = useGetTestsQuery(queryOptions);
+  const { data: testsData, isLoading, refetch } = useGetTestsQuery(queryOptions);
   const { data: booksData } = useGetBooksQuery({});
 
   const [selectedBook, setSelectedBook] = useState<string | null>('');
   const [valueSearch, setValueSearch] = useState<string>('');
   const [activePage, setPage] = useState(1);
+
+  useEffect(() => {
+    socket.on('delete-test', (data) => {
+      console.log(data);
+      refetch();
+    });
+    socket.on('add-test', (data) => {
+      console.log(data);
+      refetch();
+    });
+  }, [queryOptions]);
 
   useEffect(() => {
     if (testsData) {
