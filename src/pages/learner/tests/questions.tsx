@@ -38,23 +38,25 @@ import {
   getGroupQuestions,
   getQuestions
 } from 'utils/parse.util';
+import { toast } from 'react-toastify';
 
 const TestQuestions = () => {
   const navigate = useNavigate();
   const param = useParams();
   const location = useLocation();
+  const { id, type } = param;
   const searchParams = new URLSearchParams(location.search);
   const selectedParts = searchParams.getAll('part');
   const timeLimit = parseInt(searchParams.get('time_limit') || '0', 10);
-  const { data: testDetail } = useGetTestQuery(param.id);
+  const { data: testDetail } = useGetTestQuery(id);
   const { data: listQuestion } = useGetQuestionsQuery({
-    id: param.id,
-    type: param.type,
+    id: id,
+    type: type,
     part: selectedParts
   });
   const { data: listGroupQuestions } = useGetGroupQuestionsQuery({
-    id: param.id,
-    type: param.type,
+    id: id,
+    type: type,
     part: selectedParts
   });
   const { data: listGroupVocabulary } = useGetGroupVocabulariesQuery({});
@@ -197,6 +199,10 @@ const TestQuestions = () => {
   const minutes = Math.floor((timeLeft % 3600) / 60);
   const seconds = timeLeft % 60;
 
+  const checkAllAnswersFilled = () => {
+    return questions.every((question) => question.user_answer?.option !== '');
+  };
+
   const addUserAnswerToQuestions = (groupQuestions: GroupQuestionProps[]) => {
     return groupQuestions.map((groupQuestion) => ({
       ...groupQuestion,
@@ -286,12 +292,37 @@ const TestQuestions = () => {
       type: param.type,
       title
     };
-    await addUserAnswers(results);
+    const isCheckAllAnswer = checkAllAnswersFilled();
+    if (isCheckAllAnswer) {
+      await addUserAnswers(results);
+    } else {
+      toast.error('Please answer all questions');
+      closeModalSubmit();
+    }
   };
 
   const handleConfirmExit = () => {
     navigate(`/learner/tests/${param.id}`);
   };
+
+  const isPartIn = (parts: string[], selectedParts: string[]) =>
+    selectedParts.some((part) => parts.includes(part));
+
+  const disabled = (() => {
+    if (type === 'fulltest') {
+      return questions?.length === 0 && listGroupQuestions?.length === 0;
+    }
+
+    const partsForQuestions = ['1', '2', '5'];
+    const partsForListGroupQuestions = ['3', '4', '6', '7'];
+    if (isPartIn(partsForQuestions, selectedParts)) {
+      return questions?.length === 0;
+    } else if (isPartIn(partsForListGroupQuestions, selectedParts)) {
+      return groupQuestions?.length === 0;
+    }
+
+    return false;
+  })();
 
   return (
     <>
@@ -309,12 +340,11 @@ const TestQuestions = () => {
             <audio controls className="w-full">
               <source src={getAudioUrl(testDetail?.data.audio)} type="audio/mpeg" />
             </audio>
-            {/* <iframe height="50" src={question.audio} allowFullScreen={false}></iframe> */}
           </Box>
         )}
 
         <Grid>
-          <GridCol span={9}>
+          <GridCol span={{ base: 12, md: 9, lg: 9 }}>
             <Paper className="relative" shadow="lg" p={16}>
               {position.visible && (
                 <Button
@@ -476,7 +506,7 @@ const TestQuestions = () => {
               </Box>
             </Paper>
           </GridCol>
-          <GridCol span={3}>
+          <GridCol span={{ base: 12, md: 3, lg: 3 }}>
             <Paper shadow="lg" p={16}>
               <Title order={3} ta="center" mb={16}>
                 Time
@@ -485,7 +515,13 @@ const TestQuestions = () => {
                   ? '00:00:00'
                   : `${hours.toString().padStart(2, '0')}:${minutes.toString().padStart(2, '0')}:${seconds.toString().padStart(2, '0')}`}
               </Title>
-              <Button variant="filled" color="cyan" fullWidth mb={32} onClick={openModalSubmit}>
+              <Button
+                disabled={disabled}
+                variant="filled"
+                color="cyan"
+                fullWidth
+                mb={32}
+                onClick={openModalSubmit}>
                 Submit
               </Button>
               <Flex wrap="wrap" gap={8} justify="center">
@@ -498,23 +534,11 @@ const TestQuestions = () => {
                     {question.order}
                   </Button>
                 ))}
-                {/* {groupQuestions.map((groupQuestion) =>
-                  groupQuestion.questions.map((question) => (
-                    <Button
-                      p={0}
-                      w={50}
-                      key={question.id}
-                      variant={question.user_answer?.option === '' ? 'outline' : 'filled'}>
-                      {question.order}
-                    </Button>
-                  ))
-                )} */}
               </Flex>
             </Paper>
           </GridCol>
         </Grid>
       </Container>
-      {/* <CommonChatBox /> */}
       <ModalAddVocabulary
         text={selectedText}
         words={words}

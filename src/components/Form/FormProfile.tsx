@@ -30,7 +30,7 @@ const FormProfile = (props: IUserState) => {
         } catch (err) {}
         setSubmitting(false);
       }}>
-      {({ values, errors, handleChange, handleSubmit, isSubmitting }) => (
+      {({ values, errors, handleChange, handleSubmit, isSubmitting, setValues }) => (
         <form onSubmit={handleSubmit} className="w-full">
           <TextInput
             mt="lg"
@@ -72,9 +72,23 @@ const FormProfile = (props: IUserState) => {
             error={errors.phoneNumber}
           />
 
-          <Group justify="flex-end" my="md">
-            <Button size="md" fullWidth type="submit" disabled={isSubmitting}>
+          <Group my="md">
+            <Button flex={1} size="md" type="submit" disabled={isSubmitting}>
               Save Change
+            </Button>
+            <Button
+              flex={1}
+              size="md"
+              variant="outline"
+              onClick={() =>
+                setValues({
+                  firstName: userDetail?.firstName,
+                  lastName: userDetail?.lastName,
+                  email: userDetail?.email,
+                  phoneNumber: userDetail?.phoneNumber
+                })
+              }>
+              Discard Change
             </Button>
           </Group>
         </form>

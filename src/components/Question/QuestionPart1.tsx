@@ -1,10 +1,27 @@
-import { Box, CheckIcon, Grid, GridCol, Group, Radio, RadioGroup, Title } from '@mantine/core';
-import { ChangeEvent } from 'react';
+import {
+  Box,
+  Button,
+  CheckIcon,
+  Grid,
+  GridCol,
+  Group,
+  Radio,
+  RadioGroup,
+  Title
+} from '@mantine/core';
+import { ChangeEvent, useState, useEffect } from 'react';
 import { QuestionProps } from 'types';
 import { getAudioUrl } from 'utils/parse.util';
 
 const QuestionPart1 = (props: QuestionProps) => {
   const { question, updateQuestion, isDisable, isShowAnswer, optionUser, isShowAudio } = props;
+  const [selectedOption, setSelectedOption] = useState(optionUser);
+
+  useEffect(() => {
+    setSelectedOption(optionUser);
+  }, [optionUser]);
+
+  const options = ['a', 'b', 'c', 'd'];
 
   const getRadioStyle = (option: string) => {
     const isChecked = isShowAnswer && question.correct_answer === option;
@@ -19,6 +36,7 @@ const QuestionPart1 = (props: QuestionProps) => {
       ...question,
       user_answer: { questionId: question.id, option: e.target.value }
     };
+    setSelectedOption(e.target.value);
     updateQuestion(updatedQuestion);
   };
 
@@ -29,19 +47,19 @@ const QuestionPart1 = (props: QuestionProps) => {
       : `${option.toLocaleUpperCase()} .`;
   };
 
-  const options = ['a', 'b', 'c', 'd'];
+  const clearSelection = () => {
+    const updatedQuestion = {
+      ...question,
+      user_answer: { questionId: question.id, option: '' }
+    };
+    setSelectedOption('');
+    updateQuestion(updatedQuestion);
+  };
 
   return (
     <Group mb={64} gap={64} onChange={handleOptionChange} w={isShowAnswer ? '80%' : '100%'}>
       <Grid w="100%">
         <GridCol span={{ base: 12, md: 6, lg: 6 }}>
-          {/* <img
-            width="100%"
-            height="100%"
-            className="mb-4"
-            src={getImageUrl(question.image)}
-            alt="image question"
-          /> */}
           <img
             width="100%"
             height="100%"
@@ -56,7 +74,6 @@ const QuestionPart1 = (props: QuestionProps) => {
               <audio controls className="w-full">
                 <source src={getAudioUrl(question.audio)} type="audio/mpeg" />
               </audio>
-              {/* <iframe height="50" src={question.audio} allowFullScreen={false}></iframe> */}
             </Box>
           )}
           <Group mt={32}>
@@ -64,7 +81,7 @@ const QuestionPart1 = (props: QuestionProps) => {
             <RadioGroup
               variant="vertical"
               required
-              value={isShowAnswer ? question.correct_answer : optionUser}>
+              value={isShowAnswer ? question.correct_answer : selectedOption}>
               {options.map((option: string) => (
                 <Radio
                   key={option}
@@ -79,6 +96,11 @@ const QuestionPart1 = (props: QuestionProps) => {
               ))}
             </RadioGroup>
           </Group>
+          {!isShowAnswer && (
+            <Button variant="outline" onClick={clearSelection} w={150} mt={16}>
+              Clear Selection
+            </Button>
+          )}
         </GridCol>
       </Grid>
     </Group>

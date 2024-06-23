@@ -137,11 +137,6 @@ const QuestionAddPart1 = (props: QuestionAddPart1Prop) => {
               {imageUrl ? (
                 <img src={imageUrl} className="w-full h-full" alt="image error" />
               ) : (
-                // <img
-                //   src={getImageUrl(questionData.image || '')}
-                //   className="w-full h-full"
-                //   alt="image error"
-                // />
                 <img
                   width="100%"
                   height="100%"
@@ -172,7 +167,6 @@ const QuestionAddPart1 = (props: QuestionAddPart1Prop) => {
                 />
                 Your browser does not support the audio element.
               </audio>
-              {/* <iframe height="50" src={questionData.audio} allowFullScreen={false}></iframe> */}
             </Box>
             <input
               id={`upload-audio-${questionData.order}`}

@@ -1,12 +1,12 @@
-import { faTrash } from '@fortawesome/free-solid-svg-icons';
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { ActionIcon, Card, Divider, Grid, GridCol, Group, TextInput, Title } from '@mantine/core';
+import { ActionIcon, Box, Card, Divider, Group, TextInput, Textarea, Title } from '@mantine/core';
+import { IconTrash } from '@tabler/icons-react';
+import { ChangeEvent } from 'react';
 import { VocabularyAddProps } from 'types';
 
 const VocabularyAdd = (props: VocabularyAddProps) => {
   const { order, card, onDelete, onChange } = props;
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = event.target;
     onChange(card.id, name, value);
   };
@@ -16,20 +16,16 @@ const VocabularyAdd = (props: VocabularyAddProps) => {
       <Group justify="space-between">
         <Title order={2}>{order}</Title>
         <Group>
-          <ActionIcon size={42} variant="default" onClick={() => onDelete(card.id)}>
-            <FontAwesomeIcon icon={faTrash} />
+          <ActionIcon size={30} variant="filled" color="red" onClick={() => onDelete(card.id)}>
+            <IconTrash style={{ width: '70%', height: '70%' }} stroke={1.5} />
           </ActionIcon>
         </Group>
       </Group>
       <Divider my="md" />
-      <Grid>
-        <GridCol span={{ base: 12, md: 6, lg: 6 }}>
-          <TextInput size="md" label="Vocabulary" name="title" onChange={handleChange} />
-        </GridCol>
-        <GridCol span={{ base: 12, md: 6, lg: 6 }}>
-          <TextInput size="md" label="Mean" name="mean" onChange={handleChange} />
-        </GridCol>
-      </Grid>
+      <Box>
+        <TextInput size="md" label="Vocabulary" name="title" onChange={handleChange} />
+        <Textarea size="md" label="Mean" name="mean" onChange={handleChange} />
+      </Box>
     </Card>
   );
 };

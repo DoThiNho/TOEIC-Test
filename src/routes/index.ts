@@ -18,6 +18,7 @@ import UserDetail from 'pages/admin/users/detail';
 import Exams from 'pages/admin/exams';
 import ExamDetail from 'pages/admin/exams/detail';
 import AdminProfile from 'pages/admin/account';
+import PageNotFound from 'pages/notfound';
 
 const routes = [
   {
@@ -119,6 +120,11 @@ const routes = [
     path: '/admin/account',
     component: AdminProfile,
     layout: 'admin'
+  },
+  {
+    path: '*',
+    component: PageNotFound,
+    layout: 'no-layout'
   }
 ];
 

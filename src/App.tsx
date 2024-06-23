@@ -3,6 +3,7 @@ import routes from './routes';
 import MainLayout from './layouts/MainLayout';
 import AdminLayout from './layouts/AdminLayout';
 import AuthLayout from './layouts/AuthLayout';
+import NoLayout from './layouts/NoLayout';
 
 function App() {
   return (
@@ -10,7 +11,13 @@ function App() {
       <Routes>
         {routes.map(({ component: Component, path, layout, ...rest }) => {
           const Layout =
-            layout === 'auth' ? AuthLayout : layout === 'admin' ? AdminLayout : MainLayout;
+            layout === 'no-layout'
+              ? NoLayout
+              : layout === 'auth'
+                ? AuthLayout
+                : layout === 'admin'
+                  ? AdminLayout
+                  : MainLayout;
           return (
             <Route
               key={path}

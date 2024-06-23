@@ -1,10 +1,12 @@
-import { Box, CheckIcon, Radio, RadioGroup, Title } from '@mantine/core';
-import { ChangeEvent } from 'react';
+import { Box, Button, CheckIcon, Radio, RadioGroup, Title } from '@mantine/core';
+import { ChangeEvent, useState } from 'react';
 import { QuestionProps } from 'types';
 type AnswerKey = 'answer_a' | 'answer_b' | 'answer_c' | 'answer_d';
 
 const QuestionPart3 = (props: QuestionProps) => {
   const { question, updateQuestion, isDisable, isShowAnswer, optionUser } = props;
+  const [selectedOption, setSelectedOption] = useState(optionUser);
+  const options = ['a', 'b', 'c', 'd'];
 
   const getRadioStyle = (option: string) => {
     const isChecked = isShowAnswer && question.correct_answer === option;
@@ -19,10 +21,18 @@ const QuestionPart3 = (props: QuestionProps) => {
       ...question,
       user_answer: { questionId: question.id, option: e.target.value }
     };
+    setSelectedOption(e.target.value);
     updateQuestion(updatedQuestion);
   };
 
-  const options = ['a', 'b', 'c', 'd'];
+  const clearSelection = () => {
+    const updatedQuestion = {
+      ...question,
+      user_answer: { questionId: question.id, option: '' }
+    };
+    setSelectedOption('');
+    updateQuestion(updatedQuestion);
+  };
 
   return (
     <Box mt={16} onChange={handleOptionChange}>
@@ -31,7 +41,7 @@ const QuestionPart3 = (props: QuestionProps) => {
         <RadioGroup
           variant="vertical"
           required
-          value={isShowAnswer ? question.correct_answer : optionUser}>
+          value={isShowAnswer ? question.correct_answer : selectedOption}>
           {options.map((option) => {
             const answerKey: AnswerKey = `answer_${option}` as AnswerKey;
             return (
@@ -48,6 +58,11 @@ const QuestionPart3 = (props: QuestionProps) => {
             );
           })}
         </RadioGroup>
+        {!isShowAnswer && (
+          <Button variant="outline" onClick={clearSelection} w={150} mb={32}>
+            Clear Selection
+          </Button>
+        )}
       </Box>
     </Box>
   );

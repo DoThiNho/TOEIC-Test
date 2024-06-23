@@ -1,12 +1,24 @@
-import { faSearch } from '@fortawesome/free-solid-svg-icons';
+import { faArrowLeft, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { Box, Container, Flex, Group, Loader, Pagination, TextInput, Title } from '@mantine/core';
+import {
+  Box,
+  Button,
+  Container,
+  Flex,
+  Group,
+  Loader,
+  Pagination,
+  TextInput,
+  Title
+} from '@mantine/core';
 import ResultList from 'components/Result/ResultList';
 import { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { useGetResultsQuery } from 'store/services/resultApi';
 
 const Results = () => {
   const { data: allResult } = useGetResultsQuery({});
+  const navigate = useNavigate();
 
   const [results, setResult] = useState([]);
   const [valueSearch, setValueSearch] = useState<string>('');
@@ -30,14 +42,20 @@ const Results = () => {
 
   return (
     <Box mb={150}>
-      <Container size="xl" pt={isLoading ? 0 : 130}>
+      <Container size="xl" pt={isLoading ? 0 : 50}>
         {isLoading ? (
           <Group justify="center" align="center" mih="100vh">
-            <Loader size={64} />
+            <Loader size={32} />
           </Group>
         ) : (
           <>
             <Box>
+              <Button
+                variant="light"
+                leftSection={<FontAwesomeIcon icon={faArrowLeft} />}
+                onClick={() => navigate(-1)}>
+                Go back
+              </Button>
               <Title order={1} ta="center" mb={32}>
                 Results
               </Title>

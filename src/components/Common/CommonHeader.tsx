@@ -33,7 +33,7 @@ const CommonHeader = () => {
 
   const [drawerOpened, { toggle: toggleDrawer, close: closeDrawer }] = useDisclosure(false);
   const token = localStorageClient.getItem('token');
-  const { data } = useGetUserQuery(token || '');
+  const { data } = token ? useGetUserQuery(token) : { data: null };
   const { userDetail } = useAppSelector((state: RootState) => state.user);
   const currentUrl = window.location.pathname;
 
@@ -135,18 +135,20 @@ const CommonHeader = () => {
             {mainItems}
           </Group>
           <Divider my="sm" />
-          <Group justify="center" grow pb="xl" px="md">
-            <Button variant="default">
-              <Anchor href="/login" c="black">
-                Sign in
-              </Anchor>
-            </Button>
-            <Button>
-              <Anchor href="/register" c="white">
-                Sign up
-              </Anchor>
-            </Button>
-          </Group>
+          {!token && (
+            <Group justify="center" grow pb="xl" px="md">
+              <Button variant="default">
+                <Anchor href="/login" c="black">
+                  Sign in
+                </Anchor>
+              </Button>
+              <Button>
+                <Anchor href="/register" c="white">
+                  Sign up
+                </Anchor>
+              </Button>
+            </Group>
+          )}
         </ScrollArea>
       </Drawer>
     </Paper>

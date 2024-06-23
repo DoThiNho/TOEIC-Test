@@ -99,7 +99,7 @@ const ModalWordScramble = ({ words, open, onClose }: ModalWordScrambleProps) => 
               <audio ref={wrongAudioRef} controls className="w-full mb-8 hidden">
                 <source src="/src/assets/audio/duolingo-wrong.mp3" type="audio/mpeg" />
               </audio>
-              <Title>Revision: </Title>
+              <Title p={16}>Revision: </Title>
               <Progress value={progress} my={32} />
               <Title order={3} variant="h2" mt="md" mb="lg" ta="center">
                 {scrambledWord.toUpperCase()}

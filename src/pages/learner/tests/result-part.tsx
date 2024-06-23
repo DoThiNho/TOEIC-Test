@@ -1,4 +1,4 @@
-import { Box, Button, Container, Group, Title } from '@mantine/core';
+import { Box, Button, Container, Flex, Group, Loader, Title } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import ModalConfirm from 'components/Modal/ModalConfirmExit';
 import QuestionListPart3 from 'components/Question/QuestionListPart3';
@@ -77,6 +77,11 @@ const ResultPart = () => {
             Exit
           </Button>
         </Group>
+        {questions.length === 0 && groupQuestions.length === 0 && (
+          <Flex w="100%" h={600} justify="center" align="center">
+            <Loader size={30} ta="center" />
+          </Flex>
+        )}
         <Box>
           {getQuestions(1, questions).map((question) => (
             <QuestionPart1

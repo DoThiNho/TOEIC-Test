@@ -71,7 +71,7 @@ const ResultExam = () => {
               <Button
                 variant="light"
                 leftSection={<FontAwesomeIcon icon={faArrowLeft} />}
-                onClick={() => navigate(-1)}>
+                onClick={() => navigate(`/learner/tests/${resultDetail.data.test.id}`)}>
                 Go back
               </Button>
               <Group justify="center">
@@ -99,7 +99,7 @@ const ResultExam = () => {
                     Score :{' '}
                     {resultDetail.data.results.score_listening +
                       resultDetail.data.results.score_reading}{' '}
-                    / 200
+                    / 990
                   </Title>
                 </Flex>
               )}

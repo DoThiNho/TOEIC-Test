@@ -8,6 +8,8 @@ import {
   Container,
   Divider,
   Flex,
+  Grid,
+  GridCol,
   Group,
   Text,
   TextInput,
@@ -140,18 +142,26 @@ const FlashCardDetail = () => {
           <Title order={2}>Vocabulary in this section: </Title>
           <Box mt={16}>
             {vocabularies.map((vocabulary: CardVocabulary, index) => (
-              <Group key={index} h={70} bg="white" mb={16} px={8}>
-                <Text w="30%" size="md" ta="center">
-                  {vocabulary.title}
-                </Text>
-                <Divider orientation="vertical" />
-                <Text w="58%" size="md" ta="center">
-                  {vocabulary.mean}
-                </Text>
-                <ActionIcon size={42} variant="default" onClick={() => speak(vocabulary.title)}>
-                  <FontAwesomeIcon icon={faVolumeHigh} />
-                </ActionIcon>
-              </Group>
+              <Grid w="100%" key={index} h={70} bg="white" mb={16} px={8} align="center">
+                <GridCol span={10}>
+                  <Group>
+                    <Text w="30%" size="md" ta="center">
+                      {vocabulary.title}
+                    </Text>
+                    <Divider orientation="vertical" />
+                    <Text w="58%" size="md" ta="center">
+                      {vocabulary.mean}
+                    </Text>
+                  </Group>
+                </GridCol>
+                <GridCol span={2}>
+                  <Flex justify="end">
+                    <ActionIcon size={42} variant="default" onClick={() => speak(vocabulary.title)}>
+                      <FontAwesomeIcon icon={faVolumeHigh} />
+                    </ActionIcon>
+                  </Flex>
+                </GridCol>
+              </Grid>
             ))}
             {vocabulariesAdd.map((card, index) => (
               <Card key={index} mt={16}>

@@ -20,8 +20,9 @@ import { useGetBooksQuery } from 'store/services/bookApi';
 import { Exam } from 'types';
 import { useGetTestsQuery } from 'store/services/testApi';
 import io from 'socket.io-client';
+import { API_URL } from 'constants/constant';
 
-const socket = io('https://toiec-test-be-production.up.railway.app');
+const socket = io(API_URL);
 
 const ExamListTestsPage = () => {
   const [tests, setTests] = useState([]);
@@ -36,12 +37,7 @@ const ExamListTestsPage = () => {
   const [activePage, setPage] = useState(1);
 
   useEffect(() => {
-    socket.on('delete-test', (data) => {
-      console.log(data);
-      refetch();
-    });
-    socket.on('add-test', (data) => {
-      console.log(data);
+    socket.on('change-test', () => {
       refetch();
     });
   }, [queryOptions]);
