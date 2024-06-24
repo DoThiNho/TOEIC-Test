@@ -1,10 +1,9 @@
 import { Box, Divider, Grid, GridCol } from '@mantine/core';
 import { QuestionListPart34Props } from 'types';
-import QuestionPart3 from './QuestionPart3';
+import QuestionPart7 from './QuestionPart7';
 
 const QuestionListPart7 = (props: QuestionListPart34Props) => {
-  const { groupQuestions, isDisable, isShowAnswer, updateQuestion } = props;
-
+  const { groupQuestions, isDisable, isShowAnswer, updateQuestion, answers } = props;
   return (
     <Box>
       {groupQuestions.map((groupQuestion) => (
@@ -20,12 +19,13 @@ const QuestionListPart7 = (props: QuestionListPart34Props) => {
             <GridCol span={{ base: 12, md: 6, lg: 6 }}>
               <Box>
                 {groupQuestion.questions.map((question) => (
-                  <QuestionPart3
+                  <QuestionPart7
                     key={question.id}
                     question={question}
                     isDisable={isDisable}
                     isShowAnswer={isShowAnswer}
                     updateQuestion={updateQuestion}
+                    optionUser={answers?.find((item) => item.question_id === question.id)?.option}
                   />
                 ))}
               </Box>

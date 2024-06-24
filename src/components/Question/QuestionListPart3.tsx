@@ -4,8 +4,7 @@ import QuestionPart3 from './QuestionPart3';
 import { getAudioUrl } from 'utils/parse.util';
 
 const QuestionListPart3 = (props: QuestionListPart34Props) => {
-  const { groupQuestions, isDisable, isShowAnswer, updateQuestion, isShowAudio } = props;
-
+  const { groupQuestions, isDisable, isShowAnswer, updateQuestion, isShowAudio, answers } = props;
   return (
     <Box>
       {groupQuestions.map((groupQuestion) => (
@@ -15,11 +14,6 @@ const QuestionListPart3 = (props: QuestionListPart34Props) => {
               <audio controls className="w-full">
                 <source src={getAudioUrl(groupQuestion.group_audio)} type="audio/mpeg" />
               </audio>
-              {/* <iframe
-              width="100%"
-              height="50"
-              src={groupQuestion.group_audio}
-              allowFullScreen={false}></iframe> */}
             </Box>
           )}
           {groupQuestion.group_image && (
@@ -40,7 +34,7 @@ const QuestionListPart3 = (props: QuestionListPart34Props) => {
                 isDisable={isDisable}
                 isShowAnswer={isShowAnswer}
                 updateQuestion={updateQuestion}
-                optionUser={question.user_answer?.option}
+                optionUser={answers?.find((item) => item.question_id === question.id)?.option}
               />
             ))}
           <Divider my={16} />

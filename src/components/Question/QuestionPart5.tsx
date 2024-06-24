@@ -1,4 +1,4 @@
-import { Box, Button, CheckIcon, Group, Radio, RadioGroup, Title } from '@mantine/core';
+import { Box, Button, CheckIcon, Checkbox, Group, Radio, RadioGroup, Title } from '@mantine/core';
 import { ChangeEvent, useState } from 'react';
 import { QuestionProps } from 'types';
 type AnswerKey = 'answer_a' | 'answer_b' | 'answer_c' | 'answer_d';
@@ -15,6 +15,18 @@ const QuestionPart5 = (props: QuestionProps) => {
       color: isChecked ? 'green' : 'inherit',
       fontWeight: isChecked ? 'bold' : 'normal'
     };
+  };
+
+  const getCheckboxStyle = (option: string) => {
+    if (isShowAnswer) {
+      if (option === question.correct_answer) {
+        return { color: 'green', fontWeight: 'bold' };
+      }
+      if (option === optionUser && option !== question.correct_answer) {
+        return { color: 'red', fontWeight: 'bold' };
+      }
+    }
+    return { color: 'inherit', fontWeight: 'normal' };
   };
 
   const handleOptionChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -42,26 +54,52 @@ const QuestionPart5 = (props: QuestionProps) => {
         <Group align="center" mb={8}>
           <Title order={4}>{`${question.order}. ${question.question_title}`}</Title>
         </Group>
-        <RadioGroup
-          variant="vertical"
-          required
-          value={isShowAnswer ? question.correct_answer : selectedOption}>
-          {options.map((option) => {
-            const answerKey: AnswerKey = `answer_${option}` as AnswerKey;
-            return (
-              <Radio
-                key={option}
-                icon={CheckIcon}
-                disabled={isDisable && question.correct_answer !== option}
-                value={option}
-                label={`${option.toLocaleUpperCase()}. ${question[answerKey]}`}
-                mb={8}
-                style={getRadioStyle(option)}
-                size="md"
-              />
-            );
-          })}
-        </RadioGroup>
+        {!isShowAnswer || !optionUser ? (
+          <RadioGroup
+            variant="vertical"
+            required
+            value={isShowAnswer ? question.correct_answer : selectedOption}>
+            {options.map((option) => {
+              const answerKey: AnswerKey = `answer_${option}` as AnswerKey;
+              return (
+                <Radio
+                  key={option}
+                  icon={CheckIcon}
+                  disabled={isDisable && question.correct_answer !== option}
+                  value={option}
+                  label={`${option.toLocaleUpperCase()}. ${question[answerKey]}`}
+                  mb={8}
+                  style={getRadioStyle(option)}
+                  size="md"
+                />
+              );
+            })}
+          </RadioGroup>
+        ) : (
+          <Box ml={8}>
+            {options.map((option: string) => {
+              const answerKey: AnswerKey = `answer_${option}` as AnswerKey;
+              return (
+                <Checkbox
+                  key={option}
+                  icon={CheckIcon}
+                  disabled={false}
+                  checked={
+                    isShowAnswer
+                      ? option === question.correct_answer || option === optionUser
+                      : option === optionUser
+                  }
+                  value={option}
+                  label={`${option.toLocaleUpperCase()}. ${question[answerKey]}`}
+                  mb={8}
+                  style={getCheckboxStyle(option)}
+                  size="md"
+                  onChange={handleOptionChange}
+                />
+              );
+            })}
+          </Box>
+        )}
         {!isShowAnswer && (
           <Button variant="outline" onClick={clearSelection} w={150} mb={32}>
             Clear Selection

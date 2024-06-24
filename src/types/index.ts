@@ -208,6 +208,7 @@ export interface QuestionListPart34Props {
   isShowAnswer: boolean;
   updateQuestion: (question: Question) => void;
   isShowAudio?: boolean;
+  answers?: Answer[];
 }
 
 export interface SideBarProps {

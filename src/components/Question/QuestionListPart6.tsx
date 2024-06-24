@@ -3,7 +3,7 @@ import { QuestionListPart34Props } from 'types';
 import QuestionPart6 from './QuestionPart6';
 
 const QuestionListPart6 = (props: QuestionListPart34Props) => {
-  const { groupQuestions, isDisable, isShowAnswer, updateQuestion } = props;
+  const { groupQuestions, isDisable, isShowAnswer, updateQuestion, answers } = props;
 
   return (
     <Box>
@@ -24,6 +24,7 @@ const QuestionListPart6 = (props: QuestionListPart34Props) => {
                     isDisable={isDisable}
                     isShowAnswer={isShowAnswer}
                     updateQuestion={updateQuestion}
+                    optionUser={answers?.find((item) => item.question_id === question.id)?.option}
                   />
                 ))}
               </Box>

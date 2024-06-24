@@ -22,6 +22,9 @@ const ResultDetail = (props: ResultDetailProps) => {
       if (result.parts) {
         const parts = result.parts.split(',');
         setSelectedParts(parts);
+      } else {
+        const parts = ['1', '2', '3', '4', '5', '6', '7'];
+        setSelectedParts(parts);
       }
     }
   }, []);
@@ -62,7 +65,10 @@ const ResultDetail = (props: ResultDetailProps) => {
                     updateQuestion={() => {}}
                     isDisable={true}
                     isShowAnswer={true}
-                    optionUser={question.user_answer?.option}
+                    isShowAudio={true}
+                    optionUser={
+                      items.answers.find((item) => item.question_id === question.id)?.option
+                    }
                   />
                 ))}
               </Tabs.Panel>
@@ -81,7 +87,10 @@ const ResultDetail = (props: ResultDetailProps) => {
                     updateQuestion={() => {}}
                     isDisable={true}
                     isShowAnswer={true}
-                    optionUser={question.user_answer?.option}
+                    isShowAudio={true}
+                    optionUser={
+                      items.answers.find((item) => item.question_id === question.id)?.option
+                    }
                   />
                 ))}
               </Tabs.Panel>
@@ -99,6 +108,7 @@ const ResultDetail = (props: ResultDetailProps) => {
                   isDisable={true}
                   isShowAnswer={true}
                   updateQuestion={() => {}}
+                  answers={items.answers}
                 />
               </Tabs.Panel>
             );
@@ -115,6 +125,7 @@ const ResultDetail = (props: ResultDetailProps) => {
                   isDisable={true}
                   isShowAnswer={true}
                   updateQuestion={() => {}}
+                  answers={items.answers}
                 />
               </Tabs.Panel>
             );
@@ -132,7 +143,9 @@ const ResultDetail = (props: ResultDetailProps) => {
                     updateQuestion={() => {}}
                     isDisable={true}
                     isShowAnswer={true}
-                    optionUser={question.user_answer?.option}
+                    optionUser={
+                      items.answers.find((item) => item.question_id === question.id)?.option
+                    }
                   />
                 ))}
               </Tabs.Panel>
@@ -150,6 +163,7 @@ const ResultDetail = (props: ResultDetailProps) => {
                   isDisable={true}
                   isShowAnswer={true}
                   updateQuestion={() => {}}
+                  answers={items?.answers || []}
                 />
               </Tabs.Panel>
             );
@@ -166,6 +180,7 @@ const ResultDetail = (props: ResultDetailProps) => {
                   isDisable={true}
                   isShowAnswer={true}
                   updateQuestion={() => {}}
+                  answers={items?.answers || []}
                 />
               </Tabs.Panel>
             );
