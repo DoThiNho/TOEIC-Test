@@ -24,6 +24,7 @@
     "@reduxjs/toolkit": "^2.2.3",
     "@tabler/icons-react": "^3.5.0",
     "embla-carousel-react": "^7.1.0",
+    "file-saver": "^2.0.5",
     "formik": "^2.4.5",
     "lodash": "^4.17.21",
     "moment": "^2.30.1",
@@ -39,6 +40,7 @@
     "yup": "^1.4.0"
   },
   "devDependencies": {
+    "@types/file-saver": "^2.0.7",
     "@types/lodash": "^4.17.1",
     "@types/react": "^18.2.66",
     "@types/react-beautiful-dnd": "^13.1.8",

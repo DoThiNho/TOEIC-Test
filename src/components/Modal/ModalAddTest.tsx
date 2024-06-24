@@ -11,12 +11,14 @@ import {
 } from '@mantine/core';
 import { SerializedError } from '@reduxjs/toolkit';
 import { FetchBaseQueryError } from '@reduxjs/toolkit/query';
+import { EXCEL_FILE_BASE64 } from 'constants/excel';
 import { ChangeEvent, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import { useGetBooksQuery } from 'store/services/bookApi';
 import { useAddQuestionsMutation } from 'store/services/questionApi';
 import { useAddTestMutation } from 'store/services/testApi';
 import { Exam, ModalAddTestProps } from 'types';
+import FileSaver from 'file-saver';
 
 type ApiResponse = {
   data?: {
@@ -114,8 +116,26 @@ const ModalAddTest = (props: ModalAddTestProps) => {
     }
   };
 
+  const handleDownload = () => {
+    let sliceSize = 1024;
+    let byteCharacters = atob(EXCEL_FILE_BASE64);
+    let bytesLength = byteCharacters.length;
+    let slicesCount = Math.ceil(bytesLength / sliceSize);
+    let byteArrays = new Array(slicesCount);
+    for (let sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+      let begin = sliceIndex * sliceSize;
+      let end = Math.min(begin + sliceSize, bytesLength);
+      let bytes = new Array(end - begin);
+      for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+        bytes[i] = byteCharacters[offset].charCodeAt(0);
+      }
+      byteArrays[sliceIndex] = new Uint8Array(bytes);
+    }
+    FileSaver.saveAs(new Blob(byteArrays, { type: 'application/vnd.ms-excel' }), 'my-excel.xlsx');
+  };
+
   return (
-    <Modal opened={open} onClose={onClose} title="Create book" className="select-none">
+    <Modal opened={open} onClose={onClose} title="Create test" className="select-none">
       <LoadingOverlay visible={isLoading} zIndex={1000} overlayProps={{ radius: 'sm', blur: 2 }} />
       <Select
         checkIconPosition="right"
@@ -152,6 +172,13 @@ const ModalAddTest = (props: ModalAddTestProps) => {
           </audio>
         </Box>
       )}
+
+      <Group>
+        <Text mt={16}>This is an example template</Text>
+        <Button onClick={handleDownload} mt={16}>
+          Download
+        </Button>
+      </Group>
 
       <Text mt={16}>File nội dung (Excel)</Text>
       <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} />

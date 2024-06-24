@@ -18,6 +18,7 @@ import { LayoutProps } from 'types';
 const AdminLayout = ({ children }: LayoutProps) => {
   const [opened, { toggle }] = useDisclosure();
   const token = localStorageClient.getItem('token');
+  const isAdmin = localStorageClient.getItem('isAdmin');
   const navigate = useNavigate();
   const dispatch = useDispatch<AppDispatch>();
 
@@ -26,6 +27,12 @@ const AdminLayout = ({ children }: LayoutProps) => {
 
   const { userDetail } = useAppSelector((state: RootState) => state.user);
   const location = useLocation();
+
+  useEffect(() => {
+    if (!isAdmin || !token) {
+      navigate('/login');
+    }
+  }, [isAdmin]);
 
   useEffect(() => {
     if (location.pathname.includes('/admin/exams')) {

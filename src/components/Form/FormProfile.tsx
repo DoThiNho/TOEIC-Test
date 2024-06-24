@@ -3,10 +3,18 @@ import { profileSchema } from '../../schemas';
 import { Formik } from 'formik';
 import { IUserState } from 'types';
 import { useUpdateUserMutation } from 'store/services/userApi';
+import { useEffect } from 'react';
+import { toast } from 'react-toastify';
 
 const FormProfile = (props: IUserState) => {
   const { userDetail } = props;
-  const [updateUser] = useUpdateUserMutation();
+  const [updateUser, { isSuccess }] = useUpdateUserMutation();
+
+  useEffect(() => {
+    if (isSuccess) {
+      toast.success('Update user successfully');
+    }
+  }, [isSuccess]);
 
   return (
     <Formik
