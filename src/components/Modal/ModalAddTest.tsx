@@ -19,6 +19,7 @@ import { useAddQuestionsMutation } from 'store/services/questionApi';
 import { useAddTestMutation } from 'store/services/testApi';
 import { Exam, ModalAddTestProps } from 'types';
 import FileSaver from 'file-saver';
+import * as XLSX from 'xlsx';
 
 type ApiResponse = {
   data?: {
@@ -43,6 +44,18 @@ const ModalAddTest = (props: ModalAddTestProps) => {
   const [file, setFile] = useState<File | null>(null);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [isAddQuestion, setIsAddQuestion] = useState<boolean>(false);
+  const requiredColumns = [
+    'number',
+    'part',
+    'image',
+    'audio',
+    'question',
+    'option1',
+    'option2',
+    'option3',
+    'option4',
+    'correctanswer'
+  ];
 
   useEffect(() => {
     setSelectedBook(bookTitle);
@@ -103,7 +116,12 @@ const ModalAddTest = (props: ModalAddTestProps) => {
       if (testId && file) {
         setIsAddQuestion(true);
         formDataExcel.append('test_id', testId);
-        await addQuestions(formDataExcel);
+        const resAddQuestions: ApiResponse = await addQuestions(formDataExcel);
+        if (resAddQuestions?.error) {
+          toast.error('One or more required column headers are missing or inappropriate.');
+          setIsLoading(false);
+          onClose();
+        }
       }
     } catch (error) {
       console.error('Error adding test:', error);
@@ -112,8 +130,37 @@ const ModalAddTest = (props: ModalAddTestProps) => {
 
   const handleFileChange = (event: ChangeEvent<HTMLInputElement>): void => {
     if (event.target.files && event.target.files.length > 0) {
-      setFile(event.target.files[0]);
+      const uploadedFile = event.target.files[0];
+      setFile(uploadedFile);
+      checkExcelFile(uploadedFile);
     }
+  };
+
+  const checkExcelFile = (file: File) => {
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      if (e.target && e.target.result) {
+        const data = e.target.result;
+        const workbook = XLSX.read(data, { type: 'binary' });
+
+        const sheetName = workbook.SheetNames[0];
+        const worksheet = workbook.Sheets[sheetName];
+        const headers: string[] = [];
+        const range = XLSX.utils.decode_range(worksheet['!ref'] || '');
+
+        for (let C = range.s.c; C <= range.e.c; ++C) {
+          const cell = worksheet[XLSX.utils.encode_cell({ r: range.s.r, c: C })];
+          headers.push(cell.v);
+        }
+
+        const missingColumns = requiredColumns.filter((column) => !headers.includes(column));
+        if (missingColumns.length > 0) {
+          toast.error('One or more required column headers are missing or inappropriate.');
+          setFile(null);
+        }
+      }
+    };
+    reader.readAsBinaryString(file);
   };
 
   const handleDownload = () => {
@@ -133,6 +180,8 @@ const ModalAddTest = (props: ModalAddTestProps) => {
     }
     FileSaver.saveAs(new Blob(byteArrays, { type: 'application/vnd.ms-excel' }), 'my-excel.xlsx');
   };
+
+  const isDisableAdd = !selectedBook || !testTitle || !audioUrlTest || !file;
 
   return (
     <Modal opened={open} onClose={onClose} title="Create test" className="select-none">
@@ -183,7 +232,7 @@ const ModalAddTest = (props: ModalAddTestProps) => {
       <Text mt={16}>File nội dung (Excel)</Text>
       <input type="file" accept=".xlsx, .xls" onChange={handleFileChange} />
 
-      <Button onClick={handleAdd} mt={16}>
+      <Button onClick={handleAdd} mt={16} disabled={isDisableAdd}>
         Add
       </Button>
     </Modal>

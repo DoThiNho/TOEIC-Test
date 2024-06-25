@@ -5,12 +5,13 @@ import UserIcon from 'assets/images/user_icon.png';
 import FormProfile from 'components/Form/FormProfile';
 import _ from 'lodash';
 import { useEffect, useState } from 'react';
-import { RootState, useAppSelector } from 'store/index';
 import { useSetAvatarMutation } from 'store/services/userApi';
 import { toast } from 'react-toastify';
+import { IUserState } from 'types';
 
-const CommonProfile = () => {
-  const { userDetail } = useAppSelector((state: RootState) => state.user);
+const CommonProfile = (props: IUserState) => {
+  const { userDetail } = props;
+
   const [setAvatar, { data }] = useSetAvatarMutation();
 
   const [imageUrl, setImageUrl] = useState<string | undefined>('');
@@ -44,6 +45,7 @@ const CommonProfile = () => {
         }
         if (typeof file === 'undefined') return;
         const newFormData = new FormData();
+        newFormData.append('id', userDetail?.id || '');
         newFormData.append('image', file);
         setAvatar(newFormData);
       };

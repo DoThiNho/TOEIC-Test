@@ -125,18 +125,24 @@ const TableTest = () => {
   };
 
   const handleConfirmDeleteBook = async () => {
-    const book = booksData?.data.find((book: Exam) => book.title === selectedBook);
-    await deleteBookById(book.id);
-    toast.success('Delete book successfully!');
-    closeDeteleBook();
-    setTests(allTests.tests);
-    setSelectedBook('');
+    if (isEmpty(selectedBook)) {
+      toast.error('Please select book!');
+      closeDeteleBook();
+    } else {
+      const book = booksData?.data.find((book: Exam) => book.title === selectedBook);
+      await deleteBookById(book.id);
+      toast.success('Delete book successfully!');
+      closeDeteleBook();
+      setTests(allTests.data);
+      setSelectedBook('');
+    }
   };
 
   const handleConfirmDeleteTest = async () => {
     await deleteTestById(idDelTest);
     toast.success('Delete test successfully!');
     closeDeteleTest();
+    setSelectedBook('');
   };
 
   return (
