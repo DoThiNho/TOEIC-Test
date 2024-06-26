@@ -38,7 +38,6 @@ import {
   getGroupQuestions,
   getQuestions
 } from 'utils/parse.util';
-import { toast } from 'react-toastify';
 
 const TestQuestions = () => {
   const navigate = useNavigate();
@@ -164,19 +163,20 @@ const TestQuestions = () => {
     } else if (param.type === 'practice') {
       initialTimeLeft = timeLimit !== undefined ? timeLimit * 60 : 0;
     }
-
     setTimeLeft(initialTimeLeft || 0);
-
     const interval = setInterval(() => {
       setTimeLeft((prevTime) => {
-        if (!timeLimit) {
+        if (param.type === 'fulltest') {
+          if (prevTime <= 1) {
+            clearInterval(interval);
+            return 0;
+          }
+          return prevTime - 1;
+        } else if (timeLimit && param.type === 'practice') {
+          return prevTime - 1;
+        } else {
           return prevTime + 1;
         }
-        if (prevTime <= 1) {
-          clearInterval(interval);
-          return 0;
-        }
-        return prevTime - 1;
       });
     }, 1000);
 
@@ -198,10 +198,6 @@ const TestQuestions = () => {
   const hours = Math.floor(timeLeft / 3600);
   const minutes = Math.floor((timeLeft % 3600) / 60);
   const seconds = timeLeft % 60;
-
-  const checkAllAnswersFilled = () => {
-    return questions.every((question) => question.user_answer?.option !== '');
-  };
 
   const addUserAnswerToQuestions = (groupQuestions: GroupQuestionProps[]) => {
     return groupQuestions.map((groupQuestion) => ({
@@ -236,9 +232,35 @@ const TestQuestions = () => {
   };
 
   const handleSubmit = async () => {
-    const formattedHours = String(hours).padStart(2, '0');
-    const formattedMinutes = String(minutes).padStart(2, '0');
-    const formattedSeconds = String(seconds).padStart(2, '0');
+    let formattedHours, formattedMinutes, formattedSeconds;
+
+    if (timeLimit) {
+      const timeRemaining = timeLimit * 60 - (hours * 3600 + minutes * 60 + seconds);
+      const remainingHours = Math.floor(timeRemaining / 3600);
+      const remainingMinutes = Math.floor((timeRemaining % 3600) / 60);
+      const remainingSeconds = timeRemaining % 60;
+
+      formattedHours = String(remainingHours).padStart(2, '0');
+      formattedMinutes = String(remainingMinutes).padStart(2, '0');
+      formattedSeconds = String(remainingSeconds).padStart(2, '0');
+    } else if (type === 'fulltest') {
+      const totalSecondsElapsed = hours * 3600 + minutes * 60 + seconds;
+      const totalSecondsFullTest = 120 * 60;
+      const timeRemaining = totalSecondsFullTest - totalSecondsElapsed;
+
+      const remainingHours = Math.floor(timeRemaining / 3600);
+      const remainingMinutes = Math.floor((timeRemaining % 3600) / 60);
+      const remainingSeconds = timeRemaining % 60;
+
+      formattedHours = String(remainingHours).padStart(2, '0');
+      formattedMinutes = String(remainingMinutes).padStart(2, '0');
+      formattedSeconds = String(remainingSeconds).padStart(2, '0');
+    } else {
+      formattedHours = String(hours).padStart(2, '0');
+      formattedMinutes = String(minutes).padStart(2, '0');
+      formattedSeconds = String(seconds).padStart(2, '0');
+    }
+
     const timeString = `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
     const allQuestions = groupQuestions.flatMap(
       (groupQuestion: GroupQuestionProps) => groupQuestion.questions
@@ -282,7 +304,7 @@ const TestQuestions = () => {
       answers,
       userId: userDetail?.id,
       testId: param.id,
-      parts: selectedParts,
+      parts: selectedParts.join(','),
       startTime: currentDate,
       completeTime: timeString,
       totalCorrect: totalCorrect,
@@ -292,13 +314,8 @@ const TestQuestions = () => {
       type: param.type,
       title
     };
-    const isCheckAllAnswer = checkAllAnswersFilled();
-    if (isCheckAllAnswer) {
-      await addUserAnswers(results);
-    } else {
-      toast.error('Please answer all questions');
-      closeModalSubmit();
-    }
+    await addUserAnswers(results);
+    closeModalSubmit();
   };
 
   const handleConfirmExit = () => {
@@ -507,7 +524,7 @@ const TestQuestions = () => {
             </Paper>
           </GridCol>
           <GridCol span={{ base: 12, md: 3, lg: 3 }}>
-            <Paper shadow="lg" p={16}>
+            <Paper shadow="lg" p={16} className="fixed top-[40%]">
               <Title order={3} ta="center" mb={16}>
                 Time
                 <br />

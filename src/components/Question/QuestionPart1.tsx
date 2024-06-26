@@ -91,7 +91,7 @@ const QuestionPart1 = (props: QuestionProps) => {
           )}
           <Group mt={32}>
             <Title order={4}>{`${question.order}. `}</Title>
-            {!isShowAnswer || !optionUser ? (
+            {!isShowAnswer ? (
               <RadioGroup
                 variant="vertical"
                 required

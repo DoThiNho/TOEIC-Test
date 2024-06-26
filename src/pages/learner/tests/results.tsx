@@ -56,6 +56,13 @@ const ResultExam = () => {
     return userAnswer?.option?.trim();
   };
 
+  const isCheckFullTest = () => {
+    return (
+      resultDetail?.data.results.type === 'fulltest' ||
+      resultDetail?.data.results.parts === '1,2,3,4,5,6,7'
+    );
+  };
+
   return (
     <>
       <Container size="xxl" px="xl" pt={50} pb={32} mb={150}>
@@ -93,7 +100,7 @@ const ResultExam = () => {
                   </>
                 )}
               </Group>
-              {resultDetail?.data.results.type === 'fulltest' && (
+              {isCheckFullTest() && (
                 <Flex my={32} justify="center">
                   <Title order={3}>
                     Score :{' '}
@@ -144,11 +151,15 @@ const ResultExam = () => {
                     <Box>
                       {questions.slice(0, questions.length / 2).map((question: Question) => (
                         <Group mb={8} key={question.id}>
-                          <Text className="px-4 py-2 bg-cyan-200 text-cyan-700 rounded-full">
+                          <Text className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full">
                             {question.order}
                           </Text>
                           <Text className="uppercase">{question.correct_answer} : </Text>
-                          <Text className="uppercase">{getUserAnswer(question.id || '')}</Text>
+                          {!isEmpty(getUserAnswer(question.id || '')) ? (
+                            <Text className="uppercase">{getUserAnswer(question.id || '')}</Text>
+                          ) : (
+                            <Text>No answer</Text>
+                          )}{' '}
                           {question.correct_answer?.trim() === getUserAnswer(question.id || '') ? (
                             <Text c="green">
                               <FontAwesomeIcon icon={faCheck} />
@@ -166,11 +177,15 @@ const ResultExam = () => {
                         .slice(questions.length / 2, questions.length)
                         .map((question: Question) => (
                           <Group mb={8}>
-                            <Text className="px-4 py-2 bg-cyan-200 text-cyan-700 rounded-full">
+                            <Text className="px-4 py-2 bg-blue-100 text-blue-700 rounded-full">
                               {question.order}
                             </Text>
                             <Text className="uppercase">{question.correct_answer} : </Text>
-                            <Text className="uppercase">{getUserAnswer(question.id || '')}</Text>
+                            {!isEmpty(getUserAnswer(question.id || '')) ? (
+                              <Text className="uppercase">{getUserAnswer(question.id || '')}</Text>
+                            ) : (
+                              <Text>No answer</Text>
+                            )}
                             {!isEmpty(getUserAnswer(question.id || '')) &&
                             question.correct_answer?.trim() === getUserAnswer(question.id || '') ? (
                               <Text c="green">

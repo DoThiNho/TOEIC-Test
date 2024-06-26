@@ -1,5 +1,4 @@
 import { faClock } from '@fortawesome/free-regular-svg-icons';
-import { faUserPen } from '@fortawesome/free-solid-svg-icons';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Badge, Button, Card, CardProps, Group, Text, Title } from '@mantine/core';
 import styled from '@emotion/styled';
@@ -34,9 +33,6 @@ const ExamItem = (props: ExamCardProps) => {
         <Group>
           <FontAwesomeIcon icon={faClock} />
           <Text>120 minutes</Text>
-          |
-          <FontAwesomeIcon icon={faUserPen} />
-          <Text>259935</Text>
         </Group>
         <Group my="xs">
           <Text>7 Part</Text>|<Text>120 minutes</Text>

@@ -4,21 +4,31 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { Anchor, Button, Container, Group, List, Tabs, Text, Title } from '@mantine/core';
 import TableResult from 'components/Table/TableResult';
 import TabTypeTest from 'components/Tabs/TabTypeTest';
+import { API_URL } from 'constants/constant';
 import { useEffect, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
+import { io } from 'socket.io-client';
 import { useGetResultByTestIdQuery } from 'store/services/resultApi';
 import { useGetTestQuery } from 'store/services/testApi';
 import { TableData, Test } from 'types';
+
+const socket = io(API_URL);
 
 const TestDetail = () => {
   const param = useParams();
   const navigate = useNavigate();
 
   const { data: testDetail } = useGetTestQuery(param.id);
-  const { data: results } = useGetResultByTestIdQuery(param.id);
+  const { data: results, refetch } = useGetResultByTestIdQuery(param.id);
 
   const [test, setTest] = useState<Test>({});
   const [listResult, setListResult] = useState<TableData[]>([]);
+
+  useEffect(() => {
+    socket.on('change-result', () => {
+      refetch();
+    });
+  }, []);
 
   useEffect(() => {
     if (testDetail?.data) {

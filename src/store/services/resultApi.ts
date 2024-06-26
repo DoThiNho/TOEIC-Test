@@ -15,7 +15,7 @@ export const resultApi = createApi({
       return headers;
     }
   }),
-  tagTypes: ['Results'],
+  tagTypes: ['Results', 'ResultsByUser'],
   endpoints: (build) => ({
     getResults: build.query({
       query: (params) => {
@@ -35,14 +35,15 @@ export const resultApi = createApi({
     getResultByUserId: build.query({
       query: (userId) => {
         return `api/results/user/${userId}`;
-      }
+      },
+      providesTags: (_result, _error, arg) => [{ type: 'Results', id: arg.id }]
     }),
     deleteResultById: build.mutation({
       query: (id) => ({
         url: `api/results/${id}`,
         method: 'DELETE'
       }),
-      invalidatesTags: ['Results']
+      invalidatesTags: (_result, _error, arg) => [{ type: 'Results', id: arg.id }]
     })
   })
 });

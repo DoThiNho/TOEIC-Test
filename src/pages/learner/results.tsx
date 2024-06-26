@@ -12,9 +12,13 @@ import {
   Title
 } from '@mantine/core';
 import ResultList from 'components/Result/ResultList';
+import { API_URL } from 'constants/constant';
 import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
+import { io } from 'socket.io-client';
 import { useGetResultsQuery } from 'store/services/resultApi';
+
+const socket = io(API_URL);
 
 const Results = () => {
   const { data: allResult } = useGetResultsQuery({});
@@ -24,7 +28,13 @@ const Results = () => {
   const [valueSearch, setValueSearch] = useState<string>('');
   const [queryOptions, setQueryOptions] = useState({ limit: 6, page: 1, search: valueSearch });
   const [activePage, setPage] = useState(1);
-  const { data, isLoading } = useGetResultsQuery(queryOptions);
+  const { data, isLoading, refetch } = useGetResultsQuery(queryOptions);
+
+  useEffect(() => {
+    socket.on('change-result', () => {
+      refetch();
+    });
+  }, []);
 
   useEffect(() => {
     if (data?.data) {

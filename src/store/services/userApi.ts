@@ -44,7 +44,7 @@ export const userApi = createApi({
         method: 'POST',
         body: formData
       }),
-      invalidatesTags: ['User']
+      invalidatesTags: ['Users', 'User']
     }),
     addUser: build.mutation({
       query: (user) => ({

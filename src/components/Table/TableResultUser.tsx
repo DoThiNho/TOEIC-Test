@@ -21,7 +21,7 @@ const TableResultUser = (props: TableResultProps) => {
 
   useEffect(() => {
     if (isSuccess) {
-      toast.success('Delete user successfully!');
+      toast.success('Delete result successfully!');
       close();
     }
   }, [isSuccess]);
